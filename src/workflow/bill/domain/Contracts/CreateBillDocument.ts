@@ -1,4 +1,4 @@
-import { GetBillProps } from '@bill/domain/requiredFields/get-bill'
+import { CreateBillDocumentProps } from '@bill/domain/requiredFields/create-bill-document'
 import { ValidationError } from '@core/domain/errors/validation_error'
 import { HttpErrorResponse } from '@core/infra/middleware/http_error_response'
 import { ViewBill } from 'bill'
@@ -10,9 +10,9 @@ interface Data {
   clientId: string
 }
 
-export type GetBillPropsValidator = (data: Data) => E.Either<ValidationError, GetBillProps>
+export type CreateBillDocumentPropsValidator = (data: Data) => E.Either<ValidationError, CreateBillDocumentProps>
 
-export type GetBillDB = (data: GetBillProps) => Promise<ViewBill>
+export type CreateBillDocumentDB = (data: CreateBillDocumentProps) => Promise<ViewBill>
 
-export type GetBillService = (db: GetBillDB) =>
-(data: GetBillProps) => TE.TaskEither<HttpErrorResponse, ViewBill>
+export type CreateBillDocumentService = (db: CreateBillDocumentDB) =>
+(data: CreateBillDocumentProps) => TE.TaskEither<HttpErrorResponse, ViewBill>

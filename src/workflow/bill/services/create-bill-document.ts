@@ -7,7 +7,11 @@ import * as TE from 'fp-ts/lib/TaskEither'
 export const createBillDocumentService: CreateBillDocumentService = (CreateBillDocumentDB) => (data) => {
   return pipe(
     TE.tryCatch(
-      async () => await CreateBillDocumentDB(data),
+      async () => {
+        const bill = await CreateBillDocumentDB(data)
+
+        return bill
+      },
       (err: any) => {
         if (err.name === 'EntityNotFound') {
           return notFound(err)
