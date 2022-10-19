@@ -1,10 +1,10 @@
-import { GetBillDB } from '@bill/domain/Contracts/GetBill'
+import { CreateBillDocumentDB } from '@bill/domain/Contracts/CreateBillDocument'
 import { db } from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { BillEntity } from 'bill'
 import { ObjectId } from 'mongodb'
 
-export const getBillDB: GetBillDB = async (data) => {
+export const createBillDocumentDB: CreateBillDocumentDB = async (data) => {
   const id = new ObjectId(data.id)
   const collection = (await db()).collection('bills')
 
