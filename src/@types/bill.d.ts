@@ -66,6 +66,7 @@ declare module 'bill' {
 
   export interface BillEntity {
     _id: any
+    clientId: string
     createAt: string
     dueAt: string
     event: BillEvent
@@ -77,6 +78,7 @@ declare module 'bill' {
 
   export interface Bill {
     createAt: string
+    clientId: string
     dueAt: string
     event: BillEvent
     initialTotal: number

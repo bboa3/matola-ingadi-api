@@ -8,7 +8,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const createBillService: CreateBillService = (createBillDB) => (getEventPricingDB) => (data) => {
-  const { eventPricingId, numberOfGuests, eventType } = data
+  const { clientId, eventPricingId, numberOfGuests, eventType } = data
 
   const today = dayjs(new Date())
   const createAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
@@ -23,6 +23,7 @@ export const createBillService: CreateBillService = (createBillDB) => (getEventP
         const eventTotal = event.total
 
         const bill: Bill = {
+          clientId,
           createAt,
           dueAt,
           event,
