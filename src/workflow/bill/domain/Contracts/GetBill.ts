@@ -9,7 +9,7 @@ interface Data {
   id: string
 }
 
-export type CreateBillPropsValidator = (data: Data) => E.Either<ValidationError, GetBillProps>
+export type GetBillPropsValidator = (data: Data) => E.Either<ValidationError, GetBillProps>
 
 export type GetBillDB = (data: GetBillProps) => Promise<ViewBill>
 
