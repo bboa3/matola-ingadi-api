@@ -70,7 +70,7 @@ declare module 'bill' {
     createAt: string
     dueAt: string
     event: BillEvent
-    initialTotal: number
+    subTotal: number
     discount: number
     total: number
     confirmation: BillConfirmation
@@ -81,7 +81,7 @@ declare module 'bill' {
     clientId: string
     dueAt: string
     event: BillEvent
-    initialTotal: number
+    subTotal: number
     discount: number
     total: number
     confirmation: BillConfirmation

@@ -14,7 +14,7 @@ export const getBillDB: GetBillDB = async (data) => {
     throw new EntityNotFoundError()
   }
 
-  const { _id, clientId, createAt, dueAt, event, initialTotal, discount, total, confirmation } = foundBill
+  const { _id, clientId, createAt, dueAt, event, subTotal, discount, total, confirmation } = foundBill
 
   return {
     id: _id,
@@ -22,7 +22,7 @@ export const getBillDB: GetBillDB = async (data) => {
     createAt,
     dueAt,
     event,
-    initialTotal,
+    subTotal,
     discount,
     total,
     confirmation

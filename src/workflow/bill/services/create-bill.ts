@@ -27,7 +27,7 @@ export const createBillService: CreateBillService = (createBillDB) => (getEventP
           createAt,
           dueAt,
           event,
-          initialTotal: eventTotal,
+          subTotal: eventTotal,
           discount: 0,
           total: eventTotal,
           confirmation: {
