@@ -12,6 +12,7 @@ interface Data {
   discount: number
   eventPricingId: string
   eventType: string
+  paymentMethod: string
 }
 
 export type CreateBillPropsValidator = (data: Data) => E.Either<ValidationError, CreateBillProps>

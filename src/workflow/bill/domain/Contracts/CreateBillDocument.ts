@@ -15,4 +15,4 @@ export type CreateBillDocumentPropsValidator = (data: Data) => E.Either<Validati
 export type CreateBillDocumentDB = (data: CreateBillDocumentProps) => Promise<ViewBill>
 
 export type CreateBillDocumentService = (db: CreateBillDocumentDB) =>
-(data: CreateBillDocumentProps) => TE.TaskEither<HttpErrorResponse, ViewBill>
+(data: CreateBillDocumentProps) => TE.TaskEither<HttpErrorResponse, Uint8Array>

@@ -37,7 +37,8 @@
     "fp-ts": "^2.11.8",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
-    "mongodb": "^4.9.0"
+    "mongodb": "^4.9.0",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
