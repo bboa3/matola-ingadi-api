@@ -7,11 +7,6 @@ export const eventPricing: Pricing[] = [{
   price: 850,
   services: [
     {
-      name: 'Sala',
-      description: 'Sala com capacidade para 350 convidados',
-      photos: []
-    },
-    {
       name: 'Mesas',
       description: 'Mesas de vidro',
       photos: []
@@ -23,7 +18,7 @@ export const eventPricing: Pricing[] = [{
     },
     {
       name: 'Decoração',
-      description: 'Decoração ao gosto do cliente',
+      description: 'Decoração',
       photos: []
     },
     {
@@ -38,7 +33,7 @@ export const eventPricing: Pricing[] = [{
     },
     {
       name: 'Cenário para registro civil',
-      description: 'Cenário para registro civil ao redor do lago, com a vista do cair do sol',
+      description: 'Cenário para registro civil',
       photos: []
     },
     {
@@ -47,8 +42,8 @@ export const eventPricing: Pricing[] = [{
       photos: []
     },
     {
-      name: 'Quarto dos noivos',
-      description: 'Quarto dos noivos',
+      name: 'Sala dos noivos',
+      description: 'Sala dos noivos',
       photos: []
     }
   ]
@@ -60,18 +55,13 @@ export const eventPricing: Pricing[] = [{
   price: 650,
   services: [
     {
-      name: 'Sala',
-      description: 'Sala com capacidade para 350 convidados',
-      photos: []
-    },
-    {
       name: 'Mesas',
       description: 'Mesas Redondas com toalhas',
       photos: []
     },
     {
       name: 'Decoração',
-      description: 'Decoração ao gosto do cliente',
+      description: 'Decoração',
       photos: []
     },
     {
@@ -91,7 +81,7 @@ export const eventPricing: Pricing[] = [{
     },
     {
       name: 'Cenário para registro civil',
-      description: 'Cenário para registro civil ao redor do lago, com a vista do cair do sol',
+      description: 'Cenário para registro civil',
       photos: []
     },
     {
@@ -100,8 +90,8 @@ export const eventPricing: Pricing[] = [{
       photos: []
     },
     {
-      name: 'Quarto dos noivos',
-      description: 'Quarto dos noivos',
+      name: 'Sala dos noivos',
+      description: 'Sala dos noivos',
       photos: []
     }
   ]

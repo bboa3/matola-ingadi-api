@@ -9,6 +9,7 @@ import { Bill } from 'bill'
 import dayjs from 'dayjs'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
+import { paymentMethodCalculator } from './calculator/payment-method-calculator'
 
 export const createBillService: CreateBillService = (createBillDB) => (getLastCreatedBillDB) => (data) => {
   const { paymentMethodId, clientId, eventPricingId, numberOfGuests, eventType } = data
@@ -32,16 +33,24 @@ export const createBillService: CreateBillService = (createBillDB) => (getLastCr
 
         const serie = createBillSerie({ lastBill: lastBill })
 
+        const subTotal = eventTotal
+        const total = eventTotal
+
+        const billPaymentMethod = paymentMethodCalculator({
+          totalAmountToPay: total,
+          paymentMethod
+        })
+
         const bill: Bill = {
           serie,
           clientId,
           createAt,
           dueAt,
           event,
-          subTotal: eventTotal,
+          subTotal,
           discount: 0,
-          total: eventTotal,
-          paymentMethod,
+          total,
+          paymentMethod: billPaymentMethod,
           confirmation: {
             status: 'PENDING'
           }

@@ -5,7 +5,7 @@ const paymentMethods: PaymentMethod[] = [
     id: 'mpesa',
     name: 'M-Pesa',
     commission: {
-      model: 'percentage',
+      model: 'PERCENTAGE',
       value: 2
     }
   },
@@ -13,7 +13,7 @@ const paymentMethods: PaymentMethod[] = [
     id: '24',
     name: 'Conta Móvel',
     commission: {
-      model: 'percentage',
+      model: 'PERCENTAGE',
       value: 2
     }
   }

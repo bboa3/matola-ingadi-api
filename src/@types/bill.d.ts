@@ -61,9 +61,19 @@ declare module 'bill' {
     id: string
     name: string
     commission: {
-      model: string
+      model: 'PERCENTAGE' | 'VALUE'
       value: number
     }
+  }
+
+  export interface BillPaymentMethod {
+    id: string
+    name: string
+    commission: {
+      model: string
+      value: number
+    },
+    totalCommission: number
   }
 
   export interface BillEntity {
@@ -76,7 +86,7 @@ declare module 'bill' {
     subTotal: number
     discount: number
     total: number
-    paymentMethod: PaymentMethod
+    paymentMethod: BillPaymentMethod
     confirmation: BillConfirmation
   }
 
@@ -89,7 +99,7 @@ declare module 'bill' {
     subTotal: number
     discount: number
     total: number
-    paymentMethod: PaymentMethod
+    paymentMethod: BillPaymentMethod
     confirmation: BillConfirmation
   }
 

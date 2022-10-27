@@ -34,6 +34,7 @@
     "dayjs": "^1.10.8",
     "dotenv": "^16.0.1",
     "fastify": "^4.2.0",
+    "format-number": "^3.0.0",
     "fp-ts": "^2.11.8",
     "invoice-number": "^1.0.6",
     "io-ts": "^2.2.16",
