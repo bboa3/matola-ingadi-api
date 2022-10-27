@@ -1,4 +1,5 @@
 import { CreateBillService } from '@bill/domain/Contracts/CreateBill'
+import { getEventPricing } from '@bill/domain/requiredFields/is/is-event-pricing'
 import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
 import { createBillSerie } from '@bill/services/billSerie/create-bill-serie'
 import { eventPriceCalculator } from '@bill/services/calculator/event-price-calculator'
@@ -9,7 +10,7 @@ import dayjs from 'dayjs'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const createBillService: CreateBillService = (createBillDB) => (getEventPricingDB) => (getLastCreatedBillDB) => (data) => {
+export const createBillService: CreateBillService = (createBillDB) => (getLastCreatedBillDB) => (data) => {
   const { paymentMethodId, clientId, eventPricingId, numberOfGuests, eventType } = data
 
   const paymentMethod = getPaymentMethod(paymentMethodId)
@@ -21,10 +22,10 @@ export const createBillService: CreateBillService = (createBillDB) => (getEventP
   return pipe(
     TE.tryCatch(
       async () => {
-        const pricing = await getEventPricingDB(eventPricingId)
+        const pricing = getEventPricing(eventPricingId)
         const lastBill = await getLastCreatedBillDB()
 
-        if (!paymentMethod) throw new EntityNotFoundError()
+        if (!paymentMethod || !pricing) throw new EntityNotFoundError()
 
         const event = eventPriceCalculator({ pricing, numberOfGuests, eventType })
         const eventTotal = event.total

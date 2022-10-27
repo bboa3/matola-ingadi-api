@@ -1,5 +1,5 @@
 import { createBillDB } from '@bill/domain/entities/create-bill'
-import { getEventPricingDB } from '@bill/domain/entities/get-event-pricing'
+import { getLastCreatedBillDB } from '@bill/domain/entities/get-last-created-bill'
 import { createBillService } from '@bill/services/create-bill'
 import { createBillPropsValidator } from '@bill/services/validate/create-bill'
 import { clientError } from '@core/infra/middleware/http_error_response'
@@ -10,9 +10,9 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const confirmPaymentUseCase: Middleware = (_httpRequest, httpBody) => {
-  const { clientId, numberOfGuests, discount, eventPricingId, eventType } = httpBody
+  const { paymentMethodId, clientId, numberOfGuests, discount, eventPricingId, eventType } = httpBody
 
-  const data = { clientId, numberOfGuests, discount, eventPricingId, eventType }
+  const data = { paymentMethodId, clientId, numberOfGuests, discount, eventPricingId, eventType }
 
   const httpResponse = pipe(
     data,
@@ -21,7 +21,7 @@ export const confirmPaymentUseCase: Middleware = (_httpRequest, httpBody) => {
     TE.fromEither,
     TE.chain(data => pipe(
       data,
-      createBillService(createBillDB)(getEventPricingDB),
+      createBillService(createBillDB)(getLastCreatedBillDB),
       TE.map(bill => {
         return ok(bill)
       })

@@ -7,12 +7,13 @@ interface CalculatorProps {
 }
 
 export const eventPriceCalculator = ({ pricing, eventType, numberOfGuests }: CalculatorProps) => {
-  const { price } = pricing
+  const { price, id } = pricing
   const total = price * numberOfGuests
 
   return {
     numberOfGuests,
     eventType,
-    total
+    total,
+    eventPricingId: id
   }
 }

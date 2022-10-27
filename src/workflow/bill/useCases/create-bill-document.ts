@@ -1,4 +1,5 @@
 import { createBillDocumentDB } from '@bill/domain/entities/create-bill-document'
+import { getClientByIdDB } from '@bill/domain/entities/get-client-by-id'
 import { createBillDocumentService } from '@bill/services/create-bill-document'
 import { createBillDocumentPropsValidator } from '@bill/services/validate/create-bill-document'
 import { clientError } from '@core/infra/middleware/http_error_response'
@@ -21,7 +22,7 @@ export const createBillDocumentUseCase: Middleware = (httpRequest, _httpBody) =>
     TE.fromEither,
     TE.chain(data => pipe(
       data,
-      createBillDocumentService(createBillDocumentDB),
+      createBillDocumentService(createBillDocumentDB)(getClientByIdDB),
       TE.map(bill => {
         return ok(bill)
       })

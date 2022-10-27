@@ -18,14 +18,6 @@ declare module 'bill' {
     services: Services[]
   }
 
-  export interface PricingEntity {
-    _id: any
-    name: string
-    'pricing_model': string
-    price: number
-    services: Services[]
-  }
-
   export interface ServiceProvider {
     id: string
     name: string
@@ -62,6 +54,7 @@ declare module 'bill' {
     numberOfGuests: number
     eventType: string
     total: number
+    eventPricingId: string
   }
 
   export interface PaymentMethod {

@@ -1,16 +1,16 @@
 import { degrees, PDFFont, PDFPage, rgb } from 'pdf-lib'
 
-interface PayedMarkProps {
+interface Props {
   page: PDFPage,
   isPayed: boolean
   width: number
   height: number
-  font: PDFFont
+  boldFont: PDFFont
 }
 
 const svgPath = 'M0 50 H400 V0 H0'
 
-export const payedMark = ({ page, isPayed, width, height, font }: PayedMarkProps) => {
+export const payedMark = ({ page, isPayed, width, height, boldFont }: Props) => {
   const text = isPayed ? 'PAGO' : 'POR PAGAR'
 
   const payedSvgColor = rgb(0.133, 0.645, 0.133)
@@ -38,7 +38,7 @@ export const payedMark = ({ page, isPayed, width, height, font }: PayedMarkProps
     x: isPayed ? payedTextX : notPayedTextX,
     y: isPayed ? payedTextY : notPayedTextY,
     size: 24,
-    font: font,
+    font: boldFont,
     color: rgb(1, 1, 1),
     rotate: degrees(-34.3)
   })
