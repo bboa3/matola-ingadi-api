@@ -1,4 +1,6 @@
-const paymentMethods = [
+import { PaymentMethod } from 'bill'
+
+const paymentMethods: PaymentMethod[] = [
   {
     id: 'mpesa',
     name: 'M-Pesa',
@@ -17,7 +19,7 @@ const paymentMethods = [
   }
 ]
 
-export const isPaymentMethod = (value: string) => {
+export const isPaymentMethodId = (value: string) => {
   const name = value.toLowerCase()
 
   for (const method of paymentMethods) {
@@ -27,4 +29,12 @@ export const isPaymentMethod = (value: string) => {
   }
 
   return false
+}
+
+export const getPaymentMethod = (value: string) => {
+  for (const method of paymentMethods) {
+    if (method.id === value) {
+      return method
+    }
+  }
 }

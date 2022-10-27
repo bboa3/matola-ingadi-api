@@ -35,6 +35,7 @@
     "dotenv": "^16.0.1",
     "fastify": "^4.2.0",
     "fp-ts": "^2.11.8",
+    "invoice-number": "^1.0.6",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "mongodb": "^4.9.0",

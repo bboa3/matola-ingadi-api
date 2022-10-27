@@ -23,7 +23,7 @@ export const createDocument = async ({ bill }: CreateDocumentProps) => {
 
   payedMark({
     page: firstPage,
-    isPayed: false,
+    isPayed: true,
     width: width,
     height: height,
     font: helveticaBoldFont

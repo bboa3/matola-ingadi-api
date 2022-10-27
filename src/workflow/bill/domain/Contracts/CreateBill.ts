@@ -1,3 +1,4 @@
+import { GetLastCreatedBillDB } from '@bill/domain/Contracts/GetLastCreatedBill'
 import { CreateBillProps } from '@bill/domain/requiredFields/create-bill'
 import { Id } from '@bill/domain/requiredFields/id'
 import { ValidationError } from '@core/domain/errors/validation_error'
@@ -12,7 +13,7 @@ interface Data {
   discount: number
   eventPricingId: string
   eventType: string
-  paymentMethod: string
+  paymentMethodId: string
 }
 
 export type CreateBillPropsValidator = (data: Data) => E.Either<ValidationError, CreateBillProps>
@@ -20,5 +21,5 @@ export type CreateBillPropsValidator = (data: Data) => E.Either<ValidationError,
 export type CreateBillDB = (data: Bill) => Promise<ViewBill>
 export type GetEventPricingDB = (id: Id) => Promise<Pricing>
 
-export type CreateBillService = (db: CreateBillDB) => (db: GetEventPricingDB) =>
+export type CreateBillService = (db: CreateBillDB) => (db: GetEventPricingDB) => (db: GetLastCreatedBillDB) =>
 (data: CreateBillProps) => TE.TaskEither<HttpErrorResponse, ViewBill>

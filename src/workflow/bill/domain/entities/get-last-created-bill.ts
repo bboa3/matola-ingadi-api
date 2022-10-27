@@ -1,24 +1,23 @@
-import { CreateBillDocumentDB } from '@bill/domain/Contracts/CreateBillDocument'
+import { GetLastCreatedBillDB } from '@bill/domain/Contracts/GetLastCreatedBill'
 import { db } from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { BillEntity } from 'bill'
-import { ObjectId } from 'mongodb'
 
-export const createBillDocumentDB: CreateBillDocumentDB = async (data) => {
-  const id = new ObjectId(data.id)
+export const getLastCreatedBillDB: GetLastCreatedBillDB = async () => {
   const collection = (await db()).collection('bills')
 
-  const foundBill = await collection.findOne({ _id: id, clientId: data.clientId }) as unknown as BillEntity
+  const foundBills = await collection.find().sort({ _id: -1 }).limit(1).toArray() as unknown as BillEntity[]
 
-  if (!foundBill) {
+  if (!foundBills) {
     throw new EntityNotFoundError()
   }
+
+  const foundBill = foundBills[0]
 
   const { _id, paymentMethod, serie, clientId, createAt, dueAt, event, subTotal, discount, total, confirmation } = foundBill
 
   return {
     id: _id,
-    paymentMethod,
     serie,
     clientId,
     createAt,
@@ -27,6 +26,7 @@ export const createBillDocumentDB: CreateBillDocumentDB = async (data) => {
     subTotal,
     discount,
     total,
+    paymentMethod,
     confirmation
   }
 }

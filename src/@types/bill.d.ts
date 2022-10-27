@@ -64,8 +64,18 @@ declare module 'bill' {
     total: number
   }
 
+  export interface PaymentMethod {
+    id: string
+    name: string
+    commission: {
+      model: string
+      value: number
+    }
+  }
+
   export interface BillEntity {
     _id: any
+    serie: string
     clientId: string
     createAt: string
     dueAt: string
@@ -73,10 +83,12 @@ declare module 'bill' {
     subTotal: number
     discount: number
     total: number
+    paymentMethod: PaymentMethod
     confirmation: BillConfirmation
   }
 
   export interface Bill {
+    serie: string
     createAt: string
     clientId: string
     dueAt: string
@@ -84,6 +96,7 @@ declare module 'bill' {
     subTotal: number
     discount: number
     total: number
+    paymentMethod: PaymentMethod
     confirmation: BillConfirmation
   }
 
