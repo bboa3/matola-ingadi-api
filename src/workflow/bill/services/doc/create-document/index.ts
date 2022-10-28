@@ -2,6 +2,8 @@ import { clientInfo } from '@bill/services/doc/create-document/client'
 import { identifier } from '@bill/services/doc/create-document/identifier'
 import { payedMark } from '@bill/services/doc/create-document/payed-mark'
 import { servicesInfo } from '@bill/services/doc/create-document/services'
+import { sign } from '@bill/services/doc/create-document/sign'
+import { transactionsInfo } from '@bill/services/doc/create-document/transactions'
 import { Pricing, ViewBill } from 'bill'
 import fs from 'fs/promises'
 import { Client } from 'ingadi'
@@ -30,7 +32,7 @@ export const createDocument = async ({ bill, client, eventPricing }: CreateDocum
 
   payedMark({
     page: firstPage,
-    isPayed: true,
+    isPayed: false,
     width: width,
     height: height,
     boldFont: helveticaBoldFont
@@ -56,6 +58,22 @@ export const createDocument = async ({ bill, client, eventPricing }: CreateDocum
   servicesInfo({
     bill,
     eventPricing,
+    page: firstPage,
+    width: width,
+    height: height,
+    normalFont: helveticaFont,
+    boldFont: helveticaBoldFont
+  })
+
+  transactionsInfo({
+    bill,
+    page: firstPage,
+    width: width,
+    height: height,
+    boldFont: helveticaBoldFont
+  })
+
+  sign({
     page: firstPage,
     width: width,
     height: height,
