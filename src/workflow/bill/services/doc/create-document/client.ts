@@ -22,7 +22,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
 
   page.drawText(name, {
     x: width / 2 - 194,
-    y: height / 2 + 67,
+    y: height / 2 + 70,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
