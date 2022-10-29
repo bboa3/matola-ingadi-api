@@ -1,9 +1,9 @@
 import { GetBillProps } from '@bill/domain/requiredFields/get-bill'
 import { ValidationError } from '@core/domain/errors/validation_error'
 import { HttpErrorResponse } from '@core/infra/middleware/http_error_response'
-import { ViewBill } from 'bill'
 import * as E from 'fp-ts/lib/Either'
 import * as TE from 'fp-ts/lib/TaskEither'
+import { ViewBill } from 'ingadi'
 
 interface Data {
   id: string

@@ -8,13 +8,13 @@ export const getClientByIdDB: GetClientByIdDB = async (id) => {
   const clientId = new ObjectId(id)
   const collection = (await db()).collection('clients')
 
-  const foundBill = await collection.findOne({ _id: clientId }) as unknown as ClientEntity
+  const foundClient = await collection.findOne({ _id: clientId }) as unknown as ClientEntity
 
-  if (!foundBill) {
+  if (!foundClient) {
     throw new EntityNotFoundError()
   }
 
-  const { _id, name, email, phoneNumber, address, createdAt, updatedAt } = foundBill
+  const { _id, name, email, phoneNumber, address, createdAt, updatedAt } = foundClient
 
   return {
     id: _id,

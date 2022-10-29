@@ -1,59 +1,53 @@
 import { CreateBillService } from '@bill/domain/Contracts/CreateBill'
 import { getEventPricing } from '@bill/domain/requiredFields/is/is-event-pricing'
-import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
-import { createBillSerie } from '@bill/services/billSerie/create-bill-serie'
 import { eventPriceCalculator } from '@bill/services/calculator/event-price-calculator'
-import { DatabaseFailError, EntityNotFoundError } from '@core/domain/errors/domain_error'
+import { createEnvice } from '@bill/services/invoice/create-invoices'
+import { DatabaseFailError } from '@core/domain/errors/domain_error'
 import { fail, notFound } from '@core/infra/middleware/http_error_response'
-import { Bill } from 'bill'
 import dayjs from 'dayjs'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
-import { paymentMethodCalculator } from './calculator/payment-method-calculator'
+import { Bill, PaymentMethodId } from 'ingadi'
 
-export const createBillService: CreateBillService = (createBillDB) => (getLastCreatedBillDB) => (data) => {
+export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (data) => {
   const { paymentMethodId, clientId, eventPricingId, numberOfGuests, eventType } = data
 
-  const paymentMethod = getPaymentMethod(paymentMethodId)
-
   const today = dayjs(new Date())
-  const createAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
-  const dueAt = today.add(3, 'days').format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  const createdAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  const dueAt = today.add(4, 'days').format('YYYY-MM-DDTHH:mm:ssZ[Z]')
 
   return pipe(
     TE.tryCatch(
       async () => {
         const pricing = getEventPricing(eventPricingId)
-        const lastBill = await getLastCreatedBillDB()
-
-        if (!paymentMethod || !pricing) throw new EntityNotFoundError()
+        const newInvoiceNumber = await createInvoiceNumberDB()
 
         const event = eventPriceCalculator({ pricing, numberOfGuests, eventType })
         const eventTotal = event.total
 
-        const serie = createBillSerie({ lastBill: lastBill })
-
         const subTotal = eventTotal
         const total = eventTotal
 
-        const billPaymentMethod = paymentMethodCalculator({
-          totalAmountToPay: total,
-          paymentMethod
+        const invoice = createEnvice({
+          invoiceNumber: newInvoiceNumber,
+          service: event,
+          subTotal,
+          total,
+          paymentMethodId,
+          dueAt,
+          createdAt
         })
 
         const bill: Bill = {
-          serie,
           clientId,
-          createAt,
-          dueAt,
-          event,
-          subTotal,
+          services: [event],
           discount: 0,
+          subTotal,
           total,
-          paymentMethod: billPaymentMethod,
-          confirmation: {
-            status: 'PENDING'
-          }
+          invoices: [invoice],
+          status: 'ACTIVE',
+          defaultPaymentMethodId: paymentMethodId as PaymentMethodId,
+          createdAt
         }
 
         return bill

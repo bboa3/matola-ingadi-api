@@ -2,13 +2,13 @@ import { CreateBillDocumentProps } from '@bill/domain/requiredFields/create-bill
 import { Id } from '@bill/domain/requiredFields/id'
 import { ValidationError } from '@core/domain/errors/validation_error'
 import { HttpErrorResponse } from '@core/infra/middleware/http_error_response'
-import { ViewBill } from 'bill'
 import * as E from 'fp-ts/lib/Either'
 import * as TE from 'fp-ts/lib/TaskEither'
-import { Client } from 'ingadi'
+import { Client, Invoice } from 'ingadi'
 
 interface Data {
-  id: string
+  billId: string
+  invoiceNumber: string
   clientId: string
 }
 
@@ -16,7 +16,7 @@ export type CreateBillDocumentPropsValidator = (data: Data) => E.Either<Validati
 
 export type GetClientByIdDB = (id: Id) => Promise<Client>
 
-export type CreateBillDocumentDB = (data: CreateBillDocumentProps) => Promise<ViewBill>
+export type GetInvoiceDB = (data: CreateBillDocumentProps) => Promise<Invoice>
 
-export type CreateBillDocumentService = (db: CreateBillDocumentDB) => (db: GetClientByIdDB) =>
+export type CreateBillDocumentService = (db: GetInvoiceDB) => (db: GetClientByIdDB) =>
 (data: CreateBillDocumentProps) => TE.TaskEither<HttpErrorResponse, Uint8Array>

@@ -4,21 +4,20 @@ import { payedMark } from '@bill/services/doc/create-document/payed-mark'
 import { servicesInfo } from '@bill/services/doc/create-document/services'
 import { sign } from '@bill/services/doc/create-document/sign'
 import { transactionsInfo } from '@bill/services/doc/create-document/transactions'
-import { Pricing, ViewBill } from 'bill'
 import fs from 'fs/promises'
-import { Client } from 'ingadi'
+import { Client, Invoice, Pricing } from 'ingadi'
 import { resolve } from 'path'
 import { PDFDocument, StandardFonts } from 'pdf-lib'
 
 interface CreateDocumentProps {
-  bill: ViewBill
+  invoice: Invoice
   client: Client
   eventPricing: Pricing
 }
 
-const path = resolve(__dirname, '..', 'bill-for-payment.pdf')
+const path = resolve(__dirname, '..', 'invoice-for-payment.pdf')
 
-export const createDocument = async ({ bill, client, eventPricing }: CreateDocumentProps) => {
+export const createDocument = async ({ invoice, client, eventPricing }: CreateDocumentProps) => {
   const file = await fs.readFile(path)
 
   const doc = await PDFDocument.load(file)
@@ -31,15 +30,15 @@ export const createDocument = async ({ bill, client, eventPricing }: CreateDocum
   const { width, height } = firstPage.getSize()
 
   payedMark({
+    invoice,
     page: firstPage,
-    isPayed: false,
     width: width,
     height: height,
     boldFont: helveticaBoldFont
   })
 
   identifier({
-    bill,
+    invoice,
     page: firstPage,
     width: width,
     height: height,
@@ -56,7 +55,7 @@ export const createDocument = async ({ bill, client, eventPricing }: CreateDocum
   })
 
   servicesInfo({
-    bill,
+    invoice,
     eventPricing,
     page: firstPage,
     width: width,
@@ -66,7 +65,7 @@ export const createDocument = async ({ bill, client, eventPricing }: CreateDocum
   })
 
   transactionsInfo({
-    bill,
+    invoice,
     page: firstPage,
     width: width,
     height: height,

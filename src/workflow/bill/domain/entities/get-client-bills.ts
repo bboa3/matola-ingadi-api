@@ -1,7 +1,7 @@
 import { GetClientBillsDB } from '@bill/domain/Contracts/GetClientBills'
 import { db } from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { BillEntity } from 'bill'
+import { BillEntity } from 'ingadi'
 
 export const getClientBillsDB: GetClientBillsDB = async ({ clientId }) => {
   const collection = (await db()).collection('bills')
@@ -13,8 +13,8 @@ export const getClientBillsDB: GetClientBillsDB = async ({ clientId }) => {
   }
 
   const bills = foundBills.map((bill) => {
-    const { _id, paymentMethod, serie, clientId, createAt, dueAt, event, subTotal, discount, total, confirmation } = bill
-    return { id: _id, serie, clientId, createAt, dueAt, event, subTotal, discount, total, paymentMethod, confirmation }
+    const { _id, clientId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = bill
+    return { id: _id, clientId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt }
   })
 
   return bills.reverse()

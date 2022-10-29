@@ -11,10 +11,10 @@ interface Props {
 const fontSize = 9
 const now = dayjs(new Date()).format('DD/MM/YYYY')
 
-export const sign = ({ page, width, height, normalFont }: Props) => {
+export const sign = ({ page, width, normalFont }: Props) => {
   page.drawText(now, {
     x: width / 2 - 22,
-    y: 150,
+    y: 141,
     size: fontSize,
     font: normalFont,
     color: rgb(0, 0, 0)

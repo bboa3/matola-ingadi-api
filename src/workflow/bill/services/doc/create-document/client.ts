@@ -10,11 +10,14 @@ interface Props {
 }
 
 export const clientInfo = ({ page, width, height, normalFont, client }: Props) => {
-  const { name, address: { address1, address2, city, province, postalCode, country } } = client
+  const { name, address } = client
+  if (!address) return
+
+  const { address1, address2, city, province, postalCode, country } = address
 
   page.drawText(name, {
     x: width / 2 - 252,
-    y: height / 2 + 80,
+    y: height / 2 + 77,
     size: 10,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -22,7 +25,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
 
   page.drawText(name, {
     x: width / 2 - 194,
-    y: height / 2 + 70,
+    y: height / 2 + 66,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -30,7 +33,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
 
   page.drawText(address1, {
     x: width / 2 - 252,
-    y: height / 2 + 57,
+    y: height / 2 + 55,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -38,7 +41,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
 
   page.drawText(address2, {
     x: width / 2 - 252,
-    y: height / 2 + 47,
+    y: height / 2 + 45,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -46,7 +49,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
 
   page.drawText(`${city}, ${province}, ${postalCode}`, {
     x: width / 2 - 252,
-    y: height / 2 + 37,
+    y: height / 2 + 35,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -54,7 +57,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
 
   page.drawText(country, {
     x: width / 2 - 252,
-    y: height / 2 + 27,
+    y: height / 2 + 25,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)

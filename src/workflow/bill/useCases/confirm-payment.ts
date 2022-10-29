@@ -1,5 +1,5 @@
 import { createBillDB } from '@bill/domain/entities/create-bill'
-import { getLastCreatedBillDB } from '@bill/domain/entities/get-last-created-bill'
+import { createInvoiceNumberDB } from '@bill/domain/entities/create-invoice-number'
 import { createBillService } from '@bill/services/create-bill'
 import { createBillPropsValidator } from '@bill/services/validate/create-bill'
 import { clientError } from '@core/infra/middleware/http_error_response'
@@ -21,7 +21,7 @@ export const confirmPaymentUseCase: Middleware = (_httpRequest, httpBody) => {
     TE.fromEither,
     TE.chain(data => pipe(
       data,
-      createBillService(createBillDB)(getLastCreatedBillDB),
+      createBillService(createBillDB)(createInvoiceNumberDB),
       TE.map(bill => {
         return ok(bill)
       })

@@ -1,7 +1,7 @@
 import { GetBillDB } from '@bill/domain/Contracts/GetBill'
 import { db } from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { BillEntity } from 'bill'
+import { BillEntity } from 'ingadi'
 import { ObjectId } from 'mongodb'
 
 export const getBillDB: GetBillDB = async (data) => {
@@ -14,19 +14,18 @@ export const getBillDB: GetBillDB = async (data) => {
     throw new EntityNotFoundError()
   }
 
-  const { _id, paymentMethod, serie, clientId, createAt, dueAt, event, subTotal, discount, total, confirmation } = foundBill
+  const { _id, clientId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = foundBill
 
   return {
     id: _id,
-    serie,
     clientId,
-    createAt,
-    dueAt,
-    event,
-    subTotal,
+    services,
     discount,
+    subTotal,
     total,
-    paymentMethod,
-    confirmation
+    invoices,
+    status,
+    defaultPaymentMethodId,
+    createdAt
   }
 }

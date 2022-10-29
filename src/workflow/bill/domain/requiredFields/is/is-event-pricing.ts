@@ -1,4 +1,4 @@
-import { Pricing } from 'bill'
+import { Pricing } from 'ingadi'
 
 export const eventPricing: Pricing[] = [{
   id: 'premium',

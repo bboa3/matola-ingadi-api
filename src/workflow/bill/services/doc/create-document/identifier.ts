@@ -1,9 +1,9 @@
-import { Bill } from 'bill'
 import dayjs from 'dayjs'
+import { Invoice } from 'ingadi'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {
-  bill: Bill
+  invoice: Invoice
   page: PDFPage,
   width: number
   height: number
@@ -11,10 +11,11 @@ interface Props {
   normalFont: PDFFont
 }
 
-export const identifier = ({ page, width, height, boldFont, normalFont, bill }: Props) => {
-  const { serie, createAt, dueAt } = bill
+export const identifier = ({ page, width, height, boldFont, normalFont, invoice }: Props) => {
+  const { invoiceNumber, createdAt, dueAt } = invoice
+  const invoiceNumberCode = invoiceNumber.code
 
-  const createdDate = createAt.split('+')[0]
+  const createdDate = createdAt.split('+')[0]
   const dueDate = dueAt.split('+')[0]
 
   const createAtFormatted = dayjs(createdDate).format('DD/MM/YYYY HH:mm')
@@ -22,7 +23,7 @@ export const identifier = ({ page, width, height, boldFont, normalFont, bill }: 
 
   page.drawText(createAtFormatted, {
     x: width / 2 - 162,
-    y: height / 2 + 160, // 118
+    y: height / 2 + 158,
     size: 11,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -30,15 +31,15 @@ export const identifier = ({ page, width, height, boldFont, normalFont, bill }: 
 
   page.drawText(dueAtFormatted, {
     x: width / 2 - 186,
-    y: height / 2 + 146,
+    y: height / 2 + 145,
     size: 11,
     font: normalFont,
     color: rgb(0, 0, 0)
   })
 
-  return page.drawText(serie, {
+  return page.drawText(invoiceNumberCode, {
     x: width / 2 - 168,
-    y: height / 2 + 174,
+    y: height / 2 + 173,
     size: 14,
     font: boldFont,
     color: rgb(0, 0, 0)

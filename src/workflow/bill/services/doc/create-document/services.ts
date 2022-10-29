@@ -1,9 +1,9 @@
 import { moneyFormatter } from '@bill/services/calculator/money-formatter'
-import { Bill, Pricing } from 'bill'
+import { Invoice, Pricing } from 'ingadi'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {
-  bill: Bill
+  invoice: Invoice
   page: PDFPage,
   width: number
   height: number
@@ -14,8 +14,8 @@ interface Props {
 
 const fontSize = 9
 
-export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, eventPricing }: Props) => {
-  const { event: { eventType, numberOfGuests, total: eventTotal }, paymentMethod, subTotal, total } = bill
+export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoice, eventPricing }: Props) => {
+  const { service: { eventType, numberOfGuests, total: eventTotal }, paymentMethod, subTotal, total } = invoice
   const { totalCommission, name: paymentMethodName } = paymentMethod
   const { services } = eventPricing
 
@@ -27,7 +27,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, 
 
   page.drawText(`${eventType} - ${numberOfGuests} convidados, ${servicesJoined}`, {
     x: width / 2 - 252,
-    y: height / 2 - 7,
+    y: height / 2 - 13,
     maxWidth: width / 2 + 50,
     size: fontSize,
     lineHeight: 12,
@@ -40,7 +40,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, 
 
   page.drawText(servicesTotalFormatted, {
     x: boxX + boxWidth - servicesTotalWidth,
-    y: boxY + 224,
+    y: boxY + 219,
     size: fontSize,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -51,7 +51,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, 
 
   page.drawText(`(${paymentMethodName} ${totalCommissionFormatted})`, {
     x: width / 2 - 133,
-    y: height / 2 - 57,
+    y: height / 2 - 65,
     maxWidth: width / 2 + 50,
     size: fontSize,
     lineHeight: 12,
@@ -61,7 +61,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, 
 
   page.drawText(totalCommissionFormatted, {
     x: boxX + boxWidth - totalCommissionWidth,
-    y: boxY + 173,
+    y: boxY + 168,
     size: fontSize,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -72,7 +72,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, 
 
   page.drawText(subTotalFormatted, {
     x: boxX + boxWidth - subTotalWidth,
-    y: boxY + 150,
+    y: boxY + 143,
     size: fontSize,
     font: boldFont,
     color: rgb(0, 0, 0)
@@ -83,7 +83,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, bill, 
 
   page.drawText(totalFormatted, {
     x: boxX + boxWidth - totalWidth,
-    y: boxY + 122,
+    y: boxY + 114,
     size: fontSize,
     font: boldFont,
     color: rgb(0, 0, 0)

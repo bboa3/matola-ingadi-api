@@ -1,4 +1,4 @@
-import { PaymentMethod } from 'bill'
+import { PaymentMethod } from 'ingadi'
 
 const paymentMethods: PaymentMethod[] = [
   {
