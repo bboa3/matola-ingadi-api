@@ -8,7 +8,7 @@ import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const getBillUseCase: Middleware = (httpRequest, _httpBody) => {
+export const getBillUseCase: Middleware = (httpRequest, httpBody) => {
   const clientId = '634f1481440e32a71252fab0'
   const { id } = httpRequest.params
 
