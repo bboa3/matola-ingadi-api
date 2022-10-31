@@ -11,9 +11,9 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const confirmPaymentByAdminUseCase: Middleware = (_httpRequest, httpBody) => {
-  const { adminId, billId, invoiceId, paymentMethodId, confirmationImage, details } = httpBody
+  const { adminId, billId, invoiceId, confirmationImage, details } = httpBody
 
-  const data = { adminId, billId, invoiceId, paymentMethodId, confirmationImage, details }
+  const data = { adminId, billId, invoiceId, confirmationImage, details }
 
   const httpResponse = pipe(
     data,

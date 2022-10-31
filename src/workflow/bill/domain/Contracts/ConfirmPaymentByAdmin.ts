@@ -11,7 +11,6 @@ import * as TE from 'fp-ts/lib/TaskEither'
 interface Data {
   adminId: string
   billId: string
-  paymentMethodId: string
   invoiceId: string
   confirmationImage: Photo
   details: string
