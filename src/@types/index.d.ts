@@ -30,6 +30,7 @@ declare module 'ingadi' {
     phoneNumber?: string
     image?: string
     emailVerified?: string
+    admin?: boolean
     address?: Address
     updatedAt: string
   }
@@ -42,6 +43,7 @@ declare module 'ingadi' {
     image?: string
     emailVerified?: string
     address?: Address
+    admin?: boolean
     updatedAt: string
   }
 }

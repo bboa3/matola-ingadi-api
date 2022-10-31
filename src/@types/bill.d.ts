@@ -53,7 +53,7 @@ declare module 'bill' {
     eventPricingId: string
   }
 
-  export type PaymentMethodId = 'mpesa' | '24'
+  export type PaymentMethodId = 'mpesa' | '24' | 'cash' | 'check'
 
   export interface PaymentMethod {
     id: PaymentMethodId

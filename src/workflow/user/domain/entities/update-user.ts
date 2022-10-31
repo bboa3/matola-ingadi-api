@@ -61,6 +61,7 @@ export const updateUserDB: UpdateUserDB = async (data) => {
     phoneNumber: foundUser.phoneNumber,
     image: foundUser.image,
     emailVerified: foundUser.emailVerified,
+    admin: foundUser.admin,
     address: foundUser.address,
     updatedAt: foundUser.updatedAt
   }

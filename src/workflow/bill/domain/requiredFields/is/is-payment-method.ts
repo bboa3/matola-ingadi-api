@@ -1,4 +1,4 @@
-import { PaymentMethod } from 'ingadi'
+import { PaymentMethod } from 'bill'
 
 const paymentMethods: PaymentMethod[] = [
   {
@@ -15,6 +15,22 @@ const paymentMethods: PaymentMethod[] = [
     commission: {
       model: 'PERCENTAGE',
       value: 2
+    }
+  },
+  {
+    id: 'cash',
+    name: 'Em dinheiro',
+    commission: {
+      model: 'VALUE',
+      value: 0
+    }
+  },
+  {
+    id: 'check',
+    name: 'Cheque',
+    commission: {
+      model: 'VALUE',
+      value: 0
     }
   }
 ]
