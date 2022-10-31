@@ -1,5 +1,5 @@
 import { moneyFormatter } from '@bill/services/calculator/money-formatter'
-import { Invoice, Pricing } from 'ingadi'
+import { Invoice, Pricing } from 'bill'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {

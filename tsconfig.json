@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "paths": {
       "@core/*": ["src/core/*"],
-      "@bill/*": ["src/workflow/bill/*"]
+      "@bill/*": ["src/workflow/bill/*"],
+      "@user/*": ["src/workflow/user/*"]
     },
     "strict": true,
     "lib": ["esnext"],

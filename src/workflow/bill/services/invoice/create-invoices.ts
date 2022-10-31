@@ -1,6 +1,6 @@
 import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
 import { paymentMethodCalculator } from '@bill/services/calculator/payment-method-calculator'
-import { EventService, Invoice, InvoiceNumberEntity } from 'ingadi'
+import { EventService, Invoice, InvoiceNumberEntity } from 'bill'
 
 interface Props {
   invoiceNumber: InvoiceNumberEntity

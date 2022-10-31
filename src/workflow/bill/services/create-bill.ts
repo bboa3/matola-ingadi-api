@@ -4,10 +4,10 @@ import { eventPriceCalculator } from '@bill/services/calculator/event-price-calc
 import { createEnvice } from '@bill/services/invoice/create-invoices'
 import { DatabaseFailError } from '@core/domain/errors/domain_error'
 import { fail, notFound } from '@core/infra/middleware/http_error_response'
+import { Bill, PaymentMethodId } from 'bill'
 import dayjs from 'dayjs'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
-import { Bill, PaymentMethodId } from 'ingadi'
 
 export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (data) => {
   const { paymentMethodId, clientId, eventPricingId, numberOfGuests, eventType } = data

@@ -4,20 +4,21 @@ import { payedMark } from '@bill/services/doc/create-document/payed-mark'
 import { servicesInfo } from '@bill/services/doc/create-document/services'
 import { sign } from '@bill/services/doc/create-document/sign'
 import { transactionsInfo } from '@bill/services/doc/create-document/transactions'
+import { Invoice, Pricing } from 'bill'
 import fs from 'fs/promises'
-import { Client, Invoice, Pricing } from 'ingadi'
+import { User } from 'ingadi'
 import { resolve } from 'path'
 import { PDFDocument, StandardFonts } from 'pdf-lib'
 
 interface CreateDocumentProps {
   invoice: Invoice
-  client: Client
+  user: User
   eventPricing: Pricing
 }
 
 const path = resolve(__dirname, '..', 'invoice-for-payment.pdf')
 
-export const createDocument = async ({ invoice, client, eventPricing }: CreateDocumentProps) => {
+export const createDocument = async ({ invoice, user, eventPricing }: CreateDocumentProps) => {
   const file = await fs.readFile(path)
 
   const doc = await PDFDocument.load(file)
@@ -47,7 +48,7 @@ export const createDocument = async ({ invoice, client, eventPricing }: CreateDo
   })
 
   clientInfo({
-    client,
+    user,
     page: firstPage,
     width: width,
     height: height,
@@ -69,7 +70,8 @@ export const createDocument = async ({ invoice, client, eventPricing }: CreateDo
     page: firstPage,
     width: width,
     height: height,
-    boldFont: helveticaBoldFont
+    boldFont: helveticaBoldFont,
+    normalFont: helveticaFont
   })
 
   sign({

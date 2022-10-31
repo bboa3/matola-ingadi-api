@@ -1,14 +1,14 @@
 import { GetClientByIdDB } from '@bill/domain/Contracts/CreateBillDocument'
-import { db } from '@core/domain/entities/db'
+import clientDB from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { ClientEntity } from 'ingadi'
+import { UserEntity } from 'ingadi'
 import { ObjectId } from 'mongodb'
 
 export const getClientByIdDB: GetClientByIdDB = async (id) => {
   const clientId = new ObjectId(id)
-  const collection = (await db()).collection('clients')
+  const collection = (await clientDB).db().collection('clients')
 
-  const foundClient = await collection.findOne({ _id: clientId }) as unknown as ClientEntity
+  const foundClient = await collection.findOne({ _id: clientId }) as unknown as UserEntity
 
   if (!foundClient) {
     throw new EntityNotFoundError()

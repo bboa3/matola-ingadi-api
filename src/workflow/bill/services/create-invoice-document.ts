@@ -22,13 +22,13 @@ export const createInvoiceDocumentService: CreateBillDocumentService = (getInvoi
     TE.chain(invoice => TE.tryCatch(
       async () => {
         const { service: { eventPricingId } } = invoice
-        const client = await getClientByIdDB(data.clientId)
+        const user = await getClientByIdDB(data.clientId)
 
         const eventPricing = getEventPricing(eventPricingId)
 
         if (!eventPricing) throw new EntityNotFoundError()
 
-        return { client, invoice, eventPricing }
+        return { user, invoice, eventPricing }
       },
       (err: any) => {
         if (err.name === 'EntityNotFound') {
@@ -39,9 +39,9 @@ export const createInvoiceDocumentService: CreateBillDocumentService = (getInvoi
         return fail(new DatabaseFailError())
       }
     )),
-    TE.chain(({ invoice, client, eventPricing }) => TE.tryCatch(
+    TE.chain(({ invoice, user, eventPricing }) => TE.tryCatch(
       async () => {
-        const path = await createDocument({ invoice, client, eventPricing })
+        const path = await createDocument({ invoice, user, eventPricing })
 
         return path
       },

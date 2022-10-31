@@ -1,4 +1,4 @@
-import { Invoice, InvoiceStatus } from 'ingadi'
+import { Invoice, InvoiceStatus } from 'bill'
 import { degrees, PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {

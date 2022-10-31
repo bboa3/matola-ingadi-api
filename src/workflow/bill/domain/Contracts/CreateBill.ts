@@ -2,9 +2,9 @@ import { CreateInvoiceNumberDB } from '@bill/domain/Contracts/CreateInvoiceNumbe
 import { CreateBillProps } from '@bill/domain/requiredFields/create-bill'
 import { ValidationError } from '@core/domain/errors/validation_error'
 import { HttpErrorResponse } from '@core/infra/middleware/http_error_response'
+import { Bill, ViewBill } from 'bill'
 import * as E from 'fp-ts/lib/Either'
 import * as TE from 'fp-ts/lib/TaskEither'
-import { Bill, ViewBill } from 'ingadi'
 
 interface Data {
   clientId: string

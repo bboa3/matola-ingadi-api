@@ -1,12 +1,12 @@
 import { GetInvoiceDB } from '@bill/domain/Contracts/CreateBillDocument'
-import { db } from '@core/domain/entities/db'
+import clientDB from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { BillEntity } from 'ingadi'
+import { BillEntity } from 'bill'
 import { ObjectId } from 'mongodb'
 
 export const getInvoiceDB: GetInvoiceDB = async ({ billId, invoiceNumber }) => {
   const id = new ObjectId(billId)
-  const collection = (await db()).collection('bills')
+  const collection = (await clientDB).db().collection('bills')
 
   const foundBill = await collection.findOne({ _id: id }) as unknown as BillEntity
 

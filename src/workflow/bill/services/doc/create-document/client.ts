@@ -1,19 +1,19 @@
-import { Client } from 'ingadi'
+import { User } from 'ingadi'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {
-  client: Client
+  user: User
   page: PDFPage,
   width: number
   height: number
   normalFont: PDFFont
 }
 
-export const clientInfo = ({ page, width, height, normalFont, client }: Props) => {
-  const { name, address } = client
-  if (!address) return
+export const clientInfo = ({ page, width, height, normalFont, user }: Props) => {
+  const { name, address } = user
+  if (!address || !name) return
 
-  const { address1, address2, city, province, postalCode, country } = address
+  const { address1, streetAddress, cityOrDistrict, provinceOrState, postalCode, country } = address
 
   page.drawText(name, {
     x: width / 2 - 252,
@@ -31,7 +31,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
     color: rgb(0, 0, 0)
   })
 
-  page.drawText(address1, {
+  page.drawText(streetAddress, {
     x: width / 2 - 252,
     y: height / 2 + 55,
     size: 9,
@@ -39,7 +39,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
     color: rgb(0, 0, 0)
   })
 
-  page.drawText(address2, {
+  page.drawText(address1, {
     x: width / 2 - 252,
     y: height / 2 + 45,
     size: 9,
@@ -47,7 +47,7 @@ export const clientInfo = ({ page, width, height, normalFont, client }: Props) =
     color: rgb(0, 0, 0)
   })
 
-  page.drawText(`${city}, ${province}, ${postalCode}`, {
+  page.drawText(`${cityOrDistrict}, ${provinceOrState}, ${postalCode}`, {
     x: width / 2 - 252,
     y: height / 2 + 35,
     size: 9,

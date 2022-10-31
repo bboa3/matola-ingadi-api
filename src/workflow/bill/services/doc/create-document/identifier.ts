@@ -1,5 +1,5 @@
+import { Invoice } from 'bill'
 import dayjs from 'dayjs'
-import { Invoice } from 'ingadi'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {

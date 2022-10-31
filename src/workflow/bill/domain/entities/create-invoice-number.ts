@@ -1,12 +1,12 @@
 import { CreateInvoiceNumberDB } from '@bill/domain/Contracts/CreateInvoiceNumber'
-import { db } from '@core/domain/entities/db'
+import clientDB from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
+import { InvoiceNumberEntity } from 'bill'
 import dayjs from 'dayjs'
-import { InvoiceNumberEntity } from 'ingadi'
 import { InvoiceNumber } from 'invoice-number'
 
 export const createInvoiceNumberDB: CreateInvoiceNumberDB = async () => {
-  const collection = (await db()).collection('invoice_numbers')
+  const collection = (await clientDB).db().collection('invoice_numbers')
 
   const foundNumbers = await collection.find().sort({ _id: -1 }).limit(1).toArray() as unknown as InvoiceNumberEntity[]
 
