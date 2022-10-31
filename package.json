@@ -29,11 +29,13 @@
   "dependencies": {
     "@fastify/cors": "^8.0.0",
     "@fastify/helmet": "^9.1.0",
+    "aws-sdk": "^2.1244.0",
     "aws4": "^1.11.0",
     "cors": "^2.8.5",
     "dayjs": "^1.10.8",
     "dotenv": "^16.0.1",
     "fastify": "^4.2.0",
+    "fastify-file-upload": "^4.0.0",
     "format-number": "^3.0.0",
     "fp-ts": "^2.11.8",
     "invoice-number": "^1.0.6",
