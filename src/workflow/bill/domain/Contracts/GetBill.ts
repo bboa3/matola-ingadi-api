@@ -7,7 +7,7 @@ import * as TE from 'fp-ts/lib/TaskEither'
 
 interface Data {
   id: string
-  clientId: string
+  userId: string
 }
 
 export type GetBillPropsValidator = (data: Data) => E.Either<ValidationError, GetBillProps>

@@ -22,7 +22,7 @@ export const createInvoiceDocumentService: CreateBillDocumentService = (getInvoi
     TE.chain(invoice => TE.tryCatch(
       async () => {
         const { service: { eventPricingId } } = invoice
-        const user = await getClientByIdDB(data.clientId)
+        const user = await getClientByIdDB(data.userId)
 
         const eventPricing = getEventPricing(eventPricingId)
 

@@ -1,3 +1,3 @@
-import { InvoiceNumberEntity } from 'bill'
+import { InvoiceIdEntity } from 'bill'
 
-export type CreateInvoiceNumberDB = () => Promise<InvoiceNumberEntity>
+export type CreateInvoiceNumberDB = () => Promise<InvoiceIdEntity>

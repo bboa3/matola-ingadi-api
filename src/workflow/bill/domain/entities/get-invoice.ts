@@ -4,7 +4,7 @@ import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { BillEntity } from 'bill'
 import { ObjectId } from 'mongodb'
 
-export const getInvoiceDB: GetInvoiceDB = async ({ billId, invoiceNumber }) => {
+export const getInvoiceDB: GetInvoiceDB = async ({ billId, invoiceId }) => {
   const id = new ObjectId(billId)
   const collection = (await clientDB).db().collection('bills')
 
@@ -16,7 +16,7 @@ export const getInvoiceDB: GetInvoiceDB = async ({ billId, invoiceNumber }) => {
 
   const { invoices } = foundBill
 
-  const invoice = invoices.find(({ invoiceNumber: { code } }) => code === invoiceNumber)
+  const invoice = invoices.find(({ invoiceId: { code } }) => code === invoiceId)
 
   if (!invoice) {
     throw new EntityNotFoundError()

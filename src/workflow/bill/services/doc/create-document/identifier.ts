@@ -12,8 +12,8 @@ interface Props {
 }
 
 export const identifier = ({ page, width, height, boldFont, normalFont, invoice }: Props) => {
-  const { invoiceNumber, createdAt, dueAt } = invoice
-  const invoiceNumberCode = invoiceNumber.code
+  const { invoiceId, createdAt, dueAt } = invoice
+  const invoiceNumberCode = invoiceId.code
 
   const createdDate = createdAt.split('+')[0]
   const dueDate = dueAt.split('+')[0]

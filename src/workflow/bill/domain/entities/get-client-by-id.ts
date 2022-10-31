@@ -5,16 +5,16 @@ import { UserEntity } from 'ingadi'
 import { ObjectId } from 'mongodb'
 
 export const getClientByIdDB: GetClientByIdDB = async (id) => {
-  const clientId = new ObjectId(id)
-  const collection = (await clientDB).db().collection('clients')
+  const userId = new ObjectId(id)
+  const collection = (await clientDB).db().collection('users')
 
-  const foundClient = await collection.findOne({ _id: clientId }) as unknown as UserEntity
+  const foundClient = await collection.findOne({ _id: userId }) as unknown as UserEntity
 
   if (!foundClient) {
     throw new EntityNotFoundError()
   }
 
-  const { _id, name, email, phoneNumber, address, createdAt, updatedAt } = foundClient
+  const { _id, name, email, phoneNumber, address, emailVerified, image, updatedAt } = foundClient
 
   return {
     id: _id,
@@ -22,7 +22,8 @@ export const getClientByIdDB: GetClientByIdDB = async (id) => {
     email,
     phoneNumber,
     address,
-    createdAt,
+    emailVerified,
+    image,
     updatedAt
   }
 }

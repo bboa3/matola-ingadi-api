@@ -1,11 +1,11 @@
 import { IdCodec } from '@bill/domain/requiredFields/id'
-import { InvoiceNumberCodeCodec } from '@bill/domain/requiredFields/invoice-number'
+import { InvoiceIdCodeCodec } from '@bill/domain/requiredFields/invoice-id'
 import * as t from 'io-ts'
 
 export const CreateBillDocumentPropsCodec = t.type({
   billId: IdCodec,
-  invoiceNumber: InvoiceNumberCodeCodec,
-  clientId: IdCodec
+  invoiceId: InvoiceIdCodeCodec,
+  userId: IdCodec
 })
 
 export type CreateBillDocumentProps = t.TypeOf<typeof CreateBillDocumentPropsCodec>

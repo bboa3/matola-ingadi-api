@@ -9,8 +9,8 @@ import { User } from 'ingadi'
 
 interface Data {
   billId: string
-  invoiceNumber: string
-  clientId: string
+  invoiceId: string
+  userId: string
 }
 
 export type CreateBillDocumentPropsValidator = (data: Data) => E.Either<ValidationError, CreateBillDocumentProps>

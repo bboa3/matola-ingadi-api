@@ -10,7 +10,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (data) => {
-  const { paymentMethodId, clientId, eventPricingId, numberOfGuests, eventType } = data
+  const { paymentMethodId, userId, eventPricingId, numberOfGuests, eventType } = data
 
   const today = dayjs(new Date())
   const createdAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
@@ -20,7 +20,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
     TE.tryCatch(
       async () => {
         const pricing = getEventPricing(eventPricingId)
-        const newInvoiceNumber = await createInvoiceNumberDB()
+        const newInvoiceId = await createInvoiceNumberDB()
 
         const event = eventPriceCalculator({ pricing, numberOfGuests, eventType })
         const eventTotal = event.total
@@ -29,7 +29,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
         const total = eventTotal
 
         const invoice = createEnvice({
-          invoiceNumber: newInvoiceNumber,
+          invoiceId: newInvoiceId,
           service: event,
           subTotal,
           total,
@@ -39,7 +39,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
         })
 
         const bill: Bill = {
-          clientId,
+          userId,
           services: [event],
           discount: 0,
           subTotal,

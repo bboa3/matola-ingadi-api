@@ -6,7 +6,7 @@ import { PaymentMethodIdCodec } from '@bill/domain/requiredFields/payment-method
 import * as t from 'io-ts'
 
 export const CreateBillPropsCodec = t.type({
-  clientId: IdCodec,
+  userId: IdCodec,
   numberOfGuests: NumberOfGuestsCodec,
   discount: t.number,
   eventPricingId: EventPricingIdCodec,

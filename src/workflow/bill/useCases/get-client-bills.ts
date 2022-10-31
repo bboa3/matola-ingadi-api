@@ -9,7 +9,8 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const getClientBillsUseCase: Middleware = (httpRequest, httpBody) => {
-  const data = { clientId: '634f1481440e32a71252fab0' }
+  const { userId } = httpBody
+  const data = { userId }
 
   const httpResponse = pipe(
     data,

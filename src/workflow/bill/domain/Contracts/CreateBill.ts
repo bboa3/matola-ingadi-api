@@ -7,7 +7,7 @@ import * as E from 'fp-ts/lib/Either'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 interface Data {
-  clientId: string
+  userId: string
   numberOfGuests: number
   discount: number
   eventPricingId: string

@@ -2,11 +2,11 @@ import { CreateBillDB } from '@bill/domain/Contracts/CreateBill'
 import clientDB from '@core/domain/entities/db'
 
 export const createBillDB: CreateBillDB = async (data) => {
-  const { clientId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = data
+  const { userId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = data
   const collection = (await clientDB).db().collection('bills')
 
   const { insertedId } = await collection.insertOne({
-    clientId,
+    userId,
     services,
     discount,
     subTotal,
@@ -20,7 +20,7 @@ export const createBillDB: CreateBillDB = async (data) => {
 
   return {
     id,
-    clientId,
+    userId,
     services,
     discount,
     subTotal,

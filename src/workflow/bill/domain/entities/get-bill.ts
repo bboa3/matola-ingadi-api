@@ -8,17 +8,17 @@ export const getBillDB: GetBillDB = async (data) => {
   const id = new ObjectId(data.id)
   const collection = (await clientDB).db().collection('bills')
 
-  const foundBill = await collection.findOne({ _id: id, clientId: data.clientId }) as unknown as BillEntity
+  const foundBill = await collection.findOne({ _id: id, userId: data.userId }) as unknown as BillEntity
 
   if (!foundBill) {
     throw new EntityNotFoundError()
   }
 
-  const { _id, clientId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = foundBill
+  const { _id, userId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = foundBill
 
   return {
     id: _id,
-    clientId,
+    userId,
     services,
     discount,
     subTotal,

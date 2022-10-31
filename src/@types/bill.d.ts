@@ -35,7 +35,7 @@ declare module 'bill' {
     name: string
   }
 
-  export type InvoiceNumberEntity = {
+  export type InvoiceIdEntity = {
     _id: any
     code: string
     createdAt: string
@@ -88,7 +88,7 @@ declare module 'bill' {
   }
 
   export interface Invoice {
-    invoiceNumber: InvoiceNumberEntity
+    invoiceId: InvoiceIdEntity
     service: EventService
     subTotal: number
     discount: number
@@ -102,7 +102,7 @@ declare module 'bill' {
 
   export interface BillEntity {
     _id: any
-    clientId: string
+    userId: string
     services: EventService[]
     subTotal: number
     discount: number
@@ -114,7 +114,7 @@ declare module 'bill' {
   }
 
   export interface Bill {
-    clientId: string
+    userId: string
     services: EventService[]
     subTotal: number
     discount: number

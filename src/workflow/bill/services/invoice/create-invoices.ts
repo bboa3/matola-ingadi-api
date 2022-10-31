@@ -1,9 +1,9 @@
 import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
 import { paymentMethodCalculator } from '@bill/services/calculator/payment-method-calculator'
-import { EventService, Invoice, InvoiceNumberEntity } from 'bill'
+import { EventService, Invoice, InvoiceIdEntity } from 'bill'
 
 interface Props {
-  invoiceNumber: InvoiceNumberEntity
+  invoiceId: InvoiceIdEntity
   service: EventService
   subTotal: number
   total: number
@@ -12,7 +12,7 @@ interface Props {
   createdAt: string
 }
 
-export const createEnvice = ({ invoiceNumber, service, subTotal, total, paymentMethodId, dueAt, createdAt }: Props): Invoice => {
+export const createEnvice = ({ invoiceId, service, subTotal, total, paymentMethodId, dueAt, createdAt }: Props): Invoice => {
   const paymentMethod = getPaymentMethod(paymentMethodId)
 
   const invoicePaymentMethod = paymentMethodCalculator({
@@ -20,7 +20,7 @@ export const createEnvice = ({ invoiceNumber, service, subTotal, total, paymentM
     paymentMethod
   })
   return {
-    invoiceNumber,
+    invoiceId,
     service,
     subTotal,
     discount: 0,

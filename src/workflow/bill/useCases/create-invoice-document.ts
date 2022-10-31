@@ -9,10 +9,10 @@ import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const createInvoiceDocumentUseCase: Middleware = (httpRequest, _httpBody) => {
-  const clientId = '634f1481440e32a71252fab0'
-  const { billId, invoiceNumber } = httpRequest.query
-  const data = { billId, invoiceNumber, clientId }
+export const createInvoiceDocumentUseCase: Middleware = (httpRequest, httpBody) => {
+  const { userId } = httpBody
+  const { billId, invoiceId } = httpRequest.query
+  const data = { billId, invoiceId, userId }
 
   const httpResponse = pipe(
     data,
