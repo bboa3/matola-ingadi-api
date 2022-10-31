@@ -1,5 +1,6 @@
 import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
 import { paymentMethodCalculator } from '@bill/services/calculator/payment-method-calculator'
+import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { EventService, Invoice, InvoiceIdEntity } from 'bill'
 
 interface Props {
@@ -15,10 +16,15 @@ interface Props {
 export const createEnvice = ({ invoiceId, service, subTotal, total, paymentMethodId, dueAt, createdAt }: Props): Invoice => {
   const paymentMethod = getPaymentMethod(paymentMethodId)
 
+  if (!paymentMethod) {
+    throw new EntityNotFoundError()
+  }
+
   const invoicePaymentMethod = paymentMethodCalculator({
     totalAmountToPay: total,
     paymentMethod
   })
+
   return {
     invoiceId,
     service,

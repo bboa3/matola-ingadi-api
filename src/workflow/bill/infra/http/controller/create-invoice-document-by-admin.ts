@@ -1,13 +1,13 @@
-import { confirmPaymentUseCase } from '@bill/useCases/confirm-payment'
-import { verifyClient } from '@core/infra/middleware/auth/verify-client'
+import { createInvoiceDocumentUseCase } from '@bill/useCases/create-invoice-document'
+import { verifyAdmin } from '@core/infra/middleware/auth/verify-admin'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const confirmPaymentController = (request: FastifyRequest, response: FastifyReply) => {
+export const createInvoiceDocumentByAdminController = (request: FastifyRequest, response: FastifyReply) => {
   pipe(
-    verifyClient(request, request.body),
-    TE.chain(body => confirmPaymentUseCase(request, body)),
+    verifyAdmin(request, request.body),
+    TE.chain(body => createInvoiceDocumentUseCase(request, body)),
     TE.match(
       (httpErrorResponse) => {
         const { statusCode, body } = httpErrorResponse
