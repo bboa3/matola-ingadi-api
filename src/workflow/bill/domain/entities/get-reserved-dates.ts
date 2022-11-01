@@ -6,13 +6,13 @@ import { ReservedEventDateEntity } from 'bill'
 export const getReservedDatesDB: GetReservedDatesDB = async () => {
   const collection = (await clientDB).db().collection('event_dates')
 
-  const found = await collection.find().sort({ _id: -1 }).limit(50).toArray() as unknown as ReservedEventDateEntity[]
+  const found = await collection.find().sort({ _id: -1 }).limit(30).toArray() as unknown as ReservedEventDateEntity[]
 
   if (!found) {
     throw new EntityNotFoundError()
   }
 
-  const bills = found.map((reserved) => {
+  const dates = found.map((reserved) => {
     const { _id, date, billId, createdAt } = reserved
 
     return {
@@ -23,5 +23,5 @@ export const getReservedDatesDB: GetReservedDatesDB = async () => {
     }
   })
 
-  return bills
+  return dates
 }

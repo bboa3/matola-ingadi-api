@@ -3,7 +3,7 @@ import { getEventPricing } from '@bill/domain/requiredFields/is/is-event-pricing
 import { eventPriceCalculator } from '@bill/services/calculator/event-price-calculator'
 import { createEnvice } from '@bill/services/invoice/create-invoices'
 import { DatabaseFailError, EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { fail, notFound } from '@core/infra/middleware/http_error_response'
+import { clientError, fail, notFound } from '@core/infra/middleware/http_error_response'
 import { Bill, PaymentMethodId } from 'bill'
 import dayjs from 'dayjs'
 import { pipe } from 'fp-ts/lib/function'
@@ -79,6 +79,10 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
       (err: any) => {
         if (err.name === 'EntityNotFound') {
           return notFound(err)
+        }
+
+        if (err.name === 'EntityAlreadyExist') {
+          return clientError(err)
         }
 
         console.log(err)
