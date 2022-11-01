@@ -13,7 +13,32 @@ This is Matola Ingadi API, system designed to create and pay user bills, manege 
 
 ### Features: 
 
+#### User Activity
+User Login
+Update User Information
+Create Bill and Invoices
+Make Invoice Payment
+Create Invoice Document
 
-Create Invoice - reserve the date
+#### Admin Activity
+Admin Login
+Find User by Email
+Find User Bills and Invoices
+Confirm Invoice Payment
 
-Job Fail Invoice and Clean Dates- Expired invoice and not payed
+
+#### Bill Creation
+Create Bill 
+Create Invoice
+Reserve the date 
+  
+
+#### Date Reservation
+Job# Fail Invoice
+    - Expired invoice and not payed
+
+#### Disable Bills
+Job# DISABLE Bill
+    - All passed Events Bills
+    - Disable and delete Reserved Event Date for Bills having all Payment Invoice Failed 
+

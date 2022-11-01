@@ -1,4 +1,4 @@
-import { FindBillByIdDB } from '@bill/domain/Contracts/FindBillById'
+import { FindBillByIdDB } from '@bill/domain/Contracts/FindBills'
 import { UpdateBillDB } from '@bill/domain/Contracts/UpdateBill'
 import { ConfirmPaymentByAdminProps } from '@bill/domain/requiredFields/confirm-payment-by-admin'
 import { ValidationError } from '@core/domain/errors/validation_error'

@@ -1,4 +1,4 @@
-import { FindBillByIdDB } from '@bill/domain/Contracts/FindBillById'
+import { FindBillByIdDB } from '@bill/domain/Contracts/FindBills'
 import clientDB from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { BillEntity } from 'bill'
