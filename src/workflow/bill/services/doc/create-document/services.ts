@@ -1,5 +1,6 @@
 import { moneyFormatter } from '@bill/services/calculator/money-formatter'
 import { Invoice, Pricing } from 'bill'
+import dayjs from 'dayjs'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 const fontSize = 9
 
 export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoice, eventPricing }: Props) => {
-  const { service: { eventType, numberOfGuests, total: eventTotal }, paymentMethod, subTotal, total } = invoice
+  const { service: { eventType, eventDate, numberOfGuests, total: eventTotal }, paymentMethod, subTotal, total } = invoice
   const { totalCommission, name: paymentMethodName } = paymentMethod
   const { services } = eventPricing
 
@@ -23,9 +24,11 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoic
   const boxX = width - 199
   const boxY = height / 2 - 233
 
+  const eventDateFormatted = dayjs(eventDate).format('DD/MM/YYYY')
+
   const servicesJoined = services.map(({ description }) => description).join(', ').toLocaleLowerCase()
 
-  page.drawText(`${eventType} - ${numberOfGuests} convidados, ${servicesJoined}`, {
+  page.drawText(`${eventType} ${eventDateFormatted} - ${numberOfGuests} convidados, ${servicesJoined}`, {
     x: width / 2 - 252,
     y: height / 2 - 13,
     maxWidth: width / 2 + 50,

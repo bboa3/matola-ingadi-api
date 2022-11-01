@@ -12,4 +12,4 @@ const task = new AsyncTask(
   },
   (err) => console.log(err)
 )
-export const job = new SimpleIntervalJob({ seconds: 5 }, task)
+export const job = new SimpleIntervalJob({ minutes: 20 }, task)

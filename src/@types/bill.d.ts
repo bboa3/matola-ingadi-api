@@ -49,6 +49,7 @@ declare module 'bill' {
   export interface EventService {
     numberOfGuests: number
     eventType: string
+    eventDate: string
     total: number
     eventPricingId: string
   }

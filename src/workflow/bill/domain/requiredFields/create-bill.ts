@@ -1,3 +1,4 @@
+import { DateCodec } from '@bill/domain/requiredFields/date'
 import { EventPricingIdCodec } from '@bill/domain/requiredFields/event-pricing-id'
 import { EventTypeCodec } from '@bill/domain/requiredFields/event-type'
 import { IdCodec } from '@bill/domain/requiredFields/id'
@@ -11,7 +12,8 @@ export const CreateBillPropsCodec = t.type({
   discount: t.number,
   eventPricingId: EventPricingIdCodec,
   eventType: EventTypeCodec,
-  paymentMethodId: PaymentMethodIdCodec
+  paymentMethodId: PaymentMethodIdCodec,
+  eventDate: DateCodec
 })
 
 export type CreateBillProps = t.TypeOf<typeof CreateBillPropsCodec>

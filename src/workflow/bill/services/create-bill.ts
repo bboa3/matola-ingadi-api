@@ -2,7 +2,7 @@ import { CreateBillService } from '@bill/domain/Contracts/CreateBill'
 import { getEventPricing } from '@bill/domain/requiredFields/is/is-event-pricing'
 import { eventPriceCalculator } from '@bill/services/calculator/event-price-calculator'
 import { createEnvice } from '@bill/services/invoice/create-invoices'
-import { DatabaseFailError } from '@core/domain/errors/domain_error'
+import { DatabaseFailError, EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { Bill, PaymentMethodId } from 'bill'
 import dayjs from 'dayjs'
@@ -10,7 +10,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (data) => {
-  const { paymentMethodId, userId, eventPricingId, numberOfGuests, eventType } = data
+  const { paymentMethodId, userId, eventPricingId, numberOfGuests, eventType, eventDate } = data
 
   const today = dayjs(new Date())
   const createdAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
@@ -22,7 +22,11 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
         const pricing = getEventPricing(eventPricingId)
         const newInvoiceId = await createInvoiceNumberDB()
 
-        const event = eventPriceCalculator({ pricing, numberOfGuests, eventType })
+        if (!pricing) {
+          throw new EntityNotFoundError()
+        }
+
+        const event = eventPriceCalculator({ pricing, numberOfGuests, eventType, eventDate })
         const eventTotal = event.total
 
         const subTotal = eventTotal

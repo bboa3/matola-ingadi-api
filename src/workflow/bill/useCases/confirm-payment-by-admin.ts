@@ -19,8 +19,8 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
   const { image } = httpRequest.raw.files
   const blob = image.data
 
-  const now = dayjs(new Date()).format('YYYY-MM-DDTHH-mm')
-  const fileName = `${now}${image.name}`.split(' ').join('').toLowerCase()
+  const now = dayjs(new Date()).unix()
+  const fileName = `${now}-${image.name}`.split(' ').join('').toLowerCase()
 
   const imageUrl = `https://${bucketName}.s3.amazonaws.com/${fileName}`
 

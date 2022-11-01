@@ -12,6 +12,7 @@ interface Data {
   discount: number
   eventPricingId: string
   eventType: string
+  eventDate: string
   paymentMethodId: string
 }
 
