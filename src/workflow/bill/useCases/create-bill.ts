@@ -1,5 +1,6 @@
 import { createBillDB } from '@bill/domain/entities/create-bill'
 import { createInvoiceIdDB } from '@bill/domain/entities/create-invoice-id'
+import { reserveEventDateDB } from '@bill/domain/entities/reserve-event-date'
 import { createBillService } from '@bill/services/create-bill'
 import { createBillPropsValidator } from '@bill/services/validate/create-bill'
 import { clientError } from '@core/infra/middleware/http_error_response'
@@ -21,7 +22,7 @@ export const createBillUseCase: Middleware = (_httpRequest, httpBody) => {
     TE.fromEither,
     TE.chain(data => pipe(
       data,
-      createBillService(createBillDB)(createInvoiceIdDB),
+      createBillService(createBillDB)(createInvoiceIdDB)(reserveEventDateDB),
       TE.map(bill => {
         return ok(bill)
       })

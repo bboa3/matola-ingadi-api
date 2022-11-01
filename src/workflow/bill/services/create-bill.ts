@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (data) => {
+export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (reserveEventDateDB) => (data) => {
   const { paymentMethodId, userId, eventPricingId, numberOfGuests, eventType, eventDate } = data
 
   const today = dayjs(new Date())
@@ -66,7 +66,15 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
       }
     ),
     TE.chain(data => TE.tryCatch(
-      async () => await createBillDB(data),
+      async () => {
+        const newBill = await createBillDB(data)
+        await reserveEventDateDB({
+          date: eventDate,
+          billId: newBill.id
+        })
+
+        return newBill
+      },
 
       (err: any) => {
         if (err.name === 'EntityNotFound') {

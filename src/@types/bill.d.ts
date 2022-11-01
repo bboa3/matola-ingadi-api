@@ -129,4 +129,18 @@ declare module 'bill' {
   export interface ViewBill extends Bill {
     id: string
   }
+
+  export interface ReservedEventDate {
+    id: string
+    date: string
+    billId: string
+    createdAt: string
+  }
+
+  export interface ReservedEventDateEntity {
+    id: string
+    date: string
+    billId: string
+    createdAt: string
+  }
 }
