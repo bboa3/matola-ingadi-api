@@ -33,9 +33,9 @@ export const confirmPaymentByAdminService: ConfirmPaymentByAdminService = (updat
         const { invoices } = bill
 
         const newInvoices = invoices.map(invoice => {
-          const { invoiceId } = invoice
+          const { invoiceId, status } = invoice
 
-          if (invoiceId.code === invoiceIdCode) {
+          if (invoiceId.code === invoiceIdCode || status !== 'FAILED') {
             const updatedInvoice: Invoice = {
               ...invoice,
               invoiceId,
