@@ -29,6 +29,7 @@
   "dependencies": {
     "@fastify/cors": "^8.0.0",
     "@fastify/helmet": "^9.1.0",
+    "@fastify/schedule": "^4.0.0",
     "aws-sdk": "^2.1244.0",
     "aws4": "^1.11.0",
     "cors": "^2.8.5",
@@ -42,7 +43,8 @@
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "mongodb": "^4.9.0",
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "toad-scheduler": "^2.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
