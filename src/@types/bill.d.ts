@@ -104,7 +104,7 @@ declare module 'bill' {
   export interface BillEntity {
     _id: any
     userId: string
-    services: EventService[]
+    services: EventService
     subTotal: number
     discount: number
     total: number
@@ -116,7 +116,7 @@ declare module 'bill' {
 
   export interface Bill {
     userId: string
-    services: EventService[]
+    services: EventService
     subTotal: number
     discount: number
     total: number

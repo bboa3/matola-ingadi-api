@@ -44,7 +44,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
 
         const bill: Bill = {
           userId,
-          services: [event],
+          services: event,
           discount: 0,
           subTotal,
           total,
