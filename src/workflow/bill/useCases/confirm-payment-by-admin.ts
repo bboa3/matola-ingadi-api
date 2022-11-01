@@ -2,7 +2,7 @@ import { findBillByIdDB } from '@bill/domain/entities/find-bill-by-id'
 import { updateBillDB } from '@bill/domain/entities/update-bill'
 import { confirmPaymentByAdminService } from '@bill/services/confirm-payment-by-admin'
 import { confirmPaymentByAdminPropsValidator } from '@bill/services/validate/confirm-payment-by-admin'
-import { clientError, fail } from '@core/infra/middleware/http_error_response'
+import { clientError } from '@core/infra/middleware/http_error_response'
 import { ok } from '@core/infra/middleware/http_success_response'
 import { Middleware } from '@core/infra/middleware/middleware'
 import { s3Upload } from '@core/infra/upload/s3'
@@ -17,6 +17,7 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
   const bucketName = process.env.AWS_S3_BUCKET_NAME
 
   const { image } = httpRequest.raw.files
+  const blob = image.data
 
   const now = dayjs(new Date()).format('YYYY-MM-DDTHH-mm')
   const fileName = `${now}${image.name}`.split(' ').join('').toLowerCase()
@@ -35,19 +36,10 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
     confirmPaymentByAdminPropsValidator,
     E.mapLeft(error => clientError(error)),
     TE.fromEither,
-    TE.chain(data => TE.tryCatch(
-      async () => {
-        if (!bucketName) {
-          throw new Error('Please add AWS_S3_BUCKET_NAME to .env')
-        }
-        await s3Upload({ name: fileName, blob: image.data, bucketName })
-
-        return data
-      },
-      err => {
-        console.log(err)
-        return fail(new Error(`Cuold not upload the image ${fileName}`))
-      }
+    TE.chain(data => pipe(
+      { bucketName, name: fileName, blob },
+      s3Upload,
+      TE.map(() => data)
     )),
     TE.chain(data => pipe(
       data,
