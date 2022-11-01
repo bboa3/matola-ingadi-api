@@ -138,7 +138,7 @@ declare module 'bill' {
   }
 
   export interface ReservedEventDateEntity {
-    id: string
+    _id: any
     date: string
     billId: string
     createdAt: string

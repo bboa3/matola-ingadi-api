@@ -5,9 +5,12 @@ import { createInvoiceDocumentByAdminController } from '@bill/infra/http/control
 import { getBillController } from '@bill/infra/http/controller/get-bill'
 import { getBillsController } from '@bill/infra/http/controller/get-bills'
 import { getClientBillsController } from '@bill/infra/http/controller/get-client-bills'
+import { getReservedDatesController } from '@bill/infra/http/controller/get-reserved-dates'
 import { FastifyPluginCallback } from 'fastify'
 
 export const billRouter: FastifyPluginCallback = (app, _option, done) => {
+  app.get('/v1/dates', getReservedDatesController)
+
   app.post('/v1/bill', createBillController)
   app.post('/v1/confirm-payment/admin', confirmPaymentByAdminController)
 

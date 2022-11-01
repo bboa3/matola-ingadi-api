@@ -6,7 +6,7 @@ import { BillEntity } from 'bill'
 export const getClientBillsDB: GetClientBillsDB = async ({ userId }) => {
   const collection = (await clientDB).db().collection('bills')
 
-  const foundBills = await collection.find({ userId }).toArray() as unknown as BillEntity[]
+  const foundBills = await collection.find({ userId }).sort({ _id: -1 }).toArray() as unknown as BillEntity[]
 
   if (!foundBills) {
     throw new EntityNotFoundError()
@@ -17,5 +17,5 @@ export const getClientBillsDB: GetClientBillsDB = async ({ userId }) => {
     return { id: _id, userId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt }
   })
 
-  return bills.reverse()
+  return bills
 }
