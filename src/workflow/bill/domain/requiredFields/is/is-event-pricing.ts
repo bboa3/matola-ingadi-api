@@ -49,8 +49,8 @@ export const eventPricing: Pricing[] = [{
   ]
 },
 {
-  id: 'basico',
-  name: 'Básico',
+  id: 'padrao',
+  name: 'Padrão',
   pricingModel: 'Por Pessoa',
   price: 650,
   services: [
