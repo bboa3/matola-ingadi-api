@@ -5,6 +5,7 @@ import { servicesInfo } from '@bill/services/doc/create-document/services'
 import { sign } from '@bill/services/doc/create-document/sign'
 import { transactionsInfo } from '@bill/services/doc/create-document/transactions'
 import { Invoice, Pricing } from 'bill'
+import dayjs from 'dayjs'
 import fs from 'fs/promises'
 import { User } from 'ingadi'
 import { resolve } from 'path'
@@ -16,10 +17,17 @@ interface CreateDocumentProps {
   eventPricing: Pricing
 }
 
-const path = resolve(__dirname, '..', 'invoice-for-payment.pdf')
+const templetePath = resolve(__dirname, '..', 'templete', 'invoice-for-payment.pdf')
 
 export const createDocument = async ({ invoice, user, eventPricing }: CreateDocumentProps) => {
-  const file = await fs.readFile(path)
+  const { code } = invoice.invoiceId
+  const now = dayjs(new Date()).unix()
+
+  const invoiceName = `${code}-${now}.pdf`
+
+  const path = resolve(__dirname, '..', '..', '..', '..', '..', 'view', invoiceName)
+
+  const file = await fs.readFile(templetePath)
 
   const doc = await PDFDocument.load(file)
   const helveticaBoldFont = await doc.embedFont(StandardFonts.HelveticaBold)
@@ -83,7 +91,13 @@ export const createDocument = async ({ invoice, user, eventPricing }: CreateDocu
 
   const pdfBytes = await doc.save()
 
-  await fs.writeFile('file.pdf', pdfBytes)
+  await fs.writeFile(path, pdfBytes)
 
-  return pdfBytes
+  const STATIC_SERVER_URL = process.env.STATIC_SERVER_URL
+
+  if (!STATIC_SERVER_URL) {
+    throw new Error('Ops, STATIC_SERVER_URL is empty from .env')
+  }
+
+  return `${STATIC_SERVER_URL}/${invoiceName}`
 }
