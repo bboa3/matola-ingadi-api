@@ -10,7 +10,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const createBillService: CreateBillService = (createBillDB) => (createInvoiceNumberDB) => (reserveEventDateDB) => (data) => {
-  const { paymentMethodId, userId, eventPricingId, numberOfGuests, eventType, eventDate } = data
+  const { paymentMethodId, userId, eventPricingId, guestsNumber, eventType, eventDate } = data
 
   const today = dayjs(new Date())
   const createdAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
@@ -26,7 +26,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
           throw new EntityNotFoundError()
         }
 
-        const event = eventPriceCalculator({ pricing, numberOfGuests, eventType, eventDate })
+        const event = eventPriceCalculator({ pricing, guestsNumber, eventType, eventDate })
         const eventTotal = event.total
 
         const subTotal = eventTotal

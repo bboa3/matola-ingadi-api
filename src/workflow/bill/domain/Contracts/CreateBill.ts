@@ -9,7 +9,7 @@ import * as TE from 'fp-ts/lib/TaskEither'
 
 interface Data {
   userId: string
-  numberOfGuests: number
+  guestsNumber: number
   discount: number
   eventPricingId: string
   eventType: string

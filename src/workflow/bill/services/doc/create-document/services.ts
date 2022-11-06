@@ -16,7 +16,7 @@ interface Props {
 const fontSize = 9
 
 export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoice, eventPricing }: Props) => {
-  const { service: { eventType, eventDate, numberOfGuests, total: eventTotal }, paymentMethod, subTotal, total } = invoice
+  const { service: { eventType, eventDate, guestsNumber, total: eventTotal }, paymentMethod, subTotal, total } = invoice
   const { totalCommission, name: paymentMethodName } = paymentMethod
   const { services } = eventPricing
 
@@ -28,7 +28,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoic
 
   const servicesJoined = services.map(({ description }) => description).join(', ').toLocaleLowerCase()
 
-  page.drawText(`${eventType} ${eventDateFormatted} - ${numberOfGuests} convidados, ${servicesJoined}`, {
+  page.drawText(`${eventType} ${eventDateFormatted} - ${guestsNumber} convidados, ${servicesJoined}`, {
     x: width / 2 - 252,
     y: height / 2 - 13,
     maxWidth: width / 2 + 50,
