@@ -1,3 +1,4 @@
+import { deleteInvoiceJob } from '@bill/infra/jobs/delete-invoices'
 import { disableBillsJob } from '@bill/infra/jobs/disable-bills'
 import { failUnpaidInvoiceJob } from '@bill/infra/jobs/fail-unpaid-invoice'
 import app from '@core/infra/http/app'
@@ -10,6 +11,7 @@ const start = async () => {
     await app.ready()
     app.scheduler.addSimpleIntervalJob(failUnpaidInvoiceJob)
     app.scheduler.addSimpleIntervalJob(disableBillsJob)
+    app.scheduler.addSimpleIntervalJob(deleteInvoiceJob)
   } catch (err) {
     app.log.error(err)
     process.exit(1)
