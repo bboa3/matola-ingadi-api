@@ -21,4 +21,22 @@ declare module 'design' {
     highlights: string[]
     details: string
   }
+
+  export interface Testimonial {
+    id: string
+    name: string
+    image: string
+    description: string
+    eventType: string
+    createdAt: string
+    updatedAt: string
+  }
+
+  export interface TestimonialEntity {
+    _id: string
+    name: string
+    image: string
+    description: string
+    eventType: string
+  }
 }
