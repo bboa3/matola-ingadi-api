@@ -38,5 +38,7 @@ declare module 'design' {
     image: string
     description: string
     eventType: string
+    createdAt: string
+    updatedAt: string
   }
 }
