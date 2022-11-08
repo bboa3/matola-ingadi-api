@@ -27,11 +27,12 @@
   },
   "homepage": "https://www.matolaingadi.com/",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.204.0",
+    "@aws-sdk/s3-request-presigner": "^3.204.0",
     "@fastify/cors": "^8.0.0",
     "@fastify/helmet": "^9.1.0",
     "@fastify/schedule": "^4.0.0",
     "@fastify/static": "^6.5.0",
-    "aws-sdk": "^2.1248.0",
     "aws4": "^1.11.0",
     "cors": "^2.8.5",
     "dayjs": "^1.10.8",

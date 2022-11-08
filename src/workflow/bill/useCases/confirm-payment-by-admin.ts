@@ -18,6 +18,7 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
 
   const { image } = httpRequest.raw.files
   const blob = image.data
+  const contentType = image.mimetype
 
   const now = dayjs(new Date()).unix()
   const fileName = `${now}-${image.name}`.split(' ').join('').toLowerCase()
@@ -38,7 +39,7 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
     TE.fromEither,
     TE.chain(data => TE.tryCatch(
       async () => {
-        await s3Upload({ bucketName, name: fileName, blob })
+        await s3Upload({ bucketName, name: fileName, blob, contentType })
 
         return data
       },

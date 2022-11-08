@@ -9,6 +9,7 @@ import * as TE from 'fp-ts/lib/TaskEither'
 interface File {
   name: string
   blob: Blob
+  contentType: string
 }
 
 export const uploadGalleryImagesUseCase: Middleware = (httpRequest, httpBody) => {
@@ -20,30 +21,46 @@ export const uploadGalleryImagesUseCase: Middleware = (httpRequest, httpBody) =>
   const files: File[] = []
 
   if (image0) {
+    const parts = image0.name.split('.')
+    const extension = parts[parts.length - 1]
+
     files.push({
-      name: `${eventTypeId}-0`,
-      blob: image0.data
+      name: `${eventTypeId}-0.${extension}`,
+      blob: image0.data,
+      contentType: image0.mimetype
     })
   }
 
   if (image1) {
+    const parts = image1.name.split('.')
+    const extension = parts[parts.length - 1]
+
     files.push({
-      name: `${eventTypeId}-1`,
-      blob: image1.data
+      name: `${eventTypeId}-1.${extension}`,
+      blob: image1.data,
+      contentType: image1.mimetype
     })
   }
 
   if (image2) {
+    const parts = image2.name.split('.')
+    const extension = parts[parts.length - 1]
+
     files.push({
-      name: `${eventTypeId}-2`,
-      blob: image2.data
+      name: `${eventTypeId}-2.${extension}`,
+      blob: image2.data,
+      contentType: image2.mimetype
     })
   }
 
   if (image3) {
+    const parts = image3.name.split('.')
+    const extension = parts[parts.length - 1]
+
     files.push({
-      name: `${eventTypeId}-3`,
-      blob: image3.data
+      name: `${eventTypeId}-3.${extension}`,
+      blob: image3.data,
+      contentType: image3.mimetype
     })
   }
 
@@ -51,9 +68,9 @@ export const uploadGalleryImagesUseCase: Middleware = (httpRequest, httpBody) =>
     TE.tryCatch(
       async () => {
         for (const file of files) {
-          const { name, blob } = file
+          const { name, blob, contentType } = file
 
-          await s3Upload({ bucketName, name, blob })
+          await s3Upload({ bucketName, name, blob, contentType })
         }
       },
       (err: any) => {

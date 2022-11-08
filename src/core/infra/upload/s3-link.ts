@@ -1,17 +1,16 @@
-import { PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3'
-import { Blob } from 'buffer'
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+
 import { config } from 'dotenv'
 
 config()
 
 interface Props {
   name: string
-  blob: Blob
   bucketName?: string
-  contentType: string
 }
 
-type S3Upload = (data: Props) => Promise<PutObjectCommandOutput>
+type S3Upload = (data: Props) => Promise<string>
 
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY
@@ -29,18 +28,17 @@ const s3Client = new S3Client({
   }
 })
 
-export const s3Upload: S3Upload = async ({ bucketName, name, blob, contentType }: Props) => {
+export const generateS3Link: S3Upload = async ({ bucketName, name }: Props) => {
   if (!bucketName) {
     throw new Error('Please add AWS_S3_BUCKET_NAME to .env')
   }
 
-  const command = new PutObjectCommand({
+  const command = new GetObjectCommand({
     Bucket: bucketName,
-    Body: blob,
-    Key: name,
-    ContentType: contentType
+    Key: name
   })
 
-  const result = await s3Client.send(command)
-  return result
+  const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 })
+
+  return url
 }
