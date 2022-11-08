@@ -11,7 +11,7 @@ interface File {
   blob: Blob
 }
 
-export const uploadGalleryUseCase: Middleware = (httpRequest, httpBody) => {
+export const uploadGalleryImagesUseCase: Middleware = (httpRequest, httpBody) => {
   const { eventTypeId } = httpBody
   const bucketName = process.env.AWS_S3_BUCKET_NAME
 
