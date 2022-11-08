@@ -5,6 +5,7 @@ import { confirmPaymentByAdminPropsValidator } from '@bill/services/validate/con
 import { clientError, fail } from '@core/infra/middleware/http_error_response'
 import { ok } from '@core/infra/middleware/http_success_response'
 import { Middleware } from '@core/infra/middleware/middleware'
+import { createUrl } from '@core/infra/upload/create-url'
 import { s3Upload } from '@core/infra/upload/s3'
 import { findUserByIdDB } from '@user/domain/entities/find-user-by-id'
 import dayjs from 'dayjs'
@@ -23,10 +24,8 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
   const now = dayjs(new Date()).unix()
   const fileName = `${now}-${image.name}`.split(' ').join('').toLowerCase()
 
-  const imageUrl = `https://${bucketName}.s3.amazonaws.com/${fileName}`
-
   const confirmationImage = {
-    url: imageUrl,
+    url: createUrl({ bucketName, fileName }),
     alt: imageAlt
   }
 
