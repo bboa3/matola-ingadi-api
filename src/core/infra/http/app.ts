@@ -1,4 +1,5 @@
 import { billRouter } from '@bill/infra/http/routes'
+import { designRouter } from '@design/infra/http/routes'
 import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
 import { fastifySchedule } from '@fastify/schedule'
@@ -27,5 +28,6 @@ app.register(fastifyStatic, {
 
 app.register(userRouter)
 app.register(billRouter)
+app.register(designRouter)
 
 export default app

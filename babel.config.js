@@ -15,7 +15,8 @@ module.exports = {
       alias: {
         "@core": "./src/core",
         "@bill": "./src/workflow/bill",
-        "@user": "./src/workflow/user"
+        "@user": "./src/workflow/user",
+        "@design": "./src/workflow/design"
       }
     }]
   ],

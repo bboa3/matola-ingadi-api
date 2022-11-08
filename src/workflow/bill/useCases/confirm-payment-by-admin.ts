@@ -2,7 +2,7 @@ import { findBillByIdDB } from '@bill/domain/entities/find-bill-by-id'
 import { updateBillDB } from '@bill/domain/entities/update-bill'
 import { confirmPaymentByAdminService } from '@bill/services/confirm-payment-by-admin'
 import { confirmPaymentByAdminPropsValidator } from '@bill/services/validate/confirm-payment-by-admin'
-import { clientError } from '@core/infra/middleware/http_error_response'
+import { clientError, fail } from '@core/infra/middleware/http_error_response'
 import { ok } from '@core/infra/middleware/http_success_response'
 import { Middleware } from '@core/infra/middleware/middleware'
 import { s3Upload } from '@core/infra/upload/s3'
@@ -36,10 +36,16 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
     confirmPaymentByAdminPropsValidator,
     E.mapLeft(error => clientError(error)),
     TE.fromEither,
-    TE.chain(data => pipe(
-      { bucketName, name: fileName, blob },
-      s3Upload,
-      TE.map(() => data)
+    TE.chain(data => TE.tryCatch(
+      async () => {
+        await s3Upload({ bucketName, name: fileName, blob })
+
+        return data
+      },
+      err => {
+        console.log(err)
+        return fail(new Error(`Cuold not upload the image ${fileName}`))
+      }
     )),
     TE.chain(data => pipe(
       data,
