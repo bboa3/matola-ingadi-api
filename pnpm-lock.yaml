@@ -14,6 +14,7 @@ specifiers:
   '@fastify/static': ^6.5.0
   '@types/cors': ^2.8.12
   '@types/node': ^17.0.45
+  '@types/nodemailer': ^6.4.6
   '@typescript-eslint/eslint-plugin': ^5.10.2
   '@typescript-eslint/parser': ^5.10.2
   aws4: ^1.11.0
@@ -36,8 +37,8 @@ specifiers:
   mongodb: ^4.9.0
   monocle-ts: ^2.3.13
   newtype-ts: ^0.3.5
+  nodemailer: ^6.8.0
   pdf-lib: ^1.17.1
-  s3-request-presigner: link:@types/@aws-sdk/s3-request-presigner
   toad-scheduler: ^2.0.0
   ts-node: ^10.4.0
   ts-node-dev: ^1.1.8
@@ -64,8 +65,8 @@ dependencies:
   mongodb: 4.11.0
   monocle-ts: 2.3.13_fp-ts@2.13.1
   newtype-ts: 0.3.5_y4ecnzjsatnzoei5elwf4wjeqa
+  nodemailer: 6.8.0
   pdf-lib: 1.17.1
-  s3-request-presigner: link:@types/@aws-sdk/s3-request-presigner
   toad-scheduler: 2.0.0
 
 devDependencies:
@@ -76,6 +77,7 @@ devDependencies:
   '@babel/preset-typescript': 7.18.6_@babel+core@7.20.2
   '@types/cors': 2.8.12
   '@types/node': 17.0.45
+  '@types/nodemailer': 6.4.6
   '@typescript-eslint/eslint-plugin': 5.42.0_iqap6fijpn3uawhdz57ann4pue
   '@typescript-eslint/parser': 5.42.0_3rubbgt5ekhqrcgx4uwls3neim
   babel-plugin-module-resolver: 4.1.0
@@ -2588,6 +2590,12 @@ packages:
   /@types/node/17.0.45:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
+  /@types/nodemailer/6.4.6:
+    resolution: {integrity: sha512-pD6fL5GQtUKvD2WnPmg5bC2e8kWCAPDwMPmHe/ohQbW+Dy0EcHgZ2oCSuPlWNqk74LS5BVMig1SymQbFMPPK3w==}
+    dependencies:
+      '@types/node': 17.0.45
+    dev: true
+
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
     dev: true
@@ -4434,6 +4442,11 @@ packages:
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
     dev: true
+
+  /nodemailer/6.8.0:
+    resolution: {integrity: sha512-EjYvSmHzekz6VNkNd12aUqAco+bOkRe3Of5jVhltqKhEsjw/y0PYPJfp83+s9Wzh1dspYAkUW/YNQ350NATbSQ==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
