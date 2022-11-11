@@ -41,6 +41,7 @@
     "fastify-file-upload": "^4.0.0",
     "format-number": "^3.0.0",
     "fp-ts": "^2.11.8",
+    "handlebars": "^4.7.7",
     "invoice-number": "^1.0.6",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",

@@ -19,11 +19,9 @@ app.register(cors)
 app.register(fileUpload)
 app.register(fastifySchedule)
 
-const viewPath = resolve(__dirname, '..', '..', '..', 'view')
-
 app.register(fastifyStatic, {
-  root: viewPath,
-  prefix: '/v1/view'
+  root: resolve(__dirname, '..', '..', '..', 'view'),
+  prefix: '/v1/view/'
 })
 
 app.register(userRouter)

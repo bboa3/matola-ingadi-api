@@ -25,7 +25,7 @@ export const createDocument = async ({ invoice, user, eventPricing }: CreateDocu
 
   const invoiceName = `${code}-${now}.pdf`
 
-  const path = resolve(__dirname, '..', '..', '..', '..', '..', 'view', invoiceName)
+  const path = resolve(__dirname, '..', '..', '..', '..', '..', 'view', 'invoice', invoiceName)
 
   const file = await fs.readFile(templetePath)
 
@@ -93,11 +93,11 @@ export const createDocument = async ({ invoice, user, eventPricing }: CreateDocu
 
   await fs.writeFile(path, pdfBytes)
 
-  const STATIC_SERVER_URL = process.env.STATIC_SERVER_URL
+  const SERVER_URL = process.env.SERVER_URL
 
-  if (!STATIC_SERVER_URL) {
-    throw new Error('Ops, STATIC_SERVER_URL is empty from .env')
+  if (!SERVER_URL) {
+    throw new Error('Ops, SERVER_URL is empty from .env')
   }
 
-  return `${STATIC_SERVER_URL}/${invoiceName}`
+  return `${SERVER_URL}/view/invoice/${invoiceName}`
 }

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import fs from 'fs/promises'
 import { join, resolve } from 'path'
 
-const viewPath = resolve(__dirname, '..', '..', '..', 'view')
+const viewPath = resolve(__dirname, '..', '..', '..', 'view', 'invoice')
 
 export const deleteInvoiceUseCase = async () => {
   const filesNames = await fs.readdir(viewPath)

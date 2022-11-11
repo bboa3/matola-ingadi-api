@@ -1,0 +1,48 @@
+import sendMail from '@core/services/email/config/send-mail'
+import { config } from 'dotenv'
+import fs from 'fs'
+import handlebars from 'handlebars'
+import { resolve } from 'path'
+
+config()
+
+// type EmailTemplete = 'INVOICE_CREATED' | 'PAYMENT_CONFIRMED' | 'INVOICE_DUE' | 'INVOICE_FAILED'
+
+interface SendInvoiceProps {
+  name: string
+  email: string
+}
+
+const SERVER_URL = process.env.SERVER_URL
+
+if (!SERVER_URL) {
+  throw new Error('Ops, SERVER_URL is empty from .env')
+}
+
+const userTempletePath = resolve(__dirname, '..', 'templete', 'user', 'created-invoice.hbs')
+const userTemplete = fs.readFileSync(userTempletePath).toString('utf-8')
+
+const mailTemplateParse = handlebars.compile(userTemplete)
+
+export const sendCreatedInvoice = async ({ name, email }: SendInvoiceProps) => {
+  const html = mailTemplateParse({
+    name,
+    email,
+    SERVER_URL
+  })
+
+  await sendMail({
+    from: process.env.EMAIL_FROM!,
+    to: email,
+    subject: `Hello ${name}`,
+    text: 'Hello world?',
+    html: html,
+    attachments: [
+      {
+        filename: 'garcon.jpg',
+        path: resolve(__dirname, '..', '..', '..', '..', 'view', 'img', 'garcon.jpg'),
+        cid: 'garcon'
+      }
+    ]
+  })
+}

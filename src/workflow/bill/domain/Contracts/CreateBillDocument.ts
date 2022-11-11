@@ -20,4 +20,4 @@ export type GetClientByIdDB = (id: Id) => Promise<User>
 export type GetInvoiceDB = (data: CreateBillDocumentProps) => Promise<Invoice>
 
 export type CreateBillDocumentService = (db: GetInvoiceDB) => (db: GetClientByIdDB) =>
-(data: CreateBillDocumentProps) => TE.TaskEither<HttpErrorResponse, Uint8Array>
+(data: CreateBillDocumentProps) => TE.TaskEither<HttpErrorResponse, string>
