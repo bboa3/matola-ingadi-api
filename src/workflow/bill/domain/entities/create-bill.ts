@@ -2,9 +2,10 @@ import { CreateBillDB } from '@bill/domain/Contracts/CreateBill'
 import { getReservedDatesDB } from '@bill/domain/entities/get-reserved-dates'
 import clientDB from '@core/domain/entities/db'
 import { EntityAlreadyExistError } from '@core/domain/errors/domain_error'
+import dayjs from 'dayjs'
 
 export const createBillDB: CreateBillDB = async (data) => {
-  const { userId, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId, createdAt } = data
+  const { userId, services, discount, subTotal, total, invoices, status } = data
   const collection = (await clientDB).db().collection('bills')
 
   const { eventDate } = services
@@ -18,6 +19,9 @@ export const createBillDB: CreateBillDB = async (data) => {
     }
   }
 
+  const today = dayjs(new Date())
+  const createdAt = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+
   const { insertedId } = await collection.insertOne({
     userId,
     services,
@@ -26,7 +30,6 @@ export const createBillDB: CreateBillDB = async (data) => {
     total,
     invoices,
     status,
-    defaultPaymentMethodId,
     createdAt
   })
   const id = insertedId.toString()
@@ -40,7 +43,6 @@ export const createBillDB: CreateBillDB = async (data) => {
     total,
     invoices,
     status,
-    defaultPaymentMethodId,
     createdAt
   }
 }

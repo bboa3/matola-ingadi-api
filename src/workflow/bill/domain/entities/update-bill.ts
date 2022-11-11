@@ -5,7 +5,7 @@ import { BillEntity } from 'bill'
 import { ObjectId } from 'mongodb'
 
 export const updateBillDB: UpdateBillDB = async (data) => {
-  const { id, services, discount, subTotal, total, invoices, status, defaultPaymentMethodId } = data
+  const { id, services, discount, subTotal, total, invoices, status } = data
   const _id = new ObjectId(id)
   const collection = (await clientDB).db().collection('bills')
 
@@ -16,8 +16,7 @@ export const updateBillDB: UpdateBillDB = async (data) => {
       subTotal,
       total,
       invoices,
-      status,
-      defaultPaymentMethodId
+      status
     }
   })
 
@@ -36,7 +35,6 @@ export const updateBillDB: UpdateBillDB = async (data) => {
     total: updatedBill.total,
     invoices: updatedBill.invoices,
     status: updatedBill.status,
-    defaultPaymentMethodId: updatedBill.defaultPaymentMethodId,
     createdAt: updatedBill.createdAt
   }
 }

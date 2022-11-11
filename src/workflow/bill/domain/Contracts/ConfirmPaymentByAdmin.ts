@@ -14,6 +14,7 @@ interface Data {
   invoiceId: string
   confirmationImage: Photo
   details: string
+  paymentMethodId: string
 }
 
 export type ConfirmPaymentByAdminPropsValidator = (data: Data) => E.Either<ValidationError, ConfirmPaymentByAdminProps>

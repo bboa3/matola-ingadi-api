@@ -14,7 +14,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) => {
-  const { adminId, billId, invoiceId, imageAlt, details } = httpBody
+  const { adminId, billId, invoiceId, imageAlt, details, paymentMethodId } = httpBody
   const bucketName = process.env.AWS_S3_BUCKET_NAME
 
   const { image } = httpRequest.raw.files
@@ -29,7 +29,7 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
     alt: imageAlt
   }
 
-  const data = { adminId, billId, invoiceId, confirmationImage, details }
+  const data = { adminId, billId, invoiceId, confirmationImage, details, paymentMethodId }
 
   const httpResponse = pipe(
     data,

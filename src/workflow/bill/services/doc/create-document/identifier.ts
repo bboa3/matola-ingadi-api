@@ -23,7 +23,7 @@ export const identifier = ({ page, width, height, boldFont, normalFont, invoice 
 
   page.drawText(createAtFormatted, {
     x: width / 2 - 162,
-    y: height / 2 + 158,
+    y: height / 2 + 170,
     size: 11,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -31,7 +31,7 @@ export const identifier = ({ page, width, height, boldFont, normalFont, invoice 
 
   page.drawText(dueAtFormatted, {
     x: width / 2 - 186,
-    y: height / 2 + 145,
+    y: height / 2 + 157,
     size: 11,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -39,7 +39,7 @@ export const identifier = ({ page, width, height, boldFont, normalFont, invoice 
 
   return page.drawText(invoiceNumberCode, {
     x: width / 2 - 168,
-    y: height / 2 + 173,
+    y: height / 2 + 185,
     size: 14,
     font: boldFont,
     color: rgb(0, 0, 0)

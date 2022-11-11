@@ -15,12 +15,11 @@ interface Props {
 const fontSize = 9
 
 export const transactionsInfo = ({ page, width, height, boldFont, normalFont, invoice }: Props) => {
-  const { total, paymentMethod, transaction, status } = invoice
-  const paymentMethodName = paymentMethod.name
+  const { total, transaction, status } = invoice
 
   const boxWidth = 120
   const boxX = width - 199
-  const boxY = height / 2 - 233
+  const boxY = height / 2 - 222
 
   const totalFormatted = moneyFormatter(total)
   const totalWidth = boldFont.widthOfTextAtSize(totalFormatted, fontSize)
@@ -36,14 +35,16 @@ export const transactionsInfo = ({ page, width, height, boldFont, normalFont, in
 
     return page.drawText(totalFormatted, {
       x: boxX + boxWidth - totalWidth,
-      y: boxY + 6,
+      y: boxY + 7,
       size: fontSize,
       font: boldFont,
       color: rgb(0, 0, 0)
     })
   }
 
-  const { completedAt, reference } = transaction
+  const { completedAt, reference, paymentMethod } = transaction
+
+  const paymentMethodName = paymentMethod.name
 
   const completedDate = completedAt.split('+')[0]
 

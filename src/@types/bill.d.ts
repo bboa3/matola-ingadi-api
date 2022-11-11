@@ -81,6 +81,7 @@ declare module 'bill' {
   export interface Transaction {
     status: InvoiceStatus
     reference: string
+    paymentMethod: BillPaymentMethod
     confirmationImage?: Photo
     confirmedBy?: string
     details?: string
@@ -95,7 +96,6 @@ declare module 'bill' {
     discount: number
     total: number
     status: InvoiceStatus
-    paymentMethod: BillPaymentMethod
     transaction?: Transaction
     dueAt: string
     createdAt: string
@@ -108,7 +108,6 @@ declare module 'bill' {
     subTotal: number
     discount: number
     total: number
-    defaultPaymentMethodId: PaymentMethodId
     invoices: Invoice[]
     status: BillStatus
     createdAt: string
@@ -120,14 +119,13 @@ declare module 'bill' {
     subTotal: number
     discount: number
     total: number
-    defaultPaymentMethodId: PaymentMethodId
     invoices: Invoice[]
     status: BillStatus
-    createdAt: string
   }
 
   export interface ViewBill extends Bill {
     id: string
+    createdAt: string
   }
 
   export interface ReservedEventDate {

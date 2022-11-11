@@ -17,7 +17,7 @@ export const clientInfo = ({ page, width, height, normalFont, user }: Props) => 
 
   page.drawText(name, {
     x: width / 2 - 252,
-    y: height / 2 + 77,
+    y: height / 2 + 89,
     size: 10,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -25,7 +25,7 @@ export const clientInfo = ({ page, width, height, normalFont, user }: Props) => 
 
   page.drawText(name, {
     x: width / 2 - 194,
-    y: height / 2 + 66,
+    y: height / 2 + 78,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -33,7 +33,7 @@ export const clientInfo = ({ page, width, height, normalFont, user }: Props) => 
 
   page.drawText(streetAddress, {
     x: width / 2 - 252,
-    y: height / 2 + 55,
+    y: height / 2 + 67,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -41,7 +41,7 @@ export const clientInfo = ({ page, width, height, normalFont, user }: Props) => 
 
   page.drawText(address1, {
     x: width / 2 - 252,
-    y: height / 2 + 45,
+    y: height / 2 + 57,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -49,7 +49,7 @@ export const clientInfo = ({ page, width, height, normalFont, user }: Props) => 
 
   page.drawText(`${cityOrDistrict}, ${provinceOrState}, ${postalCode}`, {
     x: width / 2 - 252,
-    y: height / 2 + 35,
+    y: height / 2 + 47,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -57,7 +57,7 @@ export const clientInfo = ({ page, width, height, normalFont, user }: Props) => 
 
   page.drawText(country, {
     x: width / 2 - 252,
-    y: height / 2 + 25,
+    y: height / 2 + 37,
     size: 9,
     font: normalFont,
     color: rgb(0, 0, 0)

@@ -1,39 +1,59 @@
-import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
-import { paymentMethodCalculator } from '@bill/services/calculator/payment-method-calculator'
-import { EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { EventService, Invoice, InvoiceIdEntity } from 'bill'
+import { CreateInvoicesService } from '@bill/domain/Contracts/CreateInvoiceNumber'
+import { fail, notFound } from '@core/infra/middleware/http_error_response'
+import { Invoice } from 'bill'
+import dayjs from 'dayjs'
+import { pipe } from 'fp-ts/lib/function'
+import * as TE from 'fp-ts/lib/TaskEither'
 
-interface Props {
-  invoiceId: InvoiceIdEntity
-  service: EventService
-  subTotal: number
-  total: number
-  paymentMethodId: string
-  dueAt: string
-  createdAt: string
-}
+export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (data) => {
+  const { service, total, eventDate } = data
 
-export const createEnvice = ({ invoiceId, service, subTotal, total, paymentMethodId, dueAt, createdAt }: Props): Invoice => {
-  const paymentMethod = getPaymentMethod(paymentMethodId)
+  return pipe(
+    TE.tryCatch(
+      async () => {
+        const today = dayjs(new Date())
+        const todayFormatted = today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
 
-  if (!paymentMethod) {
-    throw new EntityNotFoundError()
-  }
+        const invoice1DueAt = today.add(3, 'days').format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+        const invoice1Id = await createInvoiceNumberDB()
+        const invoice1SubTotal = total * 10 / 100
 
-  const invoicePaymentMethod = paymentMethodCalculator({
-    totalAmountToPay: total,
-    paymentMethod
-  })
+        const invoice1: Invoice = {
+          invoiceId: invoice1Id,
+          service,
+          subTotal: invoice1SubTotal,
+          discount: 0,
+          total: invoice1SubTotal,
+          status: 'PENDING',
+          dueAt: invoice1DueAt,
+          createdAt: todayFormatted
+        }
 
-  return {
-    invoiceId,
-    service,
-    subTotal,
-    discount: 0,
-    total,
-    status: 'PENDING',
-    paymentMethod: invoicePaymentMethod,
-    dueAt,
-    createdAt
-  }
+        const invoice2DueAt = dayjs(eventDate).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+        const invoice2Id = await createInvoiceNumberDB()
+        const invoice2Subtotal = total * 90 / 100
+
+        const invoice2: Invoice = {
+          invoiceId: invoice2Id,
+          service,
+          subTotal: invoice2Subtotal,
+          discount: 0,
+          total: invoice2Subtotal,
+          status: 'PENDING',
+          dueAt: invoice2DueAt,
+          createdAt: todayFormatted
+        }
+
+        return [invoice1, invoice2]
+      },
+      (err: any) => {
+        if (err.name === 'EntityNotFound') {
+          return notFound(err)
+        }
+
+        console.log(err)
+        return fail(err)
+      }
+    )
+  )
 }

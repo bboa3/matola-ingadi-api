@@ -1,5 +1,7 @@
 import { ConfirmPaymentByAdminService } from '@bill/domain/Contracts/ConfirmPaymentByAdmin'
-import { DatabaseFailError } from '@core/domain/errors/domain_error'
+import { getPaymentMethod } from '@bill/domain/requiredFields/is/is-payment-method'
+import { paymentMethodCalculator } from '@bill/services/calculator/payment-method-calculator'
+import { DatabaseFailError, EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { Id } from '@user/domain/requiredFields/id'
 import { Invoice } from 'bill'
@@ -8,7 +10,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const confirmPaymentByAdminService: ConfirmPaymentByAdminService = (updatedBillDB) => (findBillByIdDB) => (findUserById) => (data) => {
-  const { adminId, billId, confirmationImage, details, invoiceId: invoiceIdCode } = data
+  const { adminId, billId, confirmationImage, details, paymentMethodId, invoiceId: invoiceIdCode } = data
   const today = dayjs(new Date()).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
 
   return pipe(
@@ -33,12 +35,22 @@ export const confirmPaymentByAdminService: ConfirmPaymentByAdminService = (updat
         const { invoices } = bill
 
         const newInvoices = invoices.map(invoice => {
-          const { invoiceId, status } = invoice
+          const { invoiceId, status, total } = invoice
+
+          const paymentMethod = getPaymentMethod(paymentMethodId)
+
+          if (!paymentMethod) {
+            throw new EntityNotFoundError()
+          }
+
+          const invoicePaymentMethod = paymentMethodCalculator({
+            totalAmountToPay: total,
+            paymentMethod
+          })
 
           if (invoiceId.code === invoiceIdCode || status !== 'FAILED') {
             const updatedInvoice: Invoice = {
               ...invoice,
-              invoiceId,
               status: 'COMPLETED',
               transaction: {
                 confirmationImage,
@@ -47,7 +59,8 @@ export const confirmPaymentByAdminService: ConfirmPaymentByAdminService = (updat
                 reference: 'GAGATYAKFOEJ',
                 details,
                 startedAt: today,
-                completedAt: today
+                completedAt: today,
+                paymentMethod: invoicePaymentMethod
               }
             }
 
