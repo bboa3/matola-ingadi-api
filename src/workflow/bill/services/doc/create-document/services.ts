@@ -79,8 +79,8 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoic
   const totalCommissionWidth = boldFont.widthOfTextAtSize(totalCommissionFormatted, fontSize)
 
   page.drawText('Taxa gateway de pagamento', {
-    x: width / 2 - 113,
-    y: height / 2 - 65,
+    x: 45,
+    y: height / 2 - 52,
     maxWidth: width / 2 + 50,
     size: fontSize,
     lineHeight: 12,
@@ -90,7 +90,7 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoic
 
   page.drawText(`(${paymentMethodName} ${totalCommissionFormatted})`, {
     x: width / 2 - 133,
-    y: height / 2 - 65,
+    y: height / 2 - 52,
     maxWidth: width / 2 + 50,
     size: fontSize,
     lineHeight: 12,

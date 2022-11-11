@@ -51,7 +51,7 @@ export const transactionsInfo = ({ page, width, height, boldFont, normalFont, in
   const completedAtFormatted = dayjs(completedDate).format('DD/MM/YYYY HH:mm')
   page.drawText(completedAtFormatted, {
     x: 97,
-    y: 210,
+    y: 222,
     size: fontSize,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -59,7 +59,7 @@ export const transactionsInfo = ({ page, width, height, boldFont, normalFont, in
 
   page.drawText(paymentMethodName, {
     x: 218,
-    y: 210,
+    y: 222,
     size: fontSize,
     font: normalFont,
     color: rgb(0, 0, 0)
@@ -67,7 +67,7 @@ export const transactionsInfo = ({ page, width, height, boldFont, normalFont, in
 
   page.drawText(reference, {
     x: width / 2 + 53,
-    y: 210,
+    y: 222,
     size: fontSize,
     font: normalFont,
     color: rgb(0, 0, 0)
