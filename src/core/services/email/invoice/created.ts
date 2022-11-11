@@ -1,4 +1,5 @@
 import sendMail from '@core/services/email/config/send-mail'
+import { Invoice } from 'bill'
 import { config } from 'dotenv'
 import fs from 'fs'
 import handlebars from 'handlebars'
@@ -11,6 +12,7 @@ config()
 interface SendInvoiceProps {
   name: string
   email: string
+  invoices: Invoice[]
 }
 
 const SERVER_URL = process.env.SERVER_URL
@@ -24,25 +26,33 @@ const userTemplete = fs.readFileSync(userTempletePath).toString('utf-8')
 
 const mailTemplateParse = handlebars.compile(userTemplete)
 
-export const sendCreatedInvoice = async ({ name, email }: SendInvoiceProps) => {
+const path = resolve(__dirname, '..', '..', '..', '..', 'view', 'img', 'garcon.jpg')
+
+export const sendCreatedInvoice = async ({ name, email, invoices }: SendInvoiceProps) => {
+  const fromEmail = process.env.EMAIL_FROM!
+
+  const { dueAt, service } = invoices[0]
+  const { eventType } = service
+
   const html = mailTemplateParse({
     name,
     email,
-    SERVER_URL
+    fromEmail,
+    eventType,
+    dueAt,
+    services: [eventType]
   })
 
   await sendMail({
-    from: process.env.EMAIL_FROM!,
+    from: fromEmail,
     to: email,
-    subject: `Hello ${name}`,
+    subject: 'Hello',
     text: 'Hello world?',
     html: html,
-    attachments: [
-      {
-        filename: 'garcon.jpg',
-        path: resolve(__dirname, '..', '..', '..', '..', 'view', 'img', 'garcon.jpg'),
-        cid: 'garcon'
-      }
-    ]
+    attachments: [{
+      filename: 'garcon.jpg',
+      path,
+      cid: 'garcon'
+    }]
   })
 }

@@ -33,9 +33,6 @@ const sendMail = async ({ from, to, subject, text, html, attachments }: MailProp
       user: process.env.EMAIL_SERVER_USER,
       pass: process.env.EMAIL_SERVER_PASSWORD
     },
-    tls: {
-      rejectUnauthorized: false
-    },
     attachments
   })
   await transporter.sendMail({ from, to, subject, text, html })
