@@ -14,6 +14,12 @@ export const createInvoiceDocumentUseCase: Middleware = (httpRequest, httpBody) 
   const { billId, invoiceId } = httpRequest.query
   const data = { billId, invoiceId, userId }
 
+  const SERVER_URL = process.env.SERVER_URL
+
+  if (!SERVER_URL) {
+    throw new Error('Ops, SERVER_URL is empty from .env')
+  }
+
   const httpResponse = pipe(
     data,
     createBillDocumentPropsValidator,
@@ -22,8 +28,10 @@ export const createInvoiceDocumentUseCase: Middleware = (httpRequest, httpBody) 
     TE.chain(data => pipe(
       data,
       createInvoiceDocumentService(getInvoiceDB)(getClientByIdDB),
-      TE.map(bill => {
-        return ok(bill)
+      TE.map(invoiceName => {
+        const invoiceUrl = `${SERVER_URL}/view/invoice/${invoiceName}`
+
+        return ok(invoiceUrl)
       })
     ))
   )

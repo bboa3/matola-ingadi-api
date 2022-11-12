@@ -1,6 +1,6 @@
 import { CreateBillDocumentService } from '@bill/domain/Contracts/CreateBillDocument'
 import { getEventPricing } from '@bill/domain/requiredFields/is/is-event-pricing'
-import { createDocument } from '@bill/services/doc/create-document'
+import { createInvoiceDocument } from '@bill/services/doc/create-document'
 import { DatabaseFailError, EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { pipe } from 'fp-ts/lib/function'
@@ -40,11 +40,7 @@ export const createInvoiceDocumentService: CreateBillDocumentService = (getInvoi
       }
     )),
     TE.chain(({ invoice, user, eventPricing }) => TE.tryCatch(
-      async () => {
-        const path = await createDocument({ invoice, user, eventPricing })
-
-        return path
-      },
+      async () => await createInvoiceDocument({ invoice, user, eventPricing }),
       (err: any) => {
         console.log(err)
         return fail(new DatabaseFailError())

@@ -19,7 +19,7 @@ interface CreateDocumentProps {
 
 const templetePath = resolve(__dirname, '..', 'templete', 'invoice-for-payment.pdf')
 
-export const createDocument = async ({ invoice, user, eventPricing }: CreateDocumentProps) => {
+export const createInvoiceDocument = async ({ invoice, user, eventPricing }: CreateDocumentProps) => {
   const { code } = invoice.invoiceId
   const now = dayjs(new Date()).unix()
 
@@ -93,11 +93,5 @@ export const createDocument = async ({ invoice, user, eventPricing }: CreateDocu
 
   await fs.writeFile(path, pdfBytes)
 
-  const SERVER_URL = process.env.SERVER_URL
-
-  if (!SERVER_URL) {
-    throw new Error('Ops, SERVER_URL is empty from .env')
-  }
-
-  return `${SERVER_URL}/view/invoice/${invoiceName}`
+  return invoiceName
 }
