@@ -7,7 +7,6 @@ import fastifyStatic from '@fastify/static'
 import { userRouter } from '@user/infra/http/routes'
 import { config } from 'dotenv'
 import fastify from 'fastify'
-
 import fileUpload from 'fastify-file-upload'
 import { resolve } from 'path'
 config()

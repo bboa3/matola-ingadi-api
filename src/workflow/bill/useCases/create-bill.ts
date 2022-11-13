@@ -6,7 +6,8 @@ import { createBillPropsValidator } from '@bill/services/validate/create-bill'
 import { clientError, fail } from '@core/infra/middleware/http_error_response'
 import { ok } from '@core/infra/middleware/http_success_response'
 import { Middleware } from '@core/infra/middleware/middleware'
-import { invoicesCreatedMail } from '@core/services/email/invoice/invoices-created'
+import { sendInvoicesToIngadi } from '@core/services/email/invoice/invoices-created-to-ingadi'
+import { sendInvoicesToUser } from '@core/services/email/invoice/invoices-created-to-user'
 import { findUserByIdDB } from '@user/domain/entities/find-user-by-id'
 import { Id } from '@user/domain/requiredFields/id'
 import * as E from 'fp-ts/lib/Either'
@@ -32,7 +33,8 @@ export const createBillUseCase: Middleware = (_httpRequest, httpBody) => {
 
           const user = await findUserByIdDB({ id: userId as Id })
 
-          await invoicesCreatedMail({ user, invoices })
+          await sendInvoicesToUser({ user, invoices })
+          await sendInvoicesToIngadi({ user, invoices })
           return bill
         },
         err => {
