@@ -89,7 +89,7 @@ export const sendInvoicesToUser = async ({ user, invoices }: SendInvoiceProps) =
   const invoicePath2 = resolve(__dirname, '..', '..', '..', '..', 'view', 'invoice', invoice2Name)
 
   const msg: MailDataRequired = {
-    to: 'team@mozeconomia.co.mz',
+    to: user.email,
     from: {
       name: 'Matola Ingadi',
       email: 'team@mozeconomia.co.mz'
