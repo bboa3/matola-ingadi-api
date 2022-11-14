@@ -17,6 +17,8 @@ export const confirmPaymentByAdminUseCase: Middleware = (httpRequest, httpBody) 
   const { adminId, billId, invoiceId, imageAlt, details, paymentMethodId } = httpBody
   const bucketName = process.env.AWS_S3_BUCKET_NAME
 
+  console.log(httpRequest.raw)
+
   const { image } = httpRequest.raw.files
   const blob = image.data
   const contentType = image.mimetype

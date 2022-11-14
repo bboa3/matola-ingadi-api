@@ -17,6 +17,6 @@ export const paymentMethodCalculator = ({ totalAmountToPay, paymentMethod }: Pro
 
   return {
     ...paymentMethod,
-    totalCommission: totalAmountToPay - value
+    totalCommission: value
   }
 }
