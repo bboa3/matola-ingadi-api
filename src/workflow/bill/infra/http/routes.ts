@@ -2,6 +2,7 @@ import { confirmPaymentByAdminController } from '@bill/infra/http/controller/con
 import { createBillController } from '@bill/infra/http/controller/create-bill'
 import { createInvoiceDocumentController } from '@bill/infra/http/controller/create-invoice-document'
 import { createInvoiceDocumentByAdminController } from '@bill/infra/http/controller/create-invoice-document-by-admin'
+import { getAllBillsController } from '@bill/infra/http/controller/get-all-bills'
 import { getBillController } from '@bill/infra/http/controller/get-bill'
 import { getBillsController } from '@bill/infra/http/controller/get-bills'
 import { getClientBillsController } from '@bill/infra/http/controller/get-client-bills'
@@ -23,6 +24,7 @@ export const billRouter: FastifyPluginCallback = (app, _option, done) => {
 
   app.get('/v1/bill/:id', getBillController)
   app.get('/v1/bills', getBillsController)
+  app.get('/v1/all-bills', getAllBillsController)
   app.post('/v1/client/bills', getClientBillsController)
 
   done()
