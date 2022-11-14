@@ -14,11 +14,12 @@ export const getBillDB: GetBillDB = async (data) => {
     throw new EntityNotFoundError()
   }
 
-  const { _id, userId, services, discount, subTotal, total, invoices, status, createdAt } = foundBill
+  const { _id, userId, userName, services, discount, subTotal, total, invoices, status, createdAt } = foundBill
 
   return {
     id: _id,
     userId,
+    userName,
     services,
     discount,
     subTotal,

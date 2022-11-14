@@ -9,7 +9,6 @@ import { Middleware } from '@core/infra/middleware/middleware'
 import { sendInvoicesToIngadi } from '@core/services/email/invoice/invoices-created-to-ingadi'
 import { sendInvoicesToUser } from '@core/services/email/invoice/invoices-created-to-user'
 import { findUserByIdDB } from '@user/domain/entities/find-user-by-id'
-import { Id } from '@user/domain/requiredFields/id'
 import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
@@ -26,12 +25,10 @@ export const createBillUseCase: Middleware = (_httpRequest, httpBody) => {
     TE.fromEither,
     TE.chain(data => pipe(
       data,
-      createBillService(createBillDB)(createInvoiceIdDB)(reserveEventDateDB),
-      TE.chain(bill => TE.tryCatch(
+      createBillService(createBillDB)(createInvoiceIdDB)(reserveEventDateDB)(findUserByIdDB),
+      TE.chain(({ bill, user }) => TE.tryCatch(
         async () => {
-          const { userId, invoices } = bill
-
-          const user = await findUserByIdDB({ id: userId as Id })
+          const { invoices } = bill
 
           await sendInvoicesToUser({ user, invoices })
           await sendInvoicesToIngadi({ user, invoices })

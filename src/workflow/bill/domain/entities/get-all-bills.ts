@@ -13,8 +13,8 @@ export const getAllBillsDB: GetAllBillsDB = async () => {
   }
 
   const bills = found.map((bill) => {
-    const { _id, userId, services, discount, subTotal, total, invoices, status, createdAt } = bill
-    return { id: _id, userId, services, discount, subTotal, total, invoices, status, createdAt }
+    const { _id, userId, userName, services, discount, subTotal, total, invoices, status, createdAt } = bill
+    return { id: _id, userId, userName, services, discount, subTotal, total, invoices, status, createdAt }
   })
 
   return bills

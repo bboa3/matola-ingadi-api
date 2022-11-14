@@ -5,7 +5,7 @@ import { EntityAlreadyExistError } from '@core/domain/errors/domain_error'
 import dayjs from 'dayjs'
 
 export const createBillDB: CreateBillDB = async (data) => {
-  const { userId, services, discount, subTotal, total, invoices, status } = data
+  const { userId, userName, services, discount, subTotal, total, invoices, status } = data
   const collection = (await clientDB).db().collection('bills')
 
   const { eventDate } = services
@@ -24,6 +24,7 @@ export const createBillDB: CreateBillDB = async (data) => {
 
   const { insertedId } = await collection.insertOne({
     userId,
+    userName,
     services,
     discount,
     subTotal,
@@ -37,6 +38,7 @@ export const createBillDB: CreateBillDB = async (data) => {
   return {
     id,
     userId,
+    userName,
     services,
     discount,
     subTotal,

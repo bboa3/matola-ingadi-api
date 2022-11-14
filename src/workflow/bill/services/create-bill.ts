@@ -4,11 +4,12 @@ import { eventPriceCalculator } from '@bill/services/calculator/event-price-calc
 import { createEnvices } from '@bill/services/invoice/create-invoices'
 import { DatabaseFailError, EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { clientError, fail, notFound } from '@core/infra/middleware/http_error_response'
+import { Id } from '@user/domain/requiredFields/id'
 import { Bill } from 'bill'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const createBillService: CreateBillService = (createBillDB) => (createInvoiceIdDB) => (reserveEventDateDB) => (data) => {
+export const createBillService: CreateBillService = (createBillDB) => (createInvoiceIdDB) => (reserveEventDateDB) => (findActiveBillsDB) => (data) => {
   const { userId, eventPricingId, guestsNumber, eventType, eventDate } = data
 
   return pipe(
@@ -16,11 +17,15 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
       async () => {
         const pricing = getEventPricing(eventPricingId)
 
+        const user = await findActiveBillsDB({ id: userId as unknown as Id })
+
         if (!pricing) {
           throw new EntityNotFoundError()
         }
 
-        return eventPriceCalculator({ pricing, guestsNumber, eventType, eventDate })
+        const service = eventPriceCalculator({ pricing, guestsNumber, eventType, eventDate })
+
+        return { service, user }
       },
       (err: any) => {
         if (err.name === 'EntityNotFound') {
@@ -31,7 +36,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
         return fail(new DatabaseFailError())
       }
     ),
-    TE.chain(service => {
+    TE.chain(({ service, user }) => {
       const eventTotal = service.total
 
       const subTotal = eventTotal
@@ -44,6 +49,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
           async () => {
             const bill: Bill = {
               userId,
+              userName: user.name!,
               services: service,
               discount: 0,
               subTotal,
@@ -52,7 +58,7 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
               status: 'ACTIVE'
             }
 
-            return bill
+            return { bill, user }
           },
           (err: any) => {
             if (err.name === 'EntityNotFound') {
@@ -65,15 +71,15 @@ export const createBillService: CreateBillService = (createBillDB) => (createInv
         ))
       )
     }),
-    TE.chain(data => TE.tryCatch(
+    TE.chain(({ bill, user }) => TE.tryCatch(
       async () => {
-        const newBill = await createBillDB(data)
+        const newBill = await createBillDB(bill)
         await reserveEventDateDB({
           date: eventDate,
           billId: newBill.id
         })
 
-        return newBill
+        return { bill: newBill, user }
       },
 
       (err: any) => {

@@ -29,6 +29,7 @@ export const updateBillDB: UpdateBillDB = async (data) => {
   return {
     id,
     userId: updatedBill.userId,
+    userName: updatedBill.userName,
     services: updatedBill.services,
     discount: updatedBill.discount,
     subTotal: updatedBill.subTotal,

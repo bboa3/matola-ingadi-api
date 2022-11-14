@@ -103,6 +103,7 @@ declare module 'bill' {
   export interface BillEntity {
     _id: any
     userId: string
+    userName: string
     services: EventService
     subTotal: number
     discount: number
@@ -114,6 +115,7 @@ declare module 'bill' {
 
   export interface Bill {
     userId: string
+    userName: string
     services: EventService
     subTotal: number
     discount: number
