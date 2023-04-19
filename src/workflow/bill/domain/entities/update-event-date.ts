@@ -8,22 +8,21 @@ export const updateEventDateDB: UpdateEventDateDB = async ({ invoiceCode, status
   const collection = (await clientDB).db().collection('event_dates')
   const now = createDateUTC().format()
 
-  const { upsertedId } = await collection.updateOne({ invoiceCode }, {
+  await collection.updateOne({ invoiceCode }, {
     $set: {
       status,
       updatedAt: now
     }
   })
 
-  const found = await collection.findOne({ _id: upsertedId }) as unknown as EventDateEntity
+  const found = await collection.findOne({ invoiceCode }) as unknown as EventDateEntity
 
   if (!found) {
     throw new EntityNotFoundError('Event Date')
   }
 
-  const id = upsertedId.toString()
-
-  const { date, updatedAt, createdAt } = found
+  const { _id, date, updatedAt, createdAt } = found
+  const id = _id.toString()
 
   return {
     id,
