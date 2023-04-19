@@ -1,145 +1,142 @@
-declare module 'bill' {
+declare module 'billing' {
+  export type Locale = 'pt' | 'en'
+  export interface Locales {
+    pt: string
+    en: string
+  }
   export interface Photo {
     alt: string
     url: string
   }
 
-  export interface Services {
+  export interface ActivityEntity {
+    id: 'event-hall'
+    name: Locales
+  }
+
+  export interface Activity {
+    id: 'event-hall'
     name: string
+  }
+
+  export interface ServiceEntity {
+    _id: any
+    description: Locales
+  }
+
+  export interface Service {
+    id: string
     description: string
     photos: Photo[]
+  }
+
+  export interface Address {
+    cityOrDistrict: string
+    provinceOrState: string
+    country: string
+  }
+
+  export interface DiscountEntity {
+    other?: {
+      id: string
+      name: Locales
+      percentage: number
+    }
+  }
+
+  export interface Discount {
+    other?: {
+      id: string
+      name: string
+      percentage: number
+    }
+  }
+
+  export interface PricingEntity {
+    _id: any
+    name: Locales
+    activity: ActivityEntity
+    price: number
+    baseGuestsNumber: number
+    discount: DiscountEntity
+    services: {
+      id: string
+      description: Locales
+      photos: Photo[]
+    }[]
   }
 
   export interface Pricing {
     id: string
     name: string
-    pricingModel: string
+    activity: Activity
     price: number
-    services: Services[]
-  }
-
-  export interface ServiceProvider {
-    id: string
-    name: string
-    phoneNumber: number
-  }
-
-  export interface ServiceProviderEntity {
-    _id: any
-    name: string
-    'phone_number': number
-  }
-
-  export interface EventType {
-    id: string
-    name: string
+    baseGuestsNumber: number
+    discount: Discount
+    services: Service[]
   }
 
   export type InvoiceIdEntity = {
     _id: any
     code: string
     createdAt: string
+    updatedAt: string
   }
 
-  export interface EventTypeEntity {
-    _id: any
-    name: string
-  }
-
-  export interface EventService {
-    guestsNumber: number
-    eventType: string
-    eventDate: string
-    total: number
-    eventPricingId: string
-  }
-
-  export interface PaymentMethod {
-    id: string
-    name: string
-    onlyAdmin: boolean
-    commission: {
-      model: 'PERCENTAGE' | 'VALUE'
-      value: number
-    }
-  }
-
-  export interface BillPaymentMethod {
-    id: string
-    name: string
-    commission: {
-      model: string
-      value: number
-    },
-    totalCommission: number
-  }
-
-  export type InvoiceStatus = 'PENDING' | 'COMPLETED' | 'FAILED'
+  export type InvoiceStatus = 'PENDING' | 'PAID' | 'FAILED'
+  export type TransactionStatus = 'PENDING' | 'COMPLETED' | 'FAILED'
   export type BillStatus = 'ACTIVE' | 'DISABLED'
 
   export interface Transaction {
-    status: InvoiceStatus
-    reference: string
-    paymentMethod: BillPaymentMethod
-    confirmationImage?: Photo
+    id: string
+    status: TransactionStatus
+    paymentMethod: string
+    paymentGatewayFee: number
     confirmedBy?: string
     details?: string
-    startedAt: string
-    completedAt?: string
+    transactionTime?: string
+    updatedAt: string
+    createdAt: string
   }
 
   export interface Invoice {
-    invoiceId: InvoiceIdEntity
-    service: EventService
+    invoiceCode: string
+    activity: Activity
+    eventType: string
+    pricingId: string
+    guestsNumber: number
     subTotal: number
-    discount: number
+    discounted: number
     total: number
-    status: InvoiceStatus
-    transaction?: Transaction
+    invoiceStatus: InvoiceStatus
+    transaction: Transaction
+    services: string[]
+    eventDate: string
+    paidAt?: string
     dueAt: string
     createdAt: string
+    updatedAt: string
   }
 
-  export interface BillEntity {
-    _id: any
+  export interface PreBill {
     userId: string
-    userName: string
-    services: EventService
-    subTotal: number
-    discount: number
-    total: number
+    name: string
+    email: string
+    phoneNumber: string
+    address: Address
+    activity: Activity
+    guestsNumber: number
     invoices: Invoice[]
     status: BillStatus
     createdAt: string
+    updatedAt: string
   }
 
-  export interface Bill {
-    userId: string
-    userName: string
-    services: EventService
-    subTotal: number
-    discount: number
-    total: number
-    invoices: Invoice[]
-    status: BillStatus
-  }
-
-  export interface ViewBill extends Bill {
-    id: string
-    createdAt: string
-  }
-
-  export interface ReservedEventDate {
-    id: string
-    date: string
-    billId: string
-    createdAt: string
-  }
-
-  export interface ReservedEventDateEntity {
+  export interface BillEntity extends PreBill {
     _id: any
-    date: string
-    billId: string
-    createdAt: string
+  }
+
+  export interface Bill extends PreBill {
+    id: string
   }
 }

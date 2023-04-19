@@ -10,8 +10,8 @@ export class DatabaseFailError extends Error implements DomainError {
 }
 
 export class EntityNotFoundError extends Error implements DomainError {
-  constructor () {
-    super('Chamada da API inválida. Por favor, tente ou visite a documentação (https://api.matolaingadi.com/docs)')
+  constructor (name: string) {
+    super(`${name} not found`)
     this.name = 'EntityNotFound'
   }
 }

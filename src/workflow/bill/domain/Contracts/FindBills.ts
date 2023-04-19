@@ -1,6 +1,6 @@
 import { Id } from '@bill/domain/requiredFields/id'
-import { ViewBill } from 'bill'
+import { Bill } from 'billing'
 
-export type FindBillByIdDB = (data: Id) => Promise<ViewBill>
+export type FindBillByIdDB = (data: Id) => Promise<Bill>
 
-export type FindActiveBillsDB = () => Promise<ViewBill[]>
+export type FindBillsDB = () => Promise<Bill[]>

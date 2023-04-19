@@ -1,17 +1,15 @@
-import { deleteInvoiceJob } from '@bill/infra/jobs/delete-invoices'
-import { disableBillsJob } from '@bill/infra/jobs/disable-bills'
-import { failUnpaidInvoiceJob } from '@bill/infra/jobs/fail-unpaid-invoice'
+import { failOverdueInvoiceJob } from '@bill/infra/jobs/fail-overdue-invoice'
+import { overdueInvoiceJob } from '@bill/infra/jobs/overdue-invoice'
 import app from '@core/infra/http/app'
-
-const port = Number(process.env.PORT || 3002)
+import { port } from '@utils/env'
 
 const start = async () => {
   try {
     await app.listen({ port, host: '0.0.0.0' })
     await app.ready()
-    app.scheduler.addSimpleIntervalJob(failUnpaidInvoiceJob)
-    app.scheduler.addSimpleIntervalJob(disableBillsJob)
-    app.scheduler.addSimpleIntervalJob(deleteInvoiceJob)
+
+    app.scheduler.addSimpleIntervalJob(failOverdueInvoiceJob)
+    app.scheduler.addSimpleIntervalJob(overdueInvoiceJob)
   } catch (err) {
     app.log.error(err)
     process.exit(1)

@@ -1,4 +1,4 @@
-import { findSessionDB } from '@core/domain/entities/find-session'
+import { verifyJWT } from '@core/infra/middleware/auth/jwt'
 import { unauthorized } from '@core/infra/middleware/http_error_response'
 import { Middleware } from '@core/infra/middleware/middleware'
 import { FastifyRequest } from 'fastify'
@@ -13,12 +13,12 @@ export const verifyClient: Middleware = (request: FastifyRequest, _httpBody) => 
 
         if (!bearerHeader) throw new Error('Not authorized')
 
-        const bearerToken = bearerHeader.split(' ')[1]
+        const token = bearerHeader.split(' ')[1]
 
-        const { userId } = await findSessionDB(bearerToken)
+        const { sub } = await verifyJWT({ token })
         const body = request.body as any
 
-        return { ...body, userId }
+        return { ...body, userId: sub }
       },
       (_err) => {
         return unauthorized(new Error('Not authorized'))

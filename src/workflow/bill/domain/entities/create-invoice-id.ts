@@ -1,8 +1,8 @@
-import { CreateInvoiceNumberDB } from '@bill/domain/Contracts/CreateInvoiceNumber'
+import { CreateInvoiceNumberDB } from '@bill/domain/Contracts/CreateInvoice'
 import clientDB from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
-import { InvoiceIdEntity } from 'bill'
-import dayjs from 'dayjs'
+import { createDateUTC } from '@utils/date'
+import { InvoiceIdEntity } from 'billing'
 import { InvoiceNumber } from 'invoice-number'
 
 export const createInvoiceIdDB: CreateInvoiceNumberDB = async () => {
@@ -10,25 +10,21 @@ export const createInvoiceIdDB: CreateInvoiceNumberDB = async () => {
 
   const found = await collection.find().sort({ _id: -1 }).limit(1).toArray() as unknown as InvoiceIdEntity[]
 
-  if (!found) {
-    throw new EntityNotFoundError()
+  if (!found[0]) {
+    throw new EntityNotFoundError('Invoice Id')
   }
 
-  const lastCode = found[0].code
+  const { code, _id } = found[0]
 
-  const newCode = InvoiceNumber.next(lastCode)
-  const createdAt = dayjs(new Date()).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  const newCode = InvoiceNumber.next(code)
+  const updatedAt = createDateUTC().format()
 
-  const { insertedId } = await collection.insertOne({
-    code: newCode,
-    createdAt
+  await collection.updateOne({ _id }, {
+    $set: {
+      code: newCode,
+      updatedAt
+    }
   })
 
-  const _id = insertedId.toString()
-
-  return {
-    _id,
-    code: newCode,
-    createdAt
-  }
+  return newCode
 }
