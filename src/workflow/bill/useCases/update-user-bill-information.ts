@@ -10,9 +10,9 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const updateUserBillInformationUseCase: Middleware = (_httpRequest, httpBody) => {
-  const { userId, billId, maxTeamMembers, name, email, phoneNumber, address } = httpBody
+  const { userId, billId, guestsNumber, name, email, phoneNumber, address } = httpBody
 
-  const data = { userId, billId, maxTeamMembers, name, email, phoneNumber, address }
+  const data = { userId, billId, guestsNumber, name, email, phoneNumber, address }
 
   const httpResponse = pipe(
     data,

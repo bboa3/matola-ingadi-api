@@ -5,7 +5,7 @@ import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const failOverdueInvoiceService: FailOverdueInvoiceService = (failOverdueInvoiceDB) => (disableBillReportUseCase) => (invoicePaymentProducerUseCase) => (findBillsDB) => {
+export const failOverdueInvoiceService: FailOverdueInvoiceService = (failOverdueInvoiceDB) => (disableBillReportUseCase) => (deleteEventDateDB) => (findBillsDB) => {
   return pipe(
     TE.tryCatch(
       async () => await findBillsDB(),
@@ -22,27 +22,27 @@ export const failOverdueInvoiceService: FailOverdueInvoiceService = (failOverdue
       async () => {
         for (const bill of bills) {
           const { invoices } = bill
-          const { updatedInvoices, isOverdueInvoice } = failOverdueInvoice(invoices)
+          const overdueInvoice = failOverdueInvoice(invoices)
 
-          if (isOverdueInvoice) {
+          if (overdueInvoice) {
+            const { invoice, invoiceIndex } = overdueInvoice
+            invoices[invoiceIndex] = invoice
+
             await failOverdueInvoiceDB({
               id: bill.id,
-              invoices: updatedInvoices,
+              invoices,
               status: 'ACTIVE'
             })
+
+            disableBillReportUseCase({
+              bill,
+              invoice
+            })()
+
+            await deleteEventDateDB({
+              invoiceCode: invoice.invoiceCode
+            })
           }
-
-          const invoice = updatedInvoices[updatedInvoices.length - 1]
-
-          disableBillReportUseCase({
-            bill,
-            invoice
-          })()
-
-          invoicePaymentProducerUseCase({
-            bill,
-            invoice
-          })()
         }
       },
       (err: any) => {

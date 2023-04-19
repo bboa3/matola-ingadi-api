@@ -7,7 +7,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 import { updateInvoices } from './utils/invoice-payment'
 
-export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) => (findBillByIdDB) => (data) => {
+export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) => (findBillByIdDB) => (updateEventDateDB) => (data) => {
   const { billId } = data
   const now = createDateUTC().format()
 
@@ -44,6 +44,11 @@ export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) =
     TE.chain(({ bill, invoice }) => TE.tryCatch(
       async () => {
         await invoicePaymentDB(bill)
+
+        await updateEventDateDB({
+          invoiceCode: invoice.invoiceCode,
+          status: 'RESERVED'
+        })
 
         return { bill, invoice }
       },

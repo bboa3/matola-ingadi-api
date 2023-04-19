@@ -1,15 +1,17 @@
 import { ReserveEventDateDB } from '@bill/domain/Contracts/ReserveEventDate'
 import clientDB from '@core/domain/entities/db'
-import dayjs from 'dayjs'
+import { createDateUTC } from '@utils/date'
 
-export const reserveEventDateDB: ReserveEventDateDB = async ({ date, billId }) => {
+export const reserveEventDateDB: ReserveEventDateDB = async ({ date, invoiceCode, status }) => {
   const collection = (await clientDB).db().collection('event_dates')
-  const createdAt = dayjs(new Date()).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  const now = createDateUTC().format()
 
   const { insertedId } = await collection.insertOne({
     date,
-    billId,
-    createdAt
+    invoiceCode,
+    status,
+    updatedAt: now,
+    createdAt: now
   })
 
   const id = insertedId.toString()
@@ -17,7 +19,9 @@ export const reserveEventDateDB: ReserveEventDateDB = async ({ date, billId }) =
   return {
     id,
     date,
-    billId,
-    createdAt
+    invoiceCode,
+    status,
+    updatedAt: now,
+    createdAt: now
   }
 }

@@ -1,4 +1,5 @@
 import { FindPricingByIdDB } from '@bill/domain/Contracts/FindPricingById'
+import { ReserveEventDateDB } from '@bill/domain/Contracts/ReserveEventDate'
 import { Date } from '@bill/domain/requiredFields/date'
 import { EventType } from '@bill/domain/requiredFields/event-type'
 import { GuestsNumber } from '@bill/domain/requiredFields/guests-number'
@@ -20,4 +21,4 @@ interface CreateInvoicesProps {
 export type CreateInvoiceNumberDB = () => Promise<string>
 
 export type CreateInvoicesService = (db: CreateInvoiceNumberDB) => (db: FindPricingByIdDB)
-=> (data: CreateInvoicesProps) => TE.TaskEither<HttpErrorResponse, Invoice>
+=> (db: ReserveEventDateDB)=> (data: CreateInvoicesProps) => TE.TaskEither<HttpErrorResponse, Invoice>

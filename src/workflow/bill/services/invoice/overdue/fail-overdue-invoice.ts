@@ -1,27 +1,28 @@
 import { isOverdueDate } from '@bill/services/utils/invoice-date'
 import { Invoice } from 'billing'
 
-export const failOverdueInvoice = (invoices: Invoice[]) => {
-  const updatedInvoices: Invoice[] = []
-  let isOverdueInvoice = false
+interface OverdueInvoice {
+  invoiceIndex: number
+  invoice: Invoice
+}
+
+export const failOverdueInvoice = (invoices: Invoice[]): OverdueInvoice | undefined => {
+  let invoiceIndex = 0
 
   for (const invoice of invoices) {
     const { invoiceStatus, dueAt } = invoice
     const isDueInvoice = isOverdueDate(dueAt)
 
     if (invoiceStatus === 'PENDING' && isDueInvoice) {
-      updatedInvoices.push({
-        ...invoice,
-        invoiceStatus: 'FAILED'
-      })
-
-      isOverdueInvoice = true
+      return {
+        invoiceIndex,
+        invoice: {
+          ...invoice,
+          invoiceStatus: 'FAILED'
+        }
+      }
     }
 
-    updatedInvoices.push({
-      ...invoice
-    })
+    invoiceIndex++
   }
-
-  return { updatedInvoices, isOverdueInvoice }
 }

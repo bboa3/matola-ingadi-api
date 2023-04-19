@@ -10,7 +10,7 @@ const task = new AsyncTask(
 )
 
 export const failOverdueInvoiceJob = new SimpleIntervalJob(
-  { hours: 12 },
+  { hours: 6 },
   task,
   {
     id: 'failOverdueInvoiceJob',

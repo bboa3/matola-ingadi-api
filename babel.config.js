@@ -17,7 +17,6 @@ module.exports = {
         "@utils": "./src/utils",
         "@bill": "./src/workflow/bill",
         "@mail": "./src/workflow/mail",
-        "@eventStream": "./src/workflow/eventStream",
         "@design": "./src/workflow/design"
       }
     }]

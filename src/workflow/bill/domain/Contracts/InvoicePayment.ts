@@ -1,4 +1,5 @@
 import { FindBillByIdDB } from '@bill/domain/Contracts/FindBills'
+import { UpdateEventDateDB } from '@bill/domain/Contracts/UpdateEventDate'
 import { InvoicePaymentProps } from '@bill/domain/requiredFields/invoice-payment'
 import { ValidationError } from '@core/domain/errors/validation_error'
 import { HttpErrorResponse } from '@core/infra/middleware/http_error_response'
@@ -21,5 +22,5 @@ interface Data {
 export type InvoicePaymentPropsValidator = (data: Data) => E.Either<ValidationError, InvoicePaymentProps>
 export type InvoicePaymentDB = (data: Bill) => Promise<Bill>
 
-export type InvoicePaymentService = (db: InvoicePaymentDB) => (db: FindBillByIdDB)
+export type InvoicePaymentService = (db: InvoicePaymentDB) => (db: FindBillByIdDB) => (db: UpdateEventDateDB)
 => (data: InvoicePaymentProps) => TE.TaskEither<HttpErrorResponse, { invoice: Invoice, bill: Bill}>

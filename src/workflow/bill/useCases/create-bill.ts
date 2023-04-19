@@ -1,6 +1,7 @@
 import { createBillDB } from '@bill/domain/entities/create-bill'
 import { createInvoiceIdDB } from '@bill/domain/entities/create-invoice-id'
 import { findPricingByIdDB } from '@bill/domain/entities/find-pricing-by-id'
+import { reserveEventDateDB } from '@bill/domain/entities/reserve-event-date'
 import { createBillService } from '@bill/services/create-bill'
 import { createEnvices } from '@bill/services/create-invoices'
 import { createBillPropsValidator } from '@bill/services/validate/create-bill'
@@ -27,7 +28,7 @@ export const createBillUseCase: Middleware = (_httpRequest, httpBody) => {
 
       return pipe(
         { pricingId, guestsNumber, eventType, eventDate, paymentMethod, paymentGatewayFee },
-        createEnvices(createInvoiceIdDB)(findPricingByIdDB),
+        createEnvices(createInvoiceIdDB)(findPricingByIdDB)(reserveEventDateDB),
         TE.chain(invoice => pipe(
           data,
           createBillService(createBillDB)(invoice),

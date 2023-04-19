@@ -86,6 +86,7 @@ declare module 'billing' {
   export type InvoiceStatus = 'PENDING' | 'PAID' | 'FAILED'
   export type TransactionStatus = 'PENDING' | 'COMPLETED' | 'FAILED'
   export type BillStatus = 'ACTIVE' | 'DISABLED'
+  export type EventDateStatus = 'PENDING' | 'RESERVED'
 
   export interface Transaction {
     id: string
@@ -138,5 +139,23 @@ declare module 'billing' {
 
   export interface Bill extends PreBill {
     id: string
+  }
+
+  export interface EventDate {
+    id: string
+    date: string
+    invoiceCode: string
+    status: EventDateStatus
+    updatedAt: string
+    createdAt: string
+  }
+
+  export interface EventDateEntity {
+    _id: any
+    date: string
+    invoiceCode: string
+    status: EventDateStatus
+    updatedAt: string
+    createdAt: string
   }
 }

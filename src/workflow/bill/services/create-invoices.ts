@@ -9,7 +9,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 import { v4 } from 'uuid'
 
-export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (getPricingDB) => (data) => {
+export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (getPricingDB) => (reserveEventDateDB) => (data) => {
   const { pricingId, guestsNumber, eventDate, eventType, paymentGatewayFee, paymentMethod } = data
   const now = createDateUTC().format()
   const dueAt = createDueDate()
@@ -60,6 +60,12 @@ export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (
           createdAt: now,
           updatedAt: now
         }
+
+        await reserveEventDateDB({
+          invoiceCode,
+          status: 'PENDING',
+          date: eventDate
+        })
 
         return invoice
       },
