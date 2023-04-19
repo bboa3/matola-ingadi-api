@@ -1,25 +1,18 @@
-import { discountCalculator } from '@bill/services/invoice/calculator/discount'
-import { subTotalCalculator } from '@bill/services/invoice/calculator/sub-total'
+import { servicesTotalCalculator } from '@bill/services/invoice/calculator/services-total'
 import { Pricing } from 'billing'
 
 interface Props {
   pricing: Pricing
   guestsNumber: number
-  paymentGatewayFee: number
 }
 
-export const totalCalculator = ({ pricing, guestsNumber, paymentGatewayFee }: Props) => {
+export const totalCalculator = ({ pricing, guestsNumber }: Props) => {
   const { price, baseGuestsNumber, discount } = pricing
-
-  const subTotal = subTotalCalculator({ price, baseGuestsNumber, guestsNumber })
-
-  const discounted = discountCalculator({ subTotal, discount })
-
-  const total = (subTotal - discounted) + paymentGatewayFee
+  const { total: servicesTotal, totalDiscounted } = servicesTotalCalculator({ price, baseGuestsNumber, guestsNumber, discount })
 
   return {
-    subTotal,
-    total,
-    discounted
+    subTotal: servicesTotal,
+    total: servicesTotal,
+    discounted: totalDiscounted
   }
 }

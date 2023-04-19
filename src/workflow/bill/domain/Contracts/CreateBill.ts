@@ -13,7 +13,6 @@ interface Data {
   email: string
   phoneNumber: string
   paymentMethod: string
-  paymentGatewayFee: number
   address: Address
 }
 

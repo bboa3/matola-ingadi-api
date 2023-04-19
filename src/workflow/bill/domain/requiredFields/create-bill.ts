@@ -19,8 +19,7 @@ export const CreateBillPropsCodec = t.type({
   eventType: EventTypeCodec,
   eventDate: DateCodec,
   pricingId: IdCodec,
-  paymentMethod: PaymentMethodCodec,
-  paymentGatewayFee: t.number
+  paymentMethod: PaymentMethodCodec
 })
 
 export type CreateBillProps = t.TypeOf<typeof CreateBillPropsCodec>

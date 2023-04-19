@@ -14,9 +14,9 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const createBillUseCase: Middleware = (_httpRequest, httpBody) => {
-  const { userId, guestsNumber, eventType, eventDate, paymentMethod, paymentGatewayFee, pricingId, name, email, phoneNumber, address } = httpBody
+  const { userId, guestsNumber, eventType, eventDate, paymentMethod, pricingId, name, email, phoneNumber, address } = httpBody
 
-  const data = { userId, guestsNumber, eventType, eventDate, paymentMethod, paymentGatewayFee, pricingId, name, email, phoneNumber, address }
+  const data = { userId, guestsNumber, eventType, eventDate, paymentMethod, pricingId, name, email, phoneNumber, address }
 
   const httpResponse = pipe(
     data,
@@ -24,10 +24,10 @@ export const createBillUseCase: Middleware = (_httpRequest, httpBody) => {
     E.mapLeft(error => clientError(error)),
     TE.fromEither,
     TE.chain(data => {
-      const { pricingId, guestsNumber, eventType, eventDate, paymentMethod, paymentGatewayFee } = data
+      const { pricingId, guestsNumber, eventType, eventDate, paymentMethod } = data
 
       return pipe(
-        { pricingId, guestsNumber, eventType, eventDate, paymentMethod, paymentGatewayFee },
+        { pricingId, guestsNumber, eventType, eventDate, paymentMethod },
         createEnvices(createInvoiceIdDB)(findPricingByIdDB)(reserveEventDateDB),
         TE.chain(invoice => pipe(
           data,

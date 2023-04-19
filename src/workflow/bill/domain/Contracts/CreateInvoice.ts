@@ -14,7 +14,6 @@ interface CreateInvoicesProps {
   guestsNumber: GuestsNumber
   eventType: EventType
   eventDate: Date
-  paymentGatewayFee: number
   paymentMethod: PaymentMethod
 }
 

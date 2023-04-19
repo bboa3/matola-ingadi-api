@@ -1,11 +1,11 @@
 import { Discount } from 'billing'
 
 interface Props {
-  subTotal: number
+  totalByGuestsNumber: number
   discount: Discount
 }
 
-export const otherDiscountCalculator = ({ subTotal, discount }: Props) => {
+export const otherDiscountCalculator = ({ totalByGuestsNumber, discount }: Props) => {
   const { other } = discount
 
   if (!other) {
@@ -14,5 +14,5 @@ export const otherDiscountCalculator = ({ subTotal, discount }: Props) => {
 
   const { percentage } = other
 
-  return subTotal * percentage / 100
+  return totalByGuestsNumber * percentage / 100
 }

@@ -1,16 +1,20 @@
-import { isOverdueDate } from '@bill/services/utils/invoice-date'
-import { Invoice } from 'billing'
+import { isOverdueDate } from '@bill/services/invoice/split-invoice-transaction/date-reservation/overdue-date'
+import { Invoice, Transaction, TransactionType } from 'billing'
 
 interface OverdueInvoice {
   invoiceIndex: number
   invoice: Invoice
+
 }
 
 export const failOverdueInvoice = (invoices: Invoice[]): OverdueInvoice | undefined => {
   let invoiceIndex = 0
 
   for (const invoice of invoices) {
-    const { invoiceStatus, dueAt } = invoice
+    const { invoiceStatus, transactions } = invoice
+
+    const reservationTransaction = findTransaction(transactions, 'date-reservation')
+    const { dueAt } = reservationTransaction
     const isDueInvoice = isOverdueDate(dueAt)
 
     if (invoiceStatus === 'PENDING' && isDueInvoice) {
@@ -25,4 +29,8 @@ export const failOverdueInvoice = (invoices: Invoice[]): OverdueInvoice | undefi
 
     invoiceIndex++
   }
+}
+
+function findTransaction (transactions: Transaction[], transactionType: TransactionType) {
+  return transactions.find(t => t.transactionType === transactionType)!
 }

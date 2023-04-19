@@ -1,18 +1,16 @@
 import { CreateInvoicesService } from '@bill/domain/Contracts/CreateInvoice'
 import { totalCalculator } from '@bill/services/invoice/calculator/total'
-import { createDueDate } from '@bill/services/utils/invoice-date'
+import { splitInvoiceTransaction } from '@bill/services/invoice/split-invoice-transaction'
 import { DatabaseFailError } from '@core/domain/errors/domain_error'
 import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { createDateUTC } from '@utils/date'
-import { Invoice, Transaction } from 'billing'
+import { Invoice } from 'billing'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
-import { v4 } from 'uuid'
 
 export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (getPricingDB) => (reserveEventDateDB) => (data) => {
-  const { pricingId, guestsNumber, eventDate, eventType, paymentGatewayFee, paymentMethod } = data
+  const { pricingId, guestsNumber, eventDate, eventType, paymentMethod } = data
   const now = createDateUTC().format()
-  const dueAt = createDueDate()
 
   return pipe(
     TE.tryCatch(
@@ -32,16 +30,13 @@ export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (
         const invoiceCode = await createInvoiceNumberDB()
         const services = pricing.services.map(({ description }) => description)
 
-        const { total, subTotal, discounted } = totalCalculator({ pricing, guestsNumber, paymentGatewayFee })
+        const { total, subTotal, discounted } = totalCalculator({ pricing, guestsNumber })
 
-        const transaction: Transaction = {
-          id: v4(),
-          status: 'PENDING',
-          paymentMethod,
-          paymentGatewayFee,
-          updatedAt: now,
-          createdAt: now
-        }
+        const transactions = splitInvoiceTransaction({
+          total,
+          eventDate,
+          paymentMethod
+        })
 
         const invoice: Invoice = {
           invoiceCode,
@@ -54,9 +49,8 @@ export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (
           discounted,
           total,
           invoiceStatus: 'PENDING',
-          transaction,
+          transactions,
           services,
-          dueAt: dueAt,
           createdAt: now,
           updatedAt: now
         }

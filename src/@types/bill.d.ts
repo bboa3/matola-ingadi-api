@@ -9,6 +9,11 @@ declare module 'billing' {
     url: string
   }
 
+  export interface Commission {
+    model: string
+    value: number
+  }
+
   export interface ActivityEntity {
     id: 'event-hall'
     name: Locales
@@ -88,14 +93,21 @@ declare module 'billing' {
   export type BillStatus = 'ACTIVE' | 'DISABLED'
   export type EventDateStatus = 'PENDING' | 'RESERVED'
 
+  export type TransactionType = 'date-reservation' | 'remaining-payment'
+
   export interface Transaction {
     id: string
+    transactionType: TransactionType
     status: TransactionStatus
     paymentMethod: string
+    invoicePercentage: number
+    subTotal: number
+    total: number
     paymentGatewayFee: number
     confirmedBy?: string
     details?: string
-    transactionTime?: string
+    transactionDate?: string
+    dueAt: string
     updatedAt: string
     createdAt: string
   }
@@ -110,11 +122,9 @@ declare module 'billing' {
     discounted: number
     total: number
     invoiceStatus: InvoiceStatus
-    transaction: Transaction
+    transactions: Transaction[]
     services: string[]
     eventDate: string
-    paidAt?: string
-    dueAt: string
     createdAt: string
     updatedAt: string
   }
