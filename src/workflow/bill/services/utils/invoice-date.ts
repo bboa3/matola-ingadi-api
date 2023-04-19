@@ -1,6 +1,6 @@
 import { createDateUTC } from '@utils/date'
 
-const maxPendingDays = 5
+const maxPendingDays = 2
 
 export const createDueDate = (): string => {
   const now = createDateUTC()
