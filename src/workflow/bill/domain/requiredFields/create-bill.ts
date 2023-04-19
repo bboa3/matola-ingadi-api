@@ -6,7 +6,6 @@ import { GuestsNumberCodec } from '@bill/domain/requiredFields/guests-number'
 import { IdCodec } from '@bill/domain/requiredFields/id'
 import { NameCodec } from '@bill/domain/requiredFields/name'
 import { PaymentMethodCodec } from '@bill/domain/requiredFields/payment-method'
-import { PeriodCodec } from '@bill/domain/requiredFields/period'
 import { PhoneNumberCodec } from '@bill/domain/requiredFields/phone-number'
 import * as t from 'io-ts'
 
@@ -20,7 +19,6 @@ export const CreateBillPropsCodec = t.type({
   eventType: EventTypeCodec,
   eventDate: DateCodec,
   pricingId: IdCodec,
-  period: PeriodCodec,
   paymentMethod: PaymentMethodCodec,
   paymentGatewayFee: t.number
 })

@@ -28,7 +28,7 @@ export const failOverdueInvoiceService: FailOverdueInvoiceService = (failOverdue
             await failOverdueInvoiceDB({
               id: bill.id,
               invoices: updatedInvoices,
-              status: 'DISABLED'
+              status: 'ACTIVE'
             })
           }
 

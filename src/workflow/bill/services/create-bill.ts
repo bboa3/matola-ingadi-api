@@ -22,7 +22,7 @@ export const createBillService: CreateBillService = (createBillDB) => (invoice) 
           activity: invoice.activity,
           guestsNumber,
           invoices: [invoice],
-          status: 'DISABLED',
+          status: 'ACTIVE',
           createdAt: now,
           updatedAt: now
         }

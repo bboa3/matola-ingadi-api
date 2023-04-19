@@ -2,15 +2,15 @@ export const isEventType = (value: string) => {
   const name = value.toLowerCase()
 
   if (
-    name.match(/casamento/i) ||
-    name.match(/boda/i) ||
+    name.match(/Casamento/i) ||
+    name.match(/Boda/i) ||
     name.match(/aniversário/i) ||
-    name.match(/graduação/i) ||
-    name.match(/evento empresarial/i) ||
-    name.match(/evento corporativo/i) ||
-    name.match(/evento cultural/i) ||
-    name.match(/festa religiosa/i) ||
-    name.match(/outros/i)
+    name.match(/Graduação/i) ||
+    name.match(/Evento Empresarial/i) ||
+    name.match(/Evento Corporativo/i) ||
+    name.match(/Evento Cultural/i) ||
+    name.match(/Festa Religiosa/i) ||
+    name.match(/Outros/i)
   ) {
     return true
   }

@@ -8,7 +8,6 @@ import * as TE from 'fp-ts/lib/TaskEither'
 interface Data {
   userId: string
   guestsNumber: string
-  period: string
   pricingId: string
   name: string
   email: string

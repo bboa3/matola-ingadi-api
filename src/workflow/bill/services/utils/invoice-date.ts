@@ -1,8 +1,10 @@
 import { createDateUTC } from '@utils/date'
 
+const maxPendingDays = 5
+
 export const createDueDate = (): string => {
   const now = createDateUTC()
-  const dueAt = now.add(5, 'days').format()
+  const dueAt = now.add(maxPendingDays, 'days').format()
   return dueAt
 }
 
