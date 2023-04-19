@@ -3,10 +3,10 @@ import clientDB from '@core/domain/entities/db'
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { EventDateEntity } from 'billing'
 
-export const getEventDatesDB: GetEventDatesDB = async () => {
+export const getEventDatesDB: GetEventDatesDB = async ({ maxNumber }) => {
   const collection = (await clientDB).db().collection('event_dates')
 
-  const found = await collection.find().sort({ _id: -1 }).limit(40).toArray() as unknown as EventDateEntity[]
+  const found = await collection.find().sort({ _id: -1 }).limit(maxNumber).toArray() as unknown as EventDateEntity[]
 
   if (!found) {
     throw new EntityNotFoundError('Invoice Date')

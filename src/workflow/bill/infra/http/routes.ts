@@ -1,4 +1,5 @@
 import { createBillController } from '@bill/infra/http/controller/create-bill'
+import { getEventDatesController } from '@bill/infra/http/controller/get-event-dates'
 import { getInvoiceController } from '@bill/infra/http/controller/get-invoice'
 import { getPricingController } from '@bill/infra/http/controller/get-pricing'
 import { getServicesPricingController } from '@bill/infra/http/controller/get-services-pricing'
@@ -21,6 +22,7 @@ export const billRouter: FastifyPluginCallback = (app, _option, done) => {
   app.post('/invoice/payment/:paymentMethod', invoicePaymentController)
   app.get('/invoice', getInvoiceController)
   app.get('/invoices/:maxNumber', getUserInvoicesController)
+  app.get('/dates/:maxNumber', getEventDatesController)
 
   done()
 }

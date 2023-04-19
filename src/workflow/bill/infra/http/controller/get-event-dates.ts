@@ -1,13 +1,11 @@
-import { createInvoiceDocumentUseCase } from '@bill/useCases/create-invoice-document'
-import { verifyClient } from '@core/infra/middleware/auth/verify-client'
+import { getEventDatesUseCase } from '@bill/useCases/get-event-dates'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
-export const createInvoiceDocumentController = (request: FastifyRequest, response: FastifyReply) => {
+export const getEventDatesController = (request: FastifyRequest, response: FastifyReply) => {
   pipe(
-    verifyClient(request, request.body),
-    TE.chain(body => createInvoiceDocumentUseCase(request, body)),
+    getEventDatesUseCase(request, request.body),
     TE.match(
       (httpErrorResponse) => {
         const { statusCode, body } = httpErrorResponse
