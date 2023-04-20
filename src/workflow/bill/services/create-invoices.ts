@@ -2,7 +2,7 @@ import { CreateInvoicesService } from '@bill/domain/Contracts/CreateInvoice'
 import { totalCalculator } from '@bill/services/invoice/calculator/total'
 import { splitInvoiceTransaction } from '@bill/services/invoice/split-invoice-transaction'
 import { DatabaseFailError } from '@core/domain/errors/domain_error'
-import { fail, notFound } from '@core/infra/middleware/http_error_response'
+import { fail, notFound, tooMany } from '@core/infra/middleware/http_error_response'
 import { createDateUTC } from '@utils/date'
 import { Invoice } from 'billing'
 import { pipe } from 'fp-ts/lib/function'
@@ -66,6 +66,10 @@ export const createEnvices: CreateInvoicesService = (createInvoiceNumberDB) => (
       (err: any) => {
         if (err.name === 'EntityNotFound') {
           return notFound(err)
+        }
+
+        if (err.name === 'EntityAlreadyExistError') {
+          return tooMany(err)
         }
 
         console.log(err)

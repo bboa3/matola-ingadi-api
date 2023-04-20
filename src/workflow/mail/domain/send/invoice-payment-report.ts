@@ -4,7 +4,7 @@ import fs from 'fs/promises'
 import { Options } from 'nodemailer/lib/mailer'
 import { resolve } from 'path'
 
-const logoPath = resolve(__dirname, '..', '..', '..', 'view', 'logo.png')
+const logoPath = resolve(__dirname, '..', '..', '..', '..', 'view', 'logo.png')
 
 export const invoicePaymentReportSend: InvoicePaymentReportSend = async (data) => {
   const { email, html, invoicePath, invoiceCode } = data

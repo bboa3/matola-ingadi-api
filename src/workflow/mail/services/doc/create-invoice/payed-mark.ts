@@ -1,8 +1,8 @@
-import { Invoice, InvoiceStatus } from 'billing'
+import { Transaction, TransactionStatus } from 'billing'
 import { degrees, PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {
-  invoice: Invoice
+  transaction: Transaction
   page: PDFPage
   width: number
   height: number
@@ -11,38 +11,38 @@ interface Props {
 
 interface CreateXProps {
   width: number
-  invoiceStatus: InvoiceStatus
+  transactionStatus: TransactionStatus
 }
 
 interface CreateYProps {
   height: number
-  invoiceStatus: InvoiceStatus
+  transactionStatus: TransactionStatus
 }
 
-const createMark = (invoiceStatus: InvoiceStatus) => {
-  if (invoiceStatus === 'PAID') return 'PAGO'
-  if (invoiceStatus === 'PENDING') return 'POR PAGAR'
+const createMark = (transactionStatus: TransactionStatus) => {
+  if (transactionStatus === 'COMPLETED') return 'PAGO'
+  if (transactionStatus === 'PENDING') return 'POR PAGAR'
   return 'FRACASSADA'
 }
 
-const drawTextX = ({ width, invoiceStatus }: CreateXProps) => {
-  if (invoiceStatus === 'PAID') return width - 108
-  if (invoiceStatus === 'PENDING') return width - 138
+const drawTextX = ({ width, transactionStatus }: CreateXProps) => {
+  if (transactionStatus === 'COMPLETED') return width - 108
+  if (transactionStatus === 'PENDING') return width - 138
   return width - 152
 }
 
-const drawTextY = ({ height, invoiceStatus }: CreateYProps) => {
-  if (invoiceStatus === 'PAID') return height / 2 + 378
-  if (invoiceStatus === 'PENDING') return height / 2 + 398
+const drawTextY = ({ height, transactionStatus }: CreateYProps) => {
+  if (transactionStatus === 'COMPLETED') return height / 2 + 378
+  if (transactionStatus === 'PENDING') return height / 2 + 398
   return height / 2 + 410
 }
 
 const svgPath = 'M0 50 H400 V0 H0'
 
-export const payedMark = ({ invoice, page, width, height, boldFont }: Props) => {
-  const { invoiceStatus } = invoice
+export const payedMark = ({ transaction, page, width, height, boldFont }: Props) => {
+  const { status: transactionStatus } = transaction
 
-  const text = createMark(invoiceStatus)
+  const text = createMark(transactionStatus)
 
   const payedSvgColor = rgb(0.160, 0.914, 0.625)
 
@@ -51,15 +51,15 @@ export const payedMark = ({ invoice, page, width, height, boldFont }: Props) => 
   page.drawSvgPath(svgPath, {
     x: width - 178,
     y: height / 2 + 468,
-    color: invoiceStatus === 'PAID' ? payedSvgColor : notPayedSvgColor,
+    color: transactionStatus === 'COMPLETED' ? payedSvgColor : notPayedSvgColor,
     borderWidth: 1.5,
     borderOpacity: 0,
     rotate: degrees(-34.7)
   })
 
   return page.drawText(text, {
-    x: drawTextX({ width, invoiceStatus }),
-    y: drawTextY({ height, invoiceStatus }),
+    x: drawTextX({ width, transactionStatus }),
+    y: drawTextY({ height, transactionStatus }),
     size: 24,
     font: boldFont,
     color: rgb(1, 1, 1),

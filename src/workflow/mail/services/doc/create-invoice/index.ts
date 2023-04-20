@@ -3,12 +3,13 @@ import { identifier } from '@mail/services/doc/create-invoice/identifier'
 import { payedMark } from '@mail/services/doc/create-invoice/payed-mark'
 import { servicesInfo } from '@mail/services/doc/create-invoice/services'
 import fontkit from '@pdf-lib/fontkit'
-import { Bill, Invoice } from 'billing'
+import { Bill, Invoice, Transaction } from 'billing'
 import fs from 'fs'
 import { join, resolve } from 'path'
 import { PDFDocument } from 'pdf-lib'
 
 interface CreateDocumentProps {
+  transaction: Transaction
   invoice: Invoice
   bill: Bill
 }
@@ -17,15 +18,15 @@ const templete = fs.readFileSync(resolve(__dirname, '..', 'templete', 'invoice.p
 const regularFont = fs.readFileSync(resolve(__dirname, '..', 'templete', 'Montserrat-Regular.otf'))
 const boldFont = fs.readFileSync(resolve(__dirname, '..', 'templete', 'Montserrat-Bold.otf'))
 
-const dirPath = resolve(__dirname, '..', '..', '..', '..', 'view', 'invoices')
+const dirPath = resolve(__dirname, '..', '..', '..', '..', '..', 'view', 'invoices')
 if (!fs.existsSync(dirPath)) {
   fs.mkdirSync(dirPath, { recursive: true })
 }
 
-export const createInvoiceDocument = async ({ invoice, bill }: CreateDocumentProps) => {
+export const createInvoiceDocument = async ({ invoice, bill, transaction }: CreateDocumentProps) => {
   const { invoiceCode } = invoice
 
-  const invoicePath = join(dirPath, `${invoiceCode}.pdf`)
+  const invoicePath = join(dirPath, `${invoiceCode}-${transaction.id}.pdf`)
 
   const doc = await PDFDocument.load(templete)
   doc.registerFontkit(fontkit)
@@ -39,7 +40,7 @@ export const createInvoiceDocument = async ({ invoice, bill }: CreateDocumentPro
   const { width, height } = firstPage.getSize()
 
   payedMark({
-    invoice,
+    transaction,
     page: firstPage,
     width: width,
     height: height,
@@ -64,6 +65,7 @@ export const createInvoiceDocument = async ({ invoice, bill }: CreateDocumentPro
   })
 
   servicesInfo({
+    transaction,
     invoice,
     page: firstPage,
     width: width,

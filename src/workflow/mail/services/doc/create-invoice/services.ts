@@ -1,8 +1,9 @@
 import { moneyFormatter } from '@mail/services/utils/number-formatter'
-import { Invoice } from 'billing'
+import { Invoice, Transaction } from 'billing'
 import { PDFFont, PDFPage, rgb } from 'pdf-lib'
 
 interface Props {
+  transaction: Transaction
   invoice: Invoice
   page: PDFPage,
   width: number
@@ -13,9 +14,9 @@ interface Props {
 
 const fontSize = 13
 
-export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoice }: Props) => {
-  const { transaction, total, subTotal, activity } = invoice
-  const { paymentMethod, paymentGatewayFee } = transaction
+export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoice, transaction }: Props) => {
+  const { activity } = invoice
+  const { paymentMethod, paymentGatewayFee, total, subTotal } = transaction
 
   const boxWidth = 120
   const boxX = width - 210

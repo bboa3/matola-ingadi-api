@@ -24,8 +24,8 @@ export class ExtractDataFailError extends Error implements DomainError {
 }
 
 export class EntityAlreadyExistError extends Error implements DomainError {
-  constructor (message: string) {
-    super(message)
+  constructor (name: string) {
+    super(`The ${name} already exist`)
     this.name = 'EntityAlreadyExist'
   }
 }
