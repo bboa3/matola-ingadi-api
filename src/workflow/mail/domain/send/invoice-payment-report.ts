@@ -1,16 +1,27 @@
 import sendMail from '@core/services/mail'
 import { InvoicePaymentReportSend } from '@mail/domain/Contracts/InvoicePaymentReport'
 import fs from 'fs/promises'
-import { Options } from 'nodemailer/lib/mailer'
+import { Attachment, Options } from 'nodemailer/lib/mailer'
 import { resolve } from 'path'
 
 const logoPath = resolve(__dirname, '..', '..', '..', '..', 'view', 'logo.png')
 
 export const invoicePaymentReportSend: InvoicePaymentReportSend = async (data) => {
-  const { email, html, invoicePath, invoiceCode } = data
+  const { email, html, transactionsPaths, invoiceCode } = data
   const fromEmail = 'team@mozeconomia.co.mz'
 
-  const invoiceFile = await fs.readFile(invoicePath)
+  const transactionAttachments: Attachment[] = []
+  let index = 0
+
+  for (const path of transactionsPaths) {
+    const invoiceFile = await fs.readFile(path)
+    transactionAttachments.push({
+      filename: `fatura-${invoiceCode}-${index}-mozeconomia.pdf`,
+      content: invoiceFile
+    })
+
+    index++
+  }
   const logoFile = await fs.readFile(logoPath)
 
   const msg: Options = {
@@ -19,10 +30,7 @@ export const invoicePaymentReportSend: InvoicePaymentReportSend = async (data) =
     subject: `Confirmação do Pagamento da Fatura ${invoiceCode}`,
     html: html,
     attachments: [
-      {
-        filename: `fatura-${invoiceCode}-mozeconomia.pdf`,
-        content: invoiceFile
-      },
+      ...transactionAttachments,
       {
         filename: 'mozeconomia-logo.png',
         content: logoFile,
@@ -32,5 +40,8 @@ export const invoicePaymentReportSend: InvoicePaymentReportSend = async (data) =
   }
 
   await sendMail(msg)
-  await fs.unlink(invoicePath)
+
+  for (const path of transactionsPaths) {
+    await fs.unlink(path)
+  }
 }

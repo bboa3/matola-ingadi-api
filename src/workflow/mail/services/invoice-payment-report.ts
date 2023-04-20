@@ -3,6 +3,7 @@ import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { InvoicePaymentReportService } from '@mail/domain/Contracts/InvoicePaymentReport'
 import { createInvoiceDocument } from '@mail/services/doc/create-invoice'
 import { createHtml } from '@mail/services/templetes/invoice-payment-report'
+import { findTransaction } from '@mail/services/utils/find-transaction'
 import { getMonths } from '@utils/date/months'
 import * as TE from 'fp-ts/lib/TaskEither'
 
@@ -10,7 +11,9 @@ const { months, dateLocalizer } = getMonths('pt')
 
 export const invoicePaymentReportService: InvoicePaymentReportService = (InvoicePaymentReportSend) => ({ bill, invoice }) => {
   const { name, email, activity } = bill
-  const { invoiceCode, dueAt: dueDate } = invoice
+  const { invoiceCode, transactions } = invoice
+  const reservationTransaction = findTransaction(transactions, 'date-reservation')
+  const { dueAt: dueDate } = reservationTransaction
 
   const dueAt = dateLocalizer(dueDate, months)
 
@@ -24,9 +27,15 @@ export const invoicePaymentReportService: InvoicePaymentReportService = (Invoice
         activityName: activity.name
       })
 
-      const invoicePath = await createInvoiceDocument({ bill, invoice })
+      const transactionsPaths: string[] = []
 
-      await InvoicePaymentReportSend({ html, dueAt, activity, email, invoicePath, invoiceCode })
+      for (const transaction of transactions) {
+        const path = await createInvoiceDocument({ bill, invoice, transaction })
+
+        transactionsPaths.push(path)
+      }
+
+      await InvoicePaymentReportSend({ html, dueAt, activity, email, transactionsPaths, invoiceCode })
     },
 
     (err: any) => {

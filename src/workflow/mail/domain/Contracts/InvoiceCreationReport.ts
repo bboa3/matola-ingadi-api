@@ -11,7 +11,7 @@ export interface InvoiceCreationReportProps {
 interface SendProps {
   email: string
   html: string
-  invoicePath: string
+  transactionsPaths: string[]
   dueAt: string
   activity: Activity
   invoiceCode: string
