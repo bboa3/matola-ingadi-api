@@ -7,14 +7,13 @@ import { uploadGalleryImagesController } from '@design/infra/http/controller/upl
 import { FastifyPluginCallback } from 'fastify'
 
 export const designRouter: FastifyPluginCallback = (app, _option, done) => {
-  app.post('/v1/design/gallery/images', uploadGalleryImagesController)
+  app.post('/gallery/images', uploadGalleryImagesController)
+  app.get('/gallery', getGalleryController)
 
-  app.get('/v1/design/gallery', getGalleryController)
-
-  app.get('/v1/design/testimonial', getTestimonialController)
-  app.get('/v1/design/testimonial/:id', getTestimonialByIdController)
-  app.put('/v1/design/testimonial', updateTestimonialController)
-  app.post('/v1/design/testimonial', createTestimonialController)
+  app.get('/testimonial', getTestimonialController)
+  app.get('/testimonial/:id', getTestimonialByIdController)
+  app.put('/testimonial', updateTestimonialController)
+  app.post('/testimonial', createTestimonialController)
 
   done()
 }
