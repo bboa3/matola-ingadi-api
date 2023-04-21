@@ -14,13 +14,15 @@ declare module 'billing' {
     value: number
   }
 
+  export type ActivityId = 'events-hall'
+
   export interface ActivityEntity {
-    id: 'event-hall'
+    id: ActivityId
     name: Locales
   }
 
   export interface Activity {
-    id: 'event-hall'
+    id: ActivityId
     name: string
   }
 
