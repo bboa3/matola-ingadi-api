@@ -12,10 +12,10 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export const invoicePaymentUseCase: Middleware = (httpRequest, httpBody) => {
-  const { billId, invoiceCode, userId, transactionId, confirmedBy, details, transactionTime, paymentGatewayFee } = httpBody
+  const { billId, invoiceCode, userId, transactionId, confirmedBy, details, transactionDate, paymentGatewayFee } = httpBody
   const { paymentMethod } = httpRequest.params
 
-  const data = { billId, invoiceCode, userId, transactionId, paymentMethod, paymentGatewayFee, confirmedBy, details, transactionTime }
+  const data = { billId, invoiceCode, userId, transactionId, paymentMethod, paymentGatewayFee, confirmedBy, details, transactionDate }
 
   const httpResponse = pipe(
     data,
@@ -25,8 +25,8 @@ export const invoicePaymentUseCase: Middleware = (httpRequest, httpBody) => {
     TE.chain(data => pipe(
       data,
       invoicePaymentService(invoicePaymentDB)(findBillByIdDB)(updateEventDateDB),
-      TE.map(({ invoice, bill }) => {
-        invoicePaymentReportUseCase({ invoice, bill })()
+      TE.map(({ invoice, bill, transaction }) => {
+        invoicePaymentReportUseCase({ invoice, bill, transaction })()
 
         return ok(invoice)
       })

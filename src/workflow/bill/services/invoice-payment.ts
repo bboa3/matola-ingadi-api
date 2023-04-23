@@ -16,7 +16,7 @@ export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) =
       async () => {
         const found = await findBillByIdDB(billId)
 
-        const { updatedInvoices, invoiceIndex } = updateInvoices({
+        const { updatedInvoices, invoiceIndex, transaction } = updateInvoices({
           invoices: found.invoices,
           data
         })
@@ -30,7 +30,7 @@ export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) =
           updatedAt: now
         }
 
-        return { invoice, bill: updatedBill }
+        return { invoice, transaction, bill: updatedBill }
       },
       (err: any) => {
         if (err.name === 'EntityNotFound') {
@@ -41,7 +41,7 @@ export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) =
         return fail(new DatabaseFailError())
       }
     ),
-    TE.chain(({ bill, invoice }) => TE.tryCatch(
+    TE.chain(({ bill, invoice, transaction }) => TE.tryCatch(
       async () => {
         await invoicePaymentDB(bill)
 
@@ -50,7 +50,7 @@ export const invoicePaymentService: InvoicePaymentService = (invoicePaymentDB) =
           status: 'RESERVED'
         })
 
-        return { bill, invoice }
+        return { bill, invoice, transaction }
       },
       (err: any) => {
         if (err.name === 'EntityNotFound') {

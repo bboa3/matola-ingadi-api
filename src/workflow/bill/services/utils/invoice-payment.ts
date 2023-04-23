@@ -2,6 +2,7 @@ import { InvoicePaymentProps } from '@bill/domain/requiredFields/invoice-payment
 import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { createDateUTC } from '@utils/date'
 import { Invoice, Transaction } from 'billing'
+import { findTransaction } from '../invoice/overdue/find-transaction'
 
 interface UpdateInvoicesProps {
   data: InvoicePaymentProps
@@ -9,37 +10,49 @@ interface UpdateInvoicesProps {
 }
 
 export const updateInvoices = ({ invoices, data }: UpdateInvoicesProps) => {
-  const { invoiceCode, paymentMethod, confirmedBy, details, transactionTime, paymentGatewayFee } = data
-  const invoiceIndex = invoices.findIndex(invoice => invoice.invoiceCode === invoiceCode)
+  const { invoiceCode, paymentMethod, confirmedBy, details, transactionDate, paymentGatewayFee, transactionId } = data
   const now = createDateUTC().format()
 
-  if (typeof invoiceIndex === 'undefined') {
+  let invoiceIndex = 0
+
+  const invoice = invoices.find((invoice, index) => {
+    invoiceIndex = index
+    return invoice.invoiceCode === invoiceCode
+  })
+
+  if (!invoice) {
     throw new EntityNotFoundError('Invoice')
   }
 
-  const invoice = invoices[invoiceIndex]
+  const { transactions } = invoice
+
+  const found = findTransaction({ transactions, transactionId })
 
   const transaction: Transaction = {
-    id: invoice.transaction.id,
+    ...found,
     status: 'COMPLETED',
     paymentMethod,
     paymentGatewayFee,
     confirmedBy,
     details,
-    transactionTime,
-    updatedAt: now,
-    createdAt: invoice.transaction.createdAt
+    transactionDate
   }
+
+  const transactionsUpdated = transactions.map(tr => {
+    if (tr.id === transactionId) {
+      return transaction
+    }
+    return tr
+  })
 
   const updatedInvoice: Invoice = {
     ...invoices[invoiceIndex],
-    transaction,
+    transactions: transactionsUpdated,
     invoiceStatus: 'PAID',
-    paidAt: now,
     updatedAt: now
   }
 
   invoices[invoiceIndex] = updatedInvoice
 
-  return { updatedInvoices: invoices, invoiceIndex }
+  return { updatedInvoices: invoices, invoiceIndex, transaction }
 }

@@ -8,6 +8,8 @@ export interface TempletePros {
   invoiceCode: string
   dueAt: string
   activityName: string
+  eventType: string
+  eventDate: string
 }
 
 const templetePath = resolve(__dirname, 'html', 'invoice-creation-report.hbs')

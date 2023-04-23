@@ -1,5 +1,22 @@
+import { EntityNotFoundError } from '@core/domain/errors/domain_error'
 import { Transaction, TransactionType } from 'billing'
 
-export function findTransaction (transactions: Transaction[], transactionType: TransactionType) {
-  return transactions.find(t => t.transactionType === transactionType)!
+interface Props {
+  transactions: Transaction[]
+  transactionType?: TransactionType,
+  transactionId?: string
+}
+
+export function findTransaction ({ transactions, transactionType, transactionId }: Props) {
+  for (const transaction of transactions) {
+    if (transaction?.id === transactionId) {
+      return transaction
+    }
+
+    if (transaction?.transactionType === transactionType) {
+      return transaction
+    }
+  }
+
+  throw new EntityNotFoundError('Transaction')
 }

@@ -14,7 +14,7 @@ export const failOverdueInvoice = (invoices: Invoice[]): OverdueInvoice | undefi
   for (const invoice of invoices) {
     const { transactions } = invoice
 
-    const reservationTransaction = findTransaction(transactions, 'date-reservation')
+    const reservationTransaction = findTransaction({ transactions, transactionType: 'date-reservation' })
     const { dueAt, status } = reservationTransaction
     const isDueInvoice = isOverdueDate(dueAt)
 

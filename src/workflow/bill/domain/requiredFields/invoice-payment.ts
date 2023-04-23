@@ -15,7 +15,7 @@ export const InvoicePaymentPropsCodec = t.type({
   paymentGatewayFee: t.number,
   confirmedBy: NameCodec,
   details: DescriptionCodec,
-  transactionTime: DateCodec
+  transactionDate: DateCodec
 })
 
 export type InvoicePaymentProps = t.TypeOf<typeof InvoicePaymentPropsCodec>

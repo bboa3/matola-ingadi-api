@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@core/infra/middleware/http_error_response'
 import { HttpSuccessResponse } from '@core/infra/middleware/http_success_response'
-import { Activity, Bill, Invoice } from 'billing'
+import { Activity, Bill, Invoice, Transaction } from 'billing'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 export interface InvoicePaymentReportProps {
   bill: Bill
   invoice: Invoice
+  transaction: Transaction
 }
 
 interface SendProps {

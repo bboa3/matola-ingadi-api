@@ -11,10 +11,11 @@ const { months, dateLocalizer } = getMonths('pt')
 
 export const overdueInvoiceReportService: OverdueInvoiceReportService = (overdueInvoiceReportSend) => ({ bill, invoice }) => {
   const { id, name, email, activity } = bill
-  const { invoiceCode, transactions } = invoice
-  const reservationTransaction = findTransaction(transactions, 'date-reservation')
+  const { invoiceCode, transactions, eventDate: eventAt, eventType } = invoice
+  const reservationTransaction = findTransaction({ transactions, transactionType: 'date-reservation' })
   const { dueAt: dueDate } = reservationTransaction
 
+  const eventDate = dateLocalizer(eventAt, months)
   const dueAt = dateLocalizer(dueDate, months)
 
   return TE.tryCatch(
@@ -25,7 +26,9 @@ export const overdueInvoiceReportService: OverdueInvoiceReportService = (overdue
         invoiceCode,
         dueAt,
         activityName: activity.name,
-        billId: id
+        billId: id,
+        eventType,
+        eventDate
       })
 
       const transactionsPaths: string[] = []

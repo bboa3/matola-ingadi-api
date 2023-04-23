@@ -8,6 +8,9 @@ export interface TempletePros {
   invoiceCode: string
   dueAt: string
   activityName: string
+  eventType: string
+  eventDate: string
+  invoicePercentage: number
 }
 const templetePath = resolve(__dirname, 'html', 'invoice-payment-report.hbs')
 const templete = fs.readFileSync(templetePath).toString('utf-8')

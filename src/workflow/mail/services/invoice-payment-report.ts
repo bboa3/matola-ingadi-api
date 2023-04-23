@@ -3,19 +3,18 @@ import { fail, notFound } from '@core/infra/middleware/http_error_response'
 import { InvoicePaymentReportService } from '@mail/domain/Contracts/InvoicePaymentReport'
 import { createInvoiceDocument } from '@mail/services/doc/create-invoice'
 import { createHtml } from '@mail/services/templetes/invoice-payment-report'
-import { findTransaction } from '@mail/services/utils/find-transaction'
 import { getMonths } from '@utils/date/months'
 import * as TE from 'fp-ts/lib/TaskEither'
 
 const { months, dateLocalizer } = getMonths('pt')
 
-export const invoicePaymentReportService: InvoicePaymentReportService = (InvoicePaymentReportSend) => ({ bill, invoice }) => {
+export const invoicePaymentReportService: InvoicePaymentReportService = (InvoicePaymentReportSend) => ({ bill, invoice, transaction }) => {
   const { name, email, activity } = bill
-  const { invoiceCode, transactions } = invoice
-  const reservationTransaction = findTransaction(transactions, 'date-reservation')
-  const { dueAt: dueDate } = reservationTransaction
+  const { invoiceCode, transactions, eventDate: eventAt, eventType } = invoice
+  const { dueAt: dueDate, invoicePercentage } = transaction
 
   const dueAt = dateLocalizer(dueDate, months)
+  const eventDate = dateLocalizer(eventAt, months)
 
   return TE.tryCatch(
     async () => {
@@ -24,7 +23,10 @@ export const invoicePaymentReportService: InvoicePaymentReportService = (Invoice
         email,
         invoiceCode,
         dueAt,
-        activityName: activity.name
+        activityName: activity.name,
+        eventType,
+        eventDate,
+        invoicePercentage
       })
 
       const transactionsPaths: string[] = []

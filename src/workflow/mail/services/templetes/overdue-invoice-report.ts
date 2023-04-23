@@ -9,6 +9,8 @@ export interface TempletePros {
   dueAt: string
   activityName: string
   billId: string
+  eventType: string
+  eventDate: string
 }
 
 const templetePath = resolve(__dirname, 'html', 'overdue-invoice-report.hbs')
