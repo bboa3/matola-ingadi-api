@@ -14,7 +14,7 @@ declare module 'billing' {
     value: number
   }
 
-  export type ActivityId = 'events-hall'
+  export type ActivityId = 'matola-ingadi-events-hall'
 
   export interface ActivityEntity {
     id: ActivityId
