@@ -2,6 +2,7 @@ import { clientInfo } from '@mail/services/doc/create-invoice/client'
 import { identifier } from '@mail/services/doc/create-invoice/identifier'
 import { payedMark } from '@mail/services/doc/create-invoice/payed-mark'
 import { servicesInfo } from '@mail/services/doc/create-invoice/services'
+import { termsAndConditionsInfo } from '@mail/services/doc/create-invoice/terms-and-conditions'
 import fontkit from '@pdf-lib/fontkit'
 import { Bill, Invoice, Transaction } from 'billing'
 import fs from 'fs'
@@ -72,6 +73,14 @@ export const createInvoiceDocument = async ({ invoice, bill, transaction }: Crea
     height: height,
     normalFont: montserratFont,
     boldFont: montserratSemiBoldFont
+  })
+
+  termsAndConditionsInfo({
+    transaction,
+    page: firstPage,
+    width: width,
+    height: height,
+    normalFont: montserratFont
   })
 
   const pdfBytes = await doc.save()

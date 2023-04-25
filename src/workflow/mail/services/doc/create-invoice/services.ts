@@ -81,10 +81,11 @@ export const servicesInfo = ({ page, width, height, normalFont, boldFont, invoic
   })
 
   page.drawText(paymentMethod, {
-    x: width / 2 + 80,
+    x: width / 2 + 68,
     y: 80,
     size: 11,
     font: normalFont,
+    maxWidth: width / 4 + 10,
     color: rgb(0, 0, 0)
   })
 }

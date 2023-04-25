@@ -11,7 +11,7 @@ const { months, dateLocalizer } = getMonths('pt')
 
 export const disableBillReportService: DisableBillReportService = (disableBillReportSend) => ({ bill, invoice }) => {
   const { name, email, activity } = bill
-  const { invoiceCode, transactions, eventDate: eventAt, eventType } = invoice
+  const { invoiceCode, transactions, eventDate: eventAt, eventType, guestsNumber } = invoice
   const reservationTransaction = findTransaction({ transactions, transactionType: 'date-reservation' })
   const { dueAt: dueDate } = reservationTransaction
 
@@ -27,6 +27,7 @@ export const disableBillReportService: DisableBillReportService = (disableBillRe
         dueAt,
         activityName: activity.name,
         eventType,
+        guestsNumber,
         eventDate
       })
 

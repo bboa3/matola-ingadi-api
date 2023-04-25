@@ -10,7 +10,7 @@ const { months, dateLocalizer } = getMonths('pt')
 
 export const invoicePaymentReportService: InvoicePaymentReportService = (InvoicePaymentReportSend) => ({ bill, invoice, transaction }) => {
   const { name, email, activity } = bill
-  const { invoiceCode, transactions, eventDate: eventAt, eventType } = invoice
+  const { invoiceCode, transactions, eventDate: eventAt, eventType, guestsNumber } = invoice
   const { dueAt: dueDate, invoicePercentage } = transaction
 
   const dueAt = dateLocalizer(dueDate, months)
@@ -25,6 +25,7 @@ export const invoicePaymentReportService: InvoicePaymentReportService = (Invoice
         dueAt,
         activityName: activity.name,
         eventType,
+        guestsNumber,
         eventDate,
         invoicePercentage
       })

@@ -5,12 +5,12 @@ import { logoFile } from '@mail/domain/send/logo'
 import { Options } from 'nodemailer/lib/mailer'
 
 export const userSupportSend: UserSupportSend = async ({ name, email, html }) => {
-  const teamEmail = 'team@matolaingadi.co.mz'
+  const teamEmail = 'matola.ingadi@gmail.com'
   const logo = Buffer.from(logoFile.data)
   const icon = Buffer.from(iconFile.data)
 
   const msg: Options = {
-    to: [teamEmail, 'arlindojosboa@gmail.com'],
+    to: [teamEmail],
     from: `"Matola Ingadi" <${email}>`,
     subject: `${name} Solicitando suporte`,
     html: html,

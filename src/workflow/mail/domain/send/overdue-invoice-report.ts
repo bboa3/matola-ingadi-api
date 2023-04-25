@@ -7,7 +7,7 @@ import { Attachment, Options } from 'nodemailer/lib/mailer'
 
 export const overdueInvoiceReportSend: OverdueInvoiceReportSend = async (data) => {
   const { email, html, transactionsPaths, invoiceCode, activity, dueAt } = data
-  const fromEmail = 'team@matolaingadi.co.mz'
+  const fromEmail = 'matola.ingadi@gmail.com'
   const icon = Buffer.from(iconFile.data)
   const logo = Buffer.from(logoFile.data)
 

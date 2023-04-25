@@ -10,6 +10,7 @@ export interface TempletePros {
   activityName: string
   billId: string
   eventType: string
+  guestsNumber: number
   eventDate: string
 }
 

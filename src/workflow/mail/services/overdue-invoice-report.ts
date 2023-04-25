@@ -11,7 +11,7 @@ const { months, dateLocalizer } = getMonths('pt')
 
 export const overdueInvoiceReportService: OverdueInvoiceReportService = (overdueInvoiceReportSend) => ({ bill, invoice }) => {
   const { id, name, email, activity } = bill
-  const { invoiceCode, transactions, eventDate: eventAt, eventType } = invoice
+  const { invoiceCode, transactions, eventDate: eventAt, eventType, guestsNumber } = invoice
   const reservationTransaction = findTransaction({ transactions, transactionType: 'date-reservation' })
   const { dueAt: dueDate } = reservationTransaction
 
@@ -28,6 +28,7 @@ export const overdueInvoiceReportService: OverdueInvoiceReportService = (overdue
         activityName: activity.name,
         billId: id,
         eventType,
+        guestsNumber,
         eventDate
       })
 

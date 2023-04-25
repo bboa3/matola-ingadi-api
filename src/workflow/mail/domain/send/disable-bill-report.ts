@@ -7,7 +7,7 @@ import { Attachment, Options } from 'nodemailer/lib/mailer'
 
 export const disableBillReportSend: DisableBillReportSend = async (data) => {
   const { email, dueAt, activity, html, transactionsPaths, invoiceCode } = data
-  const fromEmail = 'team@mozeconomia.co.mz'
+  const fromEmail = 'matola.ingadi@gmail.com'
   const logo = Buffer.from(logoFile.data)
   const icon = Buffer.from(iconFile.data)
 

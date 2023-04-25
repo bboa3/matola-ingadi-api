@@ -9,6 +9,7 @@ export interface TempletePros {
   dueAt: string
   activityName: string
   eventType: string
+  guestsNumber: number
   eventDate: string
 }
 
