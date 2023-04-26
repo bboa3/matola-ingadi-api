@@ -9,7 +9,7 @@ interface Props {
   normalFont: PDFFont
 }
 
-const dateReservationTerm = 'Envie o pagamento no prazo de 2 dias após o recebimento desta fatura.'
+const dateReservationTerm = 'Envie o pagamento no prazo de 2 dias após o recebimento desta fatura. Este valor não é reembolsável'
 const remainedPaymentTerm = 'Envie o pagamento no prazo de 15 dias antes do evento.'
 
 export const termsAndConditionsInfo = ({ page, width, height, normalFont, transaction }: Props) => {
@@ -23,7 +23,7 @@ export const termsAndConditionsInfo = ({ page, width, height, normalFont, transa
     size: 11,
     lineHeight: 15,
     font: normalFont,
-    maxWidth: width / 4 + 10,
+    maxWidth: width / 4 + 30,
     color: rgb(0, 0, 0)
   })
 }
